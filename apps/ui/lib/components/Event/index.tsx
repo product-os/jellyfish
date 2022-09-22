@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import type { UserContract } from 'autumndb';
 import { parseMessage } from './Message/Body';
@@ -14,14 +14,22 @@ import Message from './Message';
 export { parseMessage };
 
 const EventWithActor: React.FunctionComponent<any> = (props) => {
-	const { card, user, onCardVisible, targetCard } = props;
+	const { card, user, onCardVisible, targetCard, isDirectPing } = props;
 	// console.log(card.links['has attached'][0].markers)
 	// console.log(card.data.payload.mentionsUser.includes(user.slug))
-	const isDirectPing = card.data.payload.mentionsUser.includes(user.slug);
+	const [isRenderAllToggle, setRenderAllToggle] = useState(false);
+	const isDirect = card.data.payload.mentionsUser.includes(user.slug);
+
+	if (isDirectPing) {
+		setRenderAllToggle(isDirect);
+	} else {
+		setRenderAllToggle(true);
+	}
+
 	const typeBase = props.card.type.split('@')[0];
 	return (
-		<>
-			{isDirectPing && (
+		<div>
+			{isRenderAllToggle && (
 				<CardLoader<UserContract>
 					id={helpers.getActorIdFromCard(props.card)}
 					type="user"
@@ -48,7 +56,7 @@ const EventWithActor: React.FunctionComponent<any> = (props) => {
 					}}
 				</CardLoader>
 			)}
-		</>
+		</div>
 	);
 };
 
