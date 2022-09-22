@@ -38,7 +38,6 @@ const Inbox = ({ channel, query, canArchive, ...isDirectMention }: Props) => {
 			setIsLoadingPage(false);
 		}
 	};
-	console.log('inbox', isDirectMention);
 	// An oddity of react-virtuoso is that the `itemContent` cannot be a memoized component, but it can call out to a memoized component.
 	// See https://virtuoso.dev/#performance
 	const itemContent = (_index, contract) => {
