@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "59.10.75",
+  "version": "59.10.77",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "seamstress",
@@ -27,8 +27,8 @@
     "docs:diagram": "nomnoml docs/diagrams/architecture.noml > docs/assets/architecture.svg",
     "docs:summary": "./scripts/architecture-summary.sh > ARCHITECTURE.md",
     "clean": "rimraf apps/*/packages/*",
-    "postinstall": "cd apps/server && npm i",
-    "install:all": "npm i && (cd apps/ui && npm i)",
+    "postinstall": "cd apps/server && npm ci",
+    "install:all": "npm ci && (cd apps/ui && npm ci)",
     "compose:local": "docker-compose -f docker-compose.local.yml up",
     "push": "./scripts/push.sh",
     "push:lib": "./scripts/push-lib.js",
@@ -92,7 +92,7 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-09-22T00:21:15.162Z"
+    "publishedAt": "2022-09-22T05:03:32.116Z"
   },
   "balena": {
     "environment": [
