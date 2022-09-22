@@ -1,7 +1,7 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Tab, Tabs } from 'rendition';
+import { Button, Tab, Tabs } from 'rendition';
 import { Column } from '../../../components';
 import { JsonSchema, UserContract } from 'autumndb';
 import { useSelector } from 'react-redux';
@@ -122,13 +122,26 @@ const Inbox = ({ channel }: Props) => {
 		<Column pt={2}>
 			<Tabs>
 				<Tab title="Open">
-					<InboxTab query={openQuery} channel={channel} canArchive={true} />
+					<InboxTab
+						query={openQuery}
+						channel={channel}
+						canArchive={true}
+						isDirectPing={false}
+					/>
 				</Tab>
 				<Tab title="Archived">
 					<InboxTab query={archivedQuery} channel={channel} />
 				</Tab>
 				<Tab title="Sent">
 					<InboxTab query={sentQuery} channel={channel} />
+				</Tab>
+				<Tab title="Direct Pings">
+					<InboxTab
+						query={openQuery}
+						channel={channel}
+						canArchive={true}
+						isDirectPing={true}
+					/>
 				</Tab>
 			</Tabs>
 		</Column>

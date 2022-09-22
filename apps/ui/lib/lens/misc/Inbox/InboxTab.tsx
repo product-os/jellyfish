@@ -20,9 +20,10 @@ interface Props {
 	channel: ChannelContract;
 	query: JsonSchema;
 	canArchive?: boolean;
+	isDirectPing?: boolean;
 }
 
-const Inbox = ({ channel, query, canArchive }: Props) => {
+const Inbox = ({ channel, query, canArchive, isDirectPing }: Props) => {
 	const [inboxItems, nextPage, hasNextPage, loading] = useCursorEffect(
 		query,
 		DEFAULT_OPTIONS,
@@ -47,6 +48,7 @@ const Inbox = ({ channel, query, canArchive }: Props) => {
 				contract={contract}
 				channel={channel}
 				canArchive={canArchive}
+				isDirectPing={isDirectPing}
 			/>
 		);
 	};
