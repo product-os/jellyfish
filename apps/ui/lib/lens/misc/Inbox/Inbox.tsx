@@ -1,7 +1,7 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Button, Tab, Tabs } from 'rendition';
+import { Tab, Tabs } from 'rendition';
 import { Column } from '../../../components';
 import { JsonSchema, UserContract } from 'autumndb';
 import { useSelector } from 'react-redux';
