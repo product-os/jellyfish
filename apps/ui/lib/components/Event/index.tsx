@@ -16,7 +16,10 @@ export { parseMessage };
 const EventWithActor: React.FunctionComponent<any> = (props) => {
 	const { card, user, onCardVisible, targetCard, isDirectMention } = props;
 	const mentionsUserArray = card.data.payload?.mentionsUser || [];
-	const isDirect = mentionsUserArray.includes(user.slug);
+	const directMessageMarkersArray = card.markers || [];
+	const isDirectMessagePing =
+		directMessageMarkersArray[0]?.split('+')[0] === user.slug || false;
+	const isDirect = mentionsUserArray.includes(user.slug) || isDirectMessagePing;
 	const typeBase = props.card.type.split('@')[0];
 	if (isDirectMention) {
 		return (
