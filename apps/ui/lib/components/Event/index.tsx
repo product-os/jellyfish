@@ -15,33 +15,40 @@ export { parseMessage };
 
 const EventWithActor: React.FunctionComponent<any> = (props) => {
 	const { card, user, onCardVisible, targetCard } = props;
+	// console.log(card.links['has attached'][0].markers)
+	// console.log(card.data.payload.mentionsUser.includes(user.slug))
+	const isDirectPing = card.data.payload.mentionsUser.includes(user.slug);
 	const typeBase = props.card.type.split('@')[0];
 	return (
-		<CardLoader<UserContract>
-			id={helpers.getActorIdFromCard(props.card)}
-			type="user"
-			withLinks={['is member of']}
-		>
-			{(author) => {
-				const actor = helpers.generateActorFromUserCard(author);
-				if (typeBase === UPDATE) {
-					return (
-						<Update
-							onCardVisible={onCardVisible}
-							card={card}
-							user={user}
-							actor={actor}
-						/>
-					);
-				}
-				if (typeBase === LINK) {
-					return (
-						<LinkedCard actor={actor} card={card} targetCard={targetCard} />
-					);
-				}
-				return <Message {...props} actor={actor} />;
-			}}
-		</CardLoader>
+		<>
+			{isDirectPing && (
+				<CardLoader<UserContract>
+					id={helpers.getActorIdFromCard(props.card)}
+					type="user"
+					withLinks={['is member of']}
+				>
+					{(author) => {
+						const actor = helpers.generateActorFromUserCard(author);
+						if (typeBase === UPDATE) {
+							return (
+								<Update
+									onCardVisible={onCardVisible}
+									card={card}
+									user={user}
+									actor={actor}
+								/>
+							);
+						}
+						if (typeBase === LINK) {
+							return (
+								<LinkedCard actor={actor} card={card} targetCard={targetCard} />
+							);
+						}
+						return <Message {...props} actor={actor} />;
+					}}
+				</CardLoader>
+			)}
+		</>
 	);
 };
 
