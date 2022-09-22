@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Stop creating duplicate 1 to 1s"
+      hash: cd9abd6c4b85fa5ff49d5cb2acd21900b3355181
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.76
+  title: "'UI: Stop creating duplicate 1 to 1s'"
+  date: 2022-09-22T01:19:57.944Z
+- commits:
     - subject: Bump prismjs and refractor in /apps/ui
       hash: e55b534ed2273e71105a3c7881afe8795013d638
       body: >
