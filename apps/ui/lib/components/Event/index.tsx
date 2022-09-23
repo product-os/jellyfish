@@ -18,7 +18,7 @@ const EventWithActor: React.FunctionComponent<any> = (props) => {
 	const mentionsUserArray = card.data.payload?.mentionsUser || [];
 	const directMessageMarkersArray = card.markers || [];
 	const isDirectMessagePing =
-		directMessageMarkersArray[0]?.split('+')[0] === user.slug || false;
+		directMessageMarkersArray[0]?.split('+').includes(user.slug) || false;
 	const isDirect = mentionsUserArray.includes(user.slug) || isDirectMessagePing;
 	const typeBase = props.card.type.split('@')[0];
 	if (isDirectMention) {
