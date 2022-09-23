@@ -17,10 +17,14 @@ const EventWithActor: React.FunctionComponent<any> = (props) => {
 	const { card, user, onCardVisible, targetCard, isDirectMention } = props;
 	const mentionsUserArray = card.data.payload?.mentionsUser || [];
 	const directMessageMarkersArray = card.markers || [];
+	// isDirectMessage is to display 1 on 1 messages in the list of notifications in Direct Mention tab
 	const isDirectMessagePing =
 		directMessageMarkersArray[0]?.split('+').includes(user.slug) || false;
+	// isDirect checks if user is tagged in a message
 	const isDirect = mentionsUserArray.includes(user.slug) || isDirectMessagePing;
 	const typeBase = props.card.type.split('@')[0];
+	// if isDirectMention is true, means this component is rendering for the Direct Mention tab or
+	// else should render every message card as list of notifications
 	if (isDirectMention) {
 		return (
 			<div>
