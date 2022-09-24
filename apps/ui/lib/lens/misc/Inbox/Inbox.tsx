@@ -129,7 +129,7 @@ const Inbox = ({ channel }: Props) => {
 						isDirectMention={false}
 					/>
 				</Tab>
-				<Tab title="Direct Mentions">
+				<Tab data-test="inbox-direct-mentions-tab" title="Direct Mentions">
 					<InboxTab
 						query={openQuery}
 						channel={channel}
