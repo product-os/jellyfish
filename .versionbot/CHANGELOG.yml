@@ -1,4 +1,28 @@
 - commits:
+    - subject: Add e2e-ui tests
+      hash: 3c8c71555596e34f62272968ed58ceb1e87b68ff
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Display direct pings only in inbox
+      hash: e52ed80fc18f9102d0d1f4ca8db9857785e1938a
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: YingwenChen yingwenchen@balena.io
+        signed-off-by: YingwenChen yingwenchen@balena.io
+      author: yingwen chen
+      nested: []
+  version: 59.11.0
+  title: "'Display direct pings only in inbox'"
+  date: 2022-09-24T12:12:02.014Z
+- commits:
     - subject: "Dev: Use npm ci"
       hash: f5edd25665a805f20c9be8bd28995dd758be0cc4
       body: ""
