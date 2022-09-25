@@ -51,6 +51,49 @@ const getOpenQuery = (): JsonSchema => {
 	};
 };
 
+const getDirectQuery = (user: UserContract): JsonSchema => {
+	const query: any = getOpenQuery();
+	query.properties.data = {
+		type: 'object',
+		properties: {
+			payload: {
+				anyOf: [
+					{
+						type: 'object',
+						properties: {
+							message: {
+								pattern: `@${user.slug.replace(/^user-/, '')}`,
+							},
+							mentionsUser: {
+								type: 'array',
+								contains: {
+									const: user.slug,
+								},
+							},
+						},
+					},
+					{
+						type: 'object',
+						properties: {
+							message: {
+								pattern: `!${user.slug.replace(/^user-/, '')}`,
+							},
+							alertsUser: {
+								type: 'array',
+								contains: {
+									const: user.slug,
+								},
+							},
+						},
+					},
+				],
+			},
+		},
+	};
+
+	return query;
+};
+
 const getArchivedQuery = (): JsonSchema => {
 	const query: any = getOpenQuery();
 	query.$$links['has attached'].properties.data.properties.status.const =
@@ -110,6 +153,10 @@ const Inbox = ({ channel }: Props) => {
 		return getOpenQuery();
 	}, []);
 
+	const directQuery = React.useMemo(() => {
+		return getDirectQuery(user);
+	}, []);
+
 	const archivedQuery = React.useMemo(() => {
 		return getArchivedQuery();
 	}, []);
@@ -123,6 +170,9 @@ const Inbox = ({ channel }: Props) => {
 			<Tabs>
 				<Tab title="Open">
 					<InboxTab query={openQuery} channel={channel} canArchive={true} />
+				</Tab>
+				<Tab data-test="inbox-direct-mentions-tab" title="Direct Mentions">
+					<InboxTab query={directQuery} channel={channel} canArchive={true} />
 				</Tab>
 				<Tab title="Archived">
 					<InboxTab query={archivedQuery} channel={channel} />
