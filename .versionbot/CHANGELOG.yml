@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Add inbox direct pings tab"
+      hash: a77314e663ec079103325a1fcc07c419eca384fc
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.11.0
+  title: "'UI: Add inbox direct pings tab'"
+  date: 2022-09-25T00:46:51.765Z
+- commits:
     - subject: "Dev: Use npm ci"
       hash: f5edd25665a805f20c9be8bd28995dd758be0cc4
       body: ""
