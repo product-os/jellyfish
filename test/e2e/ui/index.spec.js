@@ -865,6 +865,157 @@ test.describe('Chat', () => {
 		await page2.close()
 	})
 
+	test('Direct mentions should appear in the inbox direct mentions tab', async ({
+		page,
+		browser
+	}) => {
+		const newContext = await browser.newContext()
+		const page2 = await newContext.newPage()
+		await Promise.all([
+			login(page, users.community),
+			login(page2, users.community2)
+		])
+
+		// Create thread for messages
+		const thread = await page.evaluate(() => {
+			return window.sdk.card.create({
+				type: 'thread@1.0.0'
+			})
+		})
+
+		// Create direct mention on thread
+		const messageEvent = {
+			target: thread,
+			slug: `message-${uuid()}`,
+			tags: [],
+			type: 'message',
+			payload: {
+				message: `@${user2.slug.slice(5)} ${uuid()}`
+			}
+		}
+		await page.evaluate((event) => {
+			return window.sdk.event.create(event)
+		}, messageEvent)
+
+		// Navigate to the inbox page
+		await page2.goto('/inbox')
+		await page2.locator('[data-test="inbox-direct-mentions-tab"]').click()
+		const messageText = await macros.getElementText(
+			page2,
+			'[data-test="event-card__message"]'
+		)
+		expect(messageText.trim()).toEqual(messageEvent.payload.message)
+
+		await page2.close()
+	})
+
+	test('Direct alerts should appear in the inbox direct mentions tab', async ({
+		page,
+		browser
+	}) => {
+		const newContext = await browser.newContext()
+		const page2 = await newContext.newPage()
+		await Promise.all([
+			login(page, users.community),
+			login(page2, users.community2)
+		])
+
+		// Create thread for messages
+		const thread = await page.evaluate(() => {
+			return window.sdk.card.create({
+				type: 'thread@1.0.0'
+			})
+		})
+
+		// Create direct mention on thread
+		const messageEvent = {
+			target: thread,
+			slug: `message-${uuid()}`,
+			tags: [],
+			type: 'message',
+			payload: {
+				message: `!${user2.slug.slice(5)} ${uuid()}`
+			}
+		}
+		await page.evaluate((event) => {
+			return window.sdk.event.create(event)
+		}, messageEvent)
+
+		// Navigate to the inbox page
+		await page2.goto('/inbox')
+		await page2.locator('[data-test="inbox-direct-mentions-tab"]').click()
+		const messageText = await macros.getElementText(
+			page2,
+			'[data-test="event-card__message"]'
+		)
+		expect(messageText.trim()).toEqual(messageEvent.payload.message)
+
+		await page2.close()
+	})
+
+	test('Group mentions should not appear in the inbox direct mentions tab', async ({
+		page,
+		browser
+	}) => {
+		const newContext = await browser.newContext()
+		const page2 = await newContext.newPage()
+		await Promise.all([
+			login(page, users.community),
+			login(page2, users.community2)
+		])
+
+		// Create thread for messages
+		const thread = await page.evaluate(() => {
+			return window.sdk.card.create({
+				type: 'thread@1.0.0'
+			})
+		})
+
+		// Create a group and add the user to it
+		const groupName = `group-${uuid()}`
+		const group = await page.evaluate((name) => {
+			return window.sdk.card.create({
+				type: 'group@1.0.0',
+				name
+			})
+		}, groupName)
+		await page.evaluate(
+			(options) => {
+				return window.sdk.card.link(
+					options.group,
+					options.user,
+					'has group member'
+				)
+			},
+			{
+				group,
+				user: user2
+			}
+		)
+
+		// Create direct mention on thread
+		const messageEvent = {
+			target: thread,
+			slug: `message-${uuid()}`,
+			tags: [],
+			type: 'message',
+			payload: {
+				message: `@@${groupName} ${uuid()}`
+			}
+		}
+		await page.evaluate((event) => {
+			return window.sdk.event.create(event)
+		}, messageEvent)
+
+		// Navigate to the inbox page
+		await page2.goto('/inbox')
+		await page2.locator('[data-test="inbox-direct-mentions-tab"]').click()
+		const count = await page.locator('[data-test="event-card__message"]').count()
+		expect(count).toEqual(0)
+
+		await page2.close()
+	})
+
 	test('Messages that mention a users group should appear in their inbox', async ({
 		page,
 		browser
