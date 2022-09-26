@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 0411738a0b1d9fdb596704def020c2763af9a7e7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.11.1
+  title: "'Bump internal packages'"
+  date: 2022-09-26T04:32:49.965Z
+- commits:
     - subject: "UI: Add inbox direct pings tab"
       hash: a77314e663ec079103325a1fcc07c419eca384fc
       body: ""
