@@ -52,8 +52,29 @@ const getOpenQuery = (): JsonSchema => {
 };
 
 const getDirectQuery = (user: UserContract): JsonSchema => {
-	const query: any = getOpenQuery();
-	query.properties.data = {
+	// Get any messages from 1 to 1 conversations
+	const dmsQuery: any = getOpenQuery();
+	dmsQuery.$$links['is attached to'] = {
+		type: 'object',
+		properties: {
+			type: {
+				const: 'thread@1.0.0',
+			},
+			data: {
+				type: 'object',
+				required: ['dms'],
+				properties: {
+					dms: {
+						const: true,
+					},
+				},
+			},
+		},
+	};
+
+	// Get any messages that directly mention/alert the user
+	const directQuery: any = getOpenQuery();
+	directQuery.properties.data = {
 		type: 'object',
 		properties: {
 			payload: {
@@ -91,7 +112,9 @@ const getDirectQuery = (user: UserContract): JsonSchema => {
 		},
 	};
 
-	return query;
+	return {
+		anyOf: [dmsQuery, directQuery],
+	};
 };
 
 const getArchivedQuery = (): JsonSchema => {
