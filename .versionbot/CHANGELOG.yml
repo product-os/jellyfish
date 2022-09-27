@@ -1,4 +1,18 @@
 - commits:
+    - subject: Include private messages in direct mentions tab
+      hash: 33097a4b39f62f4ccc8279de7f3ab35e04e40d21
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.11.4
+  title: "'Include private messages in direct mentions tab'"
+  date: 2022-09-26T10:42:46.532Z
+- commits:
     - subject: Revert "Include private messages in direct mentions tab"
       hash: 40c8b15d1c922dc8ce05b685b8bb7d1b36ef4514
       body: ""
