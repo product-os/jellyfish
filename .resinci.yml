@@ -1,8 +1,0 @@
-npm:
-  publish: false
-  platforms:
-    - name: linux
-      os: ubuntu
-      architecture: x86_64
-      node_versions:
-        - "16"
