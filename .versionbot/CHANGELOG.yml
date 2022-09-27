@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update marked from 0.8.2 to 4.0.10 [SECURITY]
+      hash: 0416c20e0b93b3595559bbf04a508bbd58bdedb8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.11.5
+  title: "'Update marked from 0.8.2 to 4.0.10 [SECURITY]'"
+  date: 2022-09-27T02:45:28.065Z
+- commits:
     - subject: Include private messages in direct mentions tab
       hash: 33097a4b39f62f4ccc8279de7f3ab35e04e40d21
       body: ""
