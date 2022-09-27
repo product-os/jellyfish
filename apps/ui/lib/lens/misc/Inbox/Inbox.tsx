@@ -52,41 +52,51 @@ const getOpenQuery = (): JsonSchema => {
 };
 
 const getDirectQuery = (user: UserContract): JsonSchema => {
+	// Get any messages that directly mention/alert the user
 	const query: any = getOpenQuery();
-	query.properties.data = {
-		type: 'object',
+	query.if = {
 		properties: {
-			payload: {
-				anyOf: [
-					{
-						type: 'object',
-						properties: {
-							message: {
-								pattern: `@${user.slug.replace(/^user-/, '')}`,
-							},
-							mentionsUser: {
-								type: 'array',
-								contains: {
-									const: user.slug,
+			markers: {
+				not: {
+					contains: {
+						pattern: user.slug,
+					},
+				},
+			},
+		},
+	};
+	query.then = {
+		properties: {
+			data: {
+				type: 'object',
+				properties: {
+					payload: {
+						anyOf: [
+							{
+								type: 'object',
+								properties: {
+									mentionsUser: {
+										type: 'array',
+										contains: {
+											const: user.slug,
+										},
+									},
 								},
 							},
-						},
-					},
-					{
-						type: 'object',
-						properties: {
-							message: {
-								pattern: `!${user.slug.replace(/^user-/, '')}`,
-							},
-							alertsUser: {
-								type: 'array',
-								contains: {
-									const: user.slug,
+							{
+								type: 'object',
+								properties: {
+									alertsUser: {
+										type: 'array',
+										contains: {
+											const: user.slug,
+										},
+									},
 								},
 							},
-						},
+						],
 					},
-				],
+				},
 			},
 		},
 	};
