@@ -10,7 +10,7 @@
     "url": "git@github.com:product-os/jellyfish.git"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16 <18"
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check",
