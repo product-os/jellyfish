@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update mermaid from 8.14.0 to 9.1.2 [SECURITY]
+      hash: 1c41a863d7f3b6f025faf59881a0555fb2ea0e9b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.11.5
+  date: 2022-09-27T23:20:43.018Z
+- commits:
     - subject: Include private messages in direct mentions tab
       hash: 33097a4b39f62f4ccc8279de7f3ab35e04e40d21
       body: ""
