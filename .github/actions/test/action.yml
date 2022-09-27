@@ -89,34 +89,6 @@ inputs:
   REDIS_HOST:
     type: string
     default: "redis"
-
-
-  # FIXME: https://github.com/product-os/jellyfish/commit/dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
-  # https://github.com/product-os/jellyfish/blob/eb53d0958bd66201e0936e87b0beb71236797004/.github/workflows/balena.yml
-  # https://github.com/product-os/jellyfish/blob/eb53d0958bd66201e0936e87b0beb71236797004/.github/workflows/balena.yml
-
-  REGISTRY_HOST:
-    type: string
-    default: "registry.ly.fish.local"
-  REGISTRY_TOKEN_AUTH_CERT_ISSUER:
-    type: string
-    default: "api.ly.fish.local"
-  REGISTRY_TOKEN_AUTH_CERT_KEY:
-    type: string
-    default: "LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU4xWUw1WVRjb3NVVnhHdXlXMGt4cGE0ekxzbEpGQ2JvZUxIUWlpaW1vTkhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFR0RRQ2FpK1FnNG9GZE9HMXZNdWdtMFA5bTViSUR3R29MNjg1aGVYR0hwZWJVblgxOGQvYwpQUTZGbDBQaklQam9iUzlCNW5oSTF1Y0p3MW8vclE2UXdnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo="
-  REGISTRY_TOKEN_AUTH_CERT_KID:
-    type: string
-    default: "UkNVNTo2Q1RaOkJITjc6RlBCUjpKWUJIOjVHRVI6QVdQSDpIRk9aOjZaT0c6VVUzTzo3Q0gzOjZFU0sK"
-  REGISTRY_TOKEN_AUTH_CERT_PUB:
-    type: string
-    default: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJKekNCemdJSkFPRkhIb0ZGSVFDbk1Bb0dDQ3FHU000OUJBTUNNQnd4R2pBWUJnTlZCQU1NRVdGd2FTNXMKZVM1bWFYTm9MbXh2WTJGc01CNFhEVEl5TURZeE56QXhNalV6TjFvWERUSXpNRFl4TnpBeE1qVXpOMW93SERFYQpNQmdHQTFVRUF3d1JZWEJwTG14NUxtWnBjMmd1Ykc5allXd3dXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVFZTkFKcUw1Q0RpZ1YwNGJXOHk2Q2JRLzJibHNnUEFhZ3Zyem1GNWNZZWw1dFNkZlh4Mzl3OURvV1gKUStNZytPaHRMMEhtZUVqVzV3bkRXait0RHBEQ01Bb0dDQ3FHU000OUJBTUNBMGdBTUVVQ0lRRGJXaGtSUkN6QgpsdW5kUTVGRXFZK3AvYUU1dDlzdFpVV1lQVnpQYTBuSGhnSWdBcXRKZUI2UjZOSzVDYTRibGRvUi9TemZtS3FECmVqL1lTWlNUN2p5MnNCRT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
-  REGISTRY_TOKEN_AUTH_JWT_ALGO:
-    type: string
-    default: "ES256"
-
-  # ---
-
-
   REGISTRY2_CACHE_ADDR:
     type: string
     default: "redis:6379"
@@ -143,12 +115,13 @@ inputs:
     default: "prod"
   VERBOSE:
     type: string
-    default: "true"
+    default: "false"
 
 runs:
   # https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
   using: "composite"
   steps:
+    # FIXME: merge ssh-uuid into balena-cli to reduce dependencies/verbosity
     # https://github.com/pdcastro/ssh-uuid#why
     # https://github.com/pdcastro/ssh-uuid#linux-debian-ubuntu-others
     - name: install additional dependencies
@@ -297,6 +270,9 @@ runs:
         echo "::set-output name=balena_device_uuid::${balena_device_uuid}"
         echo "::set-output name=balena_device_id::${device_id}"
 
+    # FIXME: https://github.com/balena-io/deploy-to-balena-action/issues/193
+    # https://github.com/balena-io/deploy-to-balena-action#outputs
+    # https://github.com/balena-io/balena-cli/issues/2351
     - name: pin device to draft release
       id: pin-device
       if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed'}}
@@ -336,7 +312,7 @@ runs:
               --data-raw "{\"should_be_running__release\":${release_id}}" \
               --compressed
 
-            # https://github.com/balena-io/balena-cli/issues/1543
+            # FIXME: https://github.com/balena-io/balena-cli/issues/1543
             echo balena device pin \
               '${{ steps.register-test-device.outputs.balena_device_uuid }}' \
               "${release_id}"
@@ -349,6 +325,7 @@ runs:
         echo "::set-output name=balena_app_id::${app_id}"
 
     # (TBC) additional overrides for testing (i.e. DB_USER, DB_PASSWORD, etc.)
+    # FIXME: balenCloud environment/device profiles to reduce verbosity
     - name: configure test device environment
       id: configure-test-env
       if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed'}}
@@ -399,14 +376,26 @@ runs:
         balena env add SERVER_HOST "api.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ inputs.DNS_TLD }}" \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
+        balena env add REGISTRY_HOST "registry.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ inputs.DNS_TLD }}" \
+          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
         balena env add REGISTRY2_HOST "registry.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ inputs.DNS_TLD }}" \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-        balena env add SENTRY_DSN_UI '' --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-        balena env add SENTRY_DSN_SERVER '' --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-        balena env add AWS_ACCESS_KEY_ID '' --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-        balena env add AWS_SECRET_ACCESS_KEY '' --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-        balena env add AWS_S3_BUCKET_NAME '' --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+        balena env add SENTRY_DSN_UI '' \
+          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+        balena env add SENTRY_DSN_SERVER '' \
+          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+        balena env add AWS_ACCESS_KEY_ID '' \
+          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+        balena env add AWS_SECRET_ACCESS_KEY '' \
+          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+        balena env add AWS_S3_BUCKET_NAME '' \
+          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
         balena env add SUT 1 \
           --service '${{ inputs.JELLYFISH_TESTS_SERVICE }}' \
@@ -478,31 +467,19 @@ runs:
         balena env add INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION '' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-
-        # FIXME: https://github.com/product-os/jellyfish/commit/dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
-        # https://github.com/product-os/jellyfish/blob/eb53d0958bd66201e0936e87b0beb71236797004/.github/workflows/balena.yml
-        # https://github.com/product-os/jellyfish/blob/eb53d0958bd66201e0936e87b0beb71236797004/.github/workflows/balena.yml
-
-        balena env add REGISTRY_HOST '${{ inputs.REGISTRY_HOST }}' \
+        balena env add REGISTRY_TOKEN_AUTH_CERT_PUB '' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-        balena env add REGISTRY_TOKEN_AUTH_CERT_ISSUER '${{ inputs.REGISTRY_TOKEN_AUTH_CERT_ISSUER }}' \
+        balena env add REGISTRY_TOKEN_AUTH_CERT_ISSUER '' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-        balena env add REGISTRY_TOKEN_AUTH_CERT_KEY '${{ inputs.REGISTRY_TOKEN_AUTH_CERT_KEY }}' \
+        balena env add REGISTRY_TOKEN_AUTH_CERT_KEY '' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-        balena env add REGISTRY_TOKEN_AUTH_CERT_KID '${{ inputs.REGISTRY_TOKEN_AUTH_CERT_KID }}' \
+        balena env add REGISTRY_TOKEN_AUTH_CERT_KID '' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-        balena env add REGISTRY_TOKEN_AUTH_JWT_ALGO '${{ inputs.REGISTRY_TOKEN_AUTH_JWT_ALGO }}' \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY_TOKEN_AUTH_CERT_PUB '${{ inputs.REGISTRY_TOKEN_AUTH_CERT_PUB }}' \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        # ---
-
+    # FIXME: balenCloud environment/device profiles to reduce verbosity
     - name: configure test device secrets
       id: configure-test-secrets
       if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed'}}
@@ -645,6 +622,7 @@ runs:
       env:
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
+    # FIXME: consider Docker health checks aware supervisor endpoint to reduce verbosity
     - name: wait for application
       id: wait-application
       #timeout-minutes: 30
@@ -736,7 +714,7 @@ runs:
       env:
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
-    # (TBC) https://github.com/balena-io/balena-cli/issues/1482
+    # FIXME: https://github.com/balena-io/balena-cli/issues/1482
     - name: test release
       id: test-release
       if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed'}}
