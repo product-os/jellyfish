@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add Flowdock archive contracts
+      hash: 6f098f68d97a0f95a50683337bd9bd79d89adeb7
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.0
+  title: "'Add Flowdock archive contracts'"
+  date: 2022-09-27T10:28:41.375Z
+- commits:
     - subject: Include private messages in direct mentions tab
       hash: 33097a4b39f62f4ccc8279de7f3ab35e04e40d21
       body: ""
