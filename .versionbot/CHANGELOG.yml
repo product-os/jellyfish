@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @braintree/sanitize-url from 3.1.0 to 6.0.0 [SECURITY]
+      hash: be02f4eec35150401a899a194a117e7212c4bc4b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.11.5
+  title: "'Update @braintree/sanitize-url from 3.1.0 to 6.0.0 [SECURITY]'"
+  date: 2022-09-27T02:45:17.120Z
+- commits:
     - subject: Include private messages in direct mentions tab
       hash: 33097a4b39f62f4ccc8279de7f3ab35e04e40d21
       body: ""
