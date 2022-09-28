@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use secrets inheritance for flowzone
+      hash: 224bbfec9ecabaa5b8f09e5b6e24fad62ab5afce
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 59.12.1
+  title: ""
+  date: 2022-09-28T17:04:08.319Z
+- commits:
     - subject: Partially revert dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
       hash: 90ac89b14d5d15ca1149a0132cf53f15975cbb49
       body: >
