@@ -154,7 +154,7 @@ runs:
         fi
 
         "${RUNNER_TEMP}/balena-cli/balena" login \
-          --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+          --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         "${RUNNER_TEMP}/balena-cli/balena" version
 
@@ -190,7 +190,7 @@ runs:
       id: push-release
       uses: balena-io/balena-ci@ab77/operational
       with:
-        balena_token: ${{ fromJSON(inputs.secrets).BALENA_API_KEY }}
+        balena_token: ${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}
         cache: false
         environment: ${{ fromJSON(inputs.json).balena_environment }}
         fleet: ${{ inputs.FLEET }}
@@ -236,7 +236,7 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         balena_device_uuid="$(openssl rand -hex 16)"
 
@@ -282,7 +282,7 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         balena_releases="$(mktemp)"
         balena releases '${{ inputs.FLEET }}' | tail -n +2 | head -n ${{ inputs.RELEASES }} > "${balena_releases}"
@@ -307,7 +307,7 @@ runs:
             # pin DUT to draft release
             curl -X PATCH --silent --retry ${{ inputs.RETRY }} --fail -o /dev/null \
               'https://api.${{ fromJSON(inputs.json).balena_environment }}/v6/device?$filter=id%20in%20(${{ steps.register-test-device.outputs.balena_device_id }})' \
-              -H 'authorization: Bearer ${{ fromJSON(inputs.secrets).BALENA_API_KEY }}' \
+              -H 'authorization: Bearer ${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}' \
               -H 'content-type: application/json' \
               --data-raw "{\"should_be_running__release\":${release_id}}" \
               --compressed
@@ -335,7 +335,7 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         balena env add NODE_ENV '${{ inputs.NODE_ENV }}' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
@@ -487,14 +487,14 @@ runs:
       run: |
         set -ue
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         if [[ $(echo $-) =~ x ]]; then
             echo "::error::Secrets will be leaked, aborting."
             exit 1
         fi
 
-        balena env add API_TOKEN '${{ fromJSON(inputs.secrets).BALENA_API_KEY_TEST }}' \
+        balena env add API_TOKEN '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH_TEST }}' \
           --service cert-manager \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
@@ -566,9 +566,9 @@ runs:
         echo "::set-output name=instance_id::${instance_id}"
 
       env:
-        AWS_ACCESS_KEY_ID: ${{ fromJSON(inputs.secrets).CUSTOM_JOB_SECRET_1 }}
+        AWS_ACCESS_KEY_ID: ${{ fromJSON(inputs.secrets).AWS_ACCESS_KEY_ID }}
         AWS_DEFAULT_REGION: ${{ inputs.AWS_REGION }}
-        AWS_SECRET_ACCESS_KEY: ${{ fromJSON(inputs.secrets).CUSTOM_JOB_SECRET_2 }}
+        AWS_SECRET_ACCESS_KEY: ${{ fromJSON(inputs.secrets).AWS_SECRET_ACCESS_KEY }}
 
     - name: provision SSH key
       id: provision-ssh-key
@@ -582,7 +582,7 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         if ! [[ -e "${HOME}/.ssh/id_rsa" ]]; then
             ssh-keygen -N '' \
@@ -635,13 +635,13 @@ runs:
 
         source functions
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         balena whoami && ssh-add -l
 
         while [[ "$(curl -X POST --silent --retry ${{ inputs.RETRY }} --fail \
           'https://api.${{ fromJSON(inputs.json).balena_environment }}/supervisor/v1/device' \
-          --header 'authorization: Bearer ${{ fromJSON(inputs.secrets).BALENA_API_KEY }}' \
+          --header 'authorization: Bearer ${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}' \
           --header 'Content-Type:application/json' \
           --data '{"uuid": "${{ steps.register-test-device.outputs.balena_device_uuid }}", "method": "GET"}' \
           --compressed | jq -r '.update_pending')" =~ ^true$ ]]; do
@@ -689,7 +689,7 @@ runs:
 
         source functions
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         balena whoami && ssh-add -l
 
@@ -726,13 +726,13 @@ runs:
 
         source functions
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         balena whoami && ssh-add -l
 
         while ! [[ $(curl -X POST --silent --retry ${{ inputs.RETRY }} --fail \
           'https://api.${{ fromJSON(inputs.json).balena_environment }}/supervisor/v2/applications/state' \
-          --header 'authorization: Bearer ${{ fromJSON(inputs.secrets).BALENA_API_KEY }}' \
+          --header 'authorization: Bearer ${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}' \
           --header 'Content-Type:application/json' \
           --data '{"uuid": "${{ steps.register-test-device.outputs.balena_device_uuid }}", "method": "GET"}' \
           --compressed | jq -r '.[].services."${{ inputs.JELLYFISH_TESTS_SERVICE }}".status') =~ Run|run ]]; do
@@ -760,7 +760,7 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         balena keys | grep ${{ steps.provision-ssh-key.outputs.key_id }} \
           | awk '{print $1}' | xargs balena key rm --yes || true
@@ -778,7 +778,7 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY }}'
+        balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
         aws ec2 terminate-instances \
           --instance-ids ${{ steps.provision-test-device.outputs.instance_id }} || true
@@ -786,6 +786,6 @@ runs:
         balena device rm ${{ steps.register-test-device.outputs.balena_device_uuid }} --yes || true
 
       env:
-        AWS_ACCESS_KEY_ID: ${{ fromJSON(inputs.secrets).CUSTOM_JOB_SECRET_1 }}
+        AWS_ACCESS_KEY_ID: ${{ fromJSON(inputs.secrets).AWS_ACCESS_KEY_ID }}
         AWS_DEFAULT_REGION: ${{ inputs.AWS_REGION }}
-        AWS_SECRET_ACCESS_KEY: ${{ fromJSON(inputs.secrets).CUSTOM_JOB_SECRET_2 }}
+        AWS_SECRET_ACCESS_KEY: ${{ fromJSON(inputs.secrets).AWS_SECRET_ACCESS_KEY }}
