@@ -10,7 +10,7 @@
     "url": "git@github.com:product-os/jellyfish.git"
   },
   "engines": {
-    "node": ">=16 <18"
+    "node": ">=16"
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check",
@@ -60,8 +60,8 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^13.0.93",
-    "@balena/jellyfish-environment": "^13.0.13",
+    "@balena/jellyfish-client-sdk": "^13.0.108",
+    "@balena/jellyfish-environment": "^14.0.17",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.22.2",
     "ava": "^4.3.1",
