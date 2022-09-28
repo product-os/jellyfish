@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add SQL to archive old contracts
+      hash: 1560fe1dee43cdf1aca390241a139d2177cecdf9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.11.5
+  title: "'Add SQL to archive old contracts'"
+  date: 2022-09-28T02:02:07.648Z
+- commits:
     - subject: Include private messages in direct mentions tab
       hash: 33097a4b39f62f4ccc8279de7f3ab35e04e40d21
       body: ""
