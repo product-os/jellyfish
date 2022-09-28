@@ -1,4 +1,45 @@
 - commits:
+    - subject: Partially revert dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
+      hash: 90ac89b14d5d15ca1149a0132cf53f15975cbb49
+      body: >
+        See,
+        https://github.com/product-os/jellyfish/commit/dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
+
+
+        `REGISTRY_|REGISTRY2_` environment variables required for tests are typically generated
+
+        dynamically in `scripts/e2e/run-tests.sh` or via `configure-balena.sh`, so they do not
+
+        need to be set in the compositions/tests. Since the JF fleet sets these to producion values,
+
+        for epehmeral tests, it is enough to simply unset these (set to ''). This workflow should
+
+        improve once we implement environment variable/device profiles in balenaCloud.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+    - subject: Switch to custom Flowzone plugin
+      hash: bcf93bace369f281b9c796c40cd260433c523d2f
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: ab77
+      nested: []
+    - subject: Switch from balenaCI to flowzone
+      hash: 499670e87e4d05977e27614fe670de16c801a3a6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 59.12.0
+  title: ""
+  date: 2022-09-28T11:47:00.680Z
+- commits:
     - subject: Include private messages in direct mentions tab
       hash: 33097a4b39f62f4ccc8279de7f3ab35e04e40d21
       body: ""
