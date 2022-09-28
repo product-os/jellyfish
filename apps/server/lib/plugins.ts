@@ -1,5 +1,6 @@
 import { balenaApiPlugin } from '@balena/jellyfish-plugin-balena-api';
 import { discoursePlugin } from '@balena/jellyfish-plugin-discourse';
+import { flowdockPlugin } from '@balena/jellyfish-plugin-flowdock';
 import { frontPlugin } from '@balena/jellyfish-plugin-front';
 import { githubPlugin } from '@balena/jellyfish-plugin-github';
 import { incidentsPlugin } from '@balena/jellyfish-plugin-incidents';
@@ -16,5 +17,6 @@ export function getPlugins(): PluginDefinition[] {
 		frontPlugin(),
 		balenaApiPlugin(),
 		incidentsPlugin(),
+		flowdockPlugin(),
 	] as any;
 }
