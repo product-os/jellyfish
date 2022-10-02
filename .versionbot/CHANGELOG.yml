@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update eslint dependencies
+      hash: 7918da09e1beacd9a598fa88847df08aeee962b4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.4
+  title: ""
+  date: 2022-10-02T11:10:47.303Z
+- commits:
     - subject: Update aws-sdk from 2.1184.0 to 2.1227.0
       hash: ab8592ec5963127c954638b58d7d3770c5815fc7
       body: ""
