@@ -14,10 +14,10 @@
  *   ./scripts/ci/postgres/export.js <TYPE>
  */
 
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
-const execSync = require('child_process').execSync
-const fs = require('fs')
-const utils = require('./utils')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment;
+const execSync = require('child_process').execSync;
+const fs = require('fs');
+const utils = require('./utils');
 
 /**
  * @summary Get current git commit hash
@@ -29,13 +29,13 @@ const utils = require('./utils')
  * const hash = getCommitHash()
  */
 const getCommitHash = () => {
-	const command = 'git log --pretty="%H" | head -n 2 | tail +2'
-	const output = execSync(command).toString().trim()
+	const command = 'git log --pretty="%H" | head -n 2 | tail +2';
+	const output = execSync(command).toString().trim();
 	if (output === '') {
-		utils.handleError('Failed to get commit hash')
+		utils.handleError('Failed to get commit hash');
 	}
-	return output
-}
+	return output;
+};
 
 /**
  * @summary Dump Postgres database to local file
@@ -54,22 +54,26 @@ const getCommitHash = () => {
  * dump(options)
  */
 const dump = (options) => {
-	const file = utils.getDumpArchivePath(options.hash, options.type)
-	const command = `pg_dump -h ${options.postgres.host} --username="${options.postgres.user}"` +
-		` ${options.postgres.database} | gzip -9 > ${file}`
+	const file = utils.getDumpArchivePath(options.hash, options.type);
+	const command =
+		`pg_dump -h ${options.postgres.host} --username="${options.postgres.user}"` +
+		` ${options.postgres.database} | gzip -9 > ${file}`;
 	execSync(command, {
 		env: {
-			PGPASSWORD: options.postgres.password
-		}
-	})
+			PGPASSWORD: options.postgres.password,
+		},
+	});
 
 	// Make sure the file exists and is not empty
-	if (!fs.existsSync(file) || execSync(`wc -l ${file} | cut -d' ' -f1`).toString().trim() === '0') {
-		utils.handleError(`Failed to create Postgres dump file at ${file}`)
+	if (
+		!fs.existsSync(file) ||
+		execSync(`wc -l ${file} | cut -d' ' -f1`).toString().trim() === '0'
+	) {
+		utils.handleError(`Failed to create Postgres dump file at ${file}`);
 	}
 
-	return file
-}
+	return file;
+};
 
 /**
  * @summary Upload Postgres dump to S3
@@ -89,19 +93,24 @@ const dump = (options) => {
  * await upload(options)
  */
 const upload = async (options, file) => {
-	const key = `${utils.S3_KEY_PREFIX}/${utils.getDumpArchiveName(options.hash, options.type)}`
+	const key = `${utils.S3_KEY_PREFIX}/${utils.getDumpArchiveName(
+		options.hash,
+		options.type,
+	)}`;
 	try {
-		await options.s3.putObject({
-			Body: fs.readFileSync(file),
-			Key: key,
-			Bucket: options.aws.s3BucketName
-		}).promise()
+		await options.s3
+			.putObject({
+				Body: fs.readFileSync(file),
+				Key: key,
+				Bucket: options.aws.s3BucketName,
+			})
+			.promise();
 	} catch (error) {
-		utils.handleError(`Failed to upload dump: ${error}`)
+		utils.handleError(`Failed to upload dump: ${error}`);
 	}
 
-	return `https://${options.aws.s3BucketName}.s3.amazonaws.com/${key}`
-}
+	return `https://${options.aws.s3BucketName}.s3.amazonaws.com/${key}`;
+};
 
 /**
  * @summary Dump and export current Postgres data
@@ -116,24 +125,24 @@ const run = async () => {
 		type: process.argv[2],
 		hash: getCommitHash(),
 		postgres: environment.postgres,
-		aws: environment.aws
-	}
+		aws: environment.aws,
+	};
 
 	// Validate required environment variables
-	utils.validate(options)
+	utils.validate(options);
 
 	// Instantiate s3 client
-	options.s3 = utils.initS3(options)
+	options.s3 = utils.initS3(options);
 
 	// Create database dump archive
-	console.log(`Dumping database "${options.postgres.database}"...`)
-	const file = dump(options)
-	console.log(`Dumped to ${file}`)
+	console.log(`Dumping database "${options.postgres.database}"...`);
+	const file = dump(options);
+	console.log(`Dumped to ${file}`);
 
 	// Upload to storage
-	console.log(`Uploading ${file} to storage...`)
-	const url = await upload(options, file)
-	console.log(`Uploaded dump to ${url}`)
-}
+	console.log(`Uploading ${file} to storage...`);
+	const url = await upload(options, file);
+	console.log(`Uploaded dump to ${url}`);
+};
 
-run()
+run();

@@ -31,7 +31,6 @@ COPY ./scripts ./scripts
 COPY ./tslint.json ./tslint.json
 COPY ./Taskfile.yml ./Taskfile.yml
 COPY ./playwright.config.js ./playwright.config.js
-COPY ./.eslint* ./
 COPY ./functions ./functions
 COPY ./.git .
 COPY ./apps/test-runner/start-jellyfish-test-runner.sh ./apps/test-runner/start-jellyfish-test-runner.sh
