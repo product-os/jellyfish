@@ -1,6 +1,4 @@
 {
 	"extends": "@balena/lint/config/tslint-prettier.json",
-	"rules": {
-        "ban-ts-ignore": false
-    }
+	"rules": {}
 }
