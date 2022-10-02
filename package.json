@@ -13,8 +13,8 @@
     "node": ">=16"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check",
-    "lint:check": "shellcheck scripts/*.sh scripts/*/*.sh",
+    "lint": "balena-lint -e js scripts test && shellcheck scripts/*.sh scripts/*/*.sh",
+    "lint:fix": "balena-lint -e js --fix scripts test",
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
     "lint:server": "(cd apps/server && npm run lint)",
     "lint:ui": "(cd apps/ui && npm run lint)",
@@ -47,8 +47,8 @@
     ]
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --cache --fix"
+    "*.js": [
+      "balena-lint -e js --fix"
     ],
     "*.{ts,tsx}": [
       "balena-lint --fix"
@@ -68,13 +68,6 @@
     "aws-sdk": "^2.1227.0",
     "catch-uncommitted": "^2.0.0",
     "cli-spinner": "^0.2.10",
-    "eslint": "^8.24.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^39.3.6",
-    "eslint-plugin-lodash": "^7.4.0",
-    "eslint-plugin-n": "^15.3.0",
-    "eslint-plugin-promise": "^6.0.1",
     "jsonwebtoken": "^8.5.1",
     "lint-staged": "^13.0.0",
     "lodash": "^4.17.21",

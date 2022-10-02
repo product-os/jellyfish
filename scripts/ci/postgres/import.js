@@ -14,11 +14,11 @@
  *   ./scripts/ci/postgres/import.js <TYPE>
  */
 
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
-const execSync = require('child_process').execSync
-const fs = require('fs')
-const isEmpty = require('lodash').isEmpty
-const utils = require('./utils')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment;
+const execSync = require('child_process').execSync;
+const fs = require('fs');
+const isEmpty = require('lodash').isEmpty;
+const utils = require('./utils');
 
 /**
  * @summary Get previous dump commit hash
@@ -28,7 +28,7 @@ const utils = require('./utils')
  * @returns {String} git commit hash
  *
  * @example
-  * const options = {
+ * const options = {
  *   type: 'e2e-server',
  *   postgres: environment.postgres,
  *   aws: environment.aws
@@ -36,29 +36,34 @@ const utils = require('./utils')
  * const hash = getCommitHash(options)
  */
 const getCommitHash = async (options) => {
-	let commitHash = ''
-	const command = 'git log --pretty="%H" | tail +3 | head -n 40'
-	const output = execSync(command).toString()
+	let commitHash = '';
+	const command = 'git log --pretty="%H" | tail +3 | head -n 40';
+	const output = execSync(command).toString();
 	if (output.trim() === '') {
-		utils.handleError('Failed to get git commit hash')
+		utils.handleError('Failed to get git commit hash');
 	}
-	const hashes = output.split(/\r?\n/)
-	hashes.pop()
+	const hashes = output.split(/\r?\n/);
+	hashes.pop();
 	for await (const hash of hashes) {
 		try {
-			await options.s3.headObject({
-				Bucket: options.aws.s3BucketName,
-				Key: `${utils.S3_KEY_PREFIX}/${utils.getDumpArchiveName(hash, options.type)}`
-			}).promise()
-			commitHash = hash
-			break
+			await options.s3
+				.headObject({
+					Bucket: options.aws.s3BucketName,
+					Key: `${utils.S3_KEY_PREFIX}/${utils.getDumpArchiveName(
+						hash,
+						options.type,
+					)}`,
+				})
+				.promise();
+			commitHash = hash;
+			break;
 		} catch (error) {
-			console.log('Looking for previous dump archive...')
+			console.log('Looking for previous dump archive...');
 		}
 	}
 
-	return commitHash
-}
+	return commitHash;
+};
 
 /**
  * @summary Extract dump archive
@@ -71,17 +76,17 @@ const getCommitHash = async (options) => {
  * const dumpPath = extract('/tmp/postgres-dump.gz')
  */
 const extract = (file) => {
-	const extractPath = file.replace(/\.gz$/, '')
+	const extractPath = file.replace(/\.gz$/, '');
 	if (fs.existsSync(extractPath)) {
-		fs.unlinkSync(extractPath)
+		fs.unlinkSync(extractPath);
 	}
 	try {
-		execSync(`gunzip ${file}`)
+		execSync(`gunzip ${file}`);
 	} catch (error) {
-		utils.handleError(error)
+		utils.handleError(error);
 	}
-	return extractPath
-}
+	return extractPath;
+};
 
 /**
  * @summary Import dump into Postgres database
@@ -100,23 +105,21 @@ const extract = (file) => {
  * importDump(options, file)
  */
 const importDump = (options, file) => {
-	const {
-		host,
-		database,
-		user,
-		password
-	} = options.postgres
-	const command = `psql template1 -h "${host}" --username="${user}"`
+	const { host, database, user, password } = options.postgres;
+	const command = `psql template1 -h "${host}" --username="${user}"`;
 	const execOptions = {
 		env: {
-			PGPASSWORD: password
-		}
-	}
-	execSync(`${command} -c "create user ${user};" || true`, execOptions)
-	execSync(`${command} -c "drop database ${database};" || true`, execOptions)
-	execSync(`${command} -c "create database ${database} with owner ${user};" || true`, execOptions)
-	execSync(`${command} < "${file}"`, execOptions)
-}
+			PGPASSWORD: password,
+		},
+	};
+	execSync(`${command} -c "create user ${user};" || true`, execOptions);
+	execSync(`${command} -c "drop database ${database};" || true`, execOptions);
+	execSync(
+		`${command} -c "create database ${database} with owner ${user};" || true`,
+		execOptions,
+	);
+	execSync(`${command} < "${file}"`, execOptions);
+};
 
 /**
  * @summary Download Postgres dump from S3
@@ -134,19 +137,21 @@ const importDump = (options, file) => {
  * const file = await download(options)
  */
 const download = async (options) => {
-	const file = utils.getDumpArchivePath(options.hash, options.type)
+	const file = utils.getDumpArchivePath(options.hash, options.type);
 	try {
-		const object = await options.s3.getObject({
-			Key: `dumps/${utils.getDumpArchiveName(options.hash, options.type)}`,
-			Bucket: environment.aws.s3BucketName
-		}).promise()
-		fs.writeFileSync(file, object.Body)
+		const object = await options.s3
+			.getObject({
+				Key: `dumps/${utils.getDumpArchiveName(options.hash, options.type)}`,
+				Bucket: environment.aws.s3BucketName,
+			})
+			.promise();
+		fs.writeFileSync(file, object.Body);
 	} catch (error) {
-		utils.handleError(`Failed to download dump: ${error}`)
+		utils.handleError(`Failed to download dump: ${error}`);
 	}
 
-	return file
-}
+	return file;
+};
 
 /**
  * @summary Download and import latest Postgres dump
@@ -160,31 +165,33 @@ const run = async () => {
 	const options = {
 		type: process.argv[2],
 		postgres: environment.postgres,
-		aws: environment.aws
-	}
+		aws: environment.aws,
+	};
 
 	// Validate required environment variables
-	utils.validate(options)
+	utils.validate(options);
 
 	// Instantiate s3
-	options.s3 = utils.initS3(options)
+	options.s3 = utils.initS3(options);
 
 	// Get most recent dumps commit hash
-	options.hash = await getCommitHash(options)
+	options.hash = await getCommitHash(options);
 	if (isEmpty(options.hash)) {
-		utils.handleError(`Could not find commit hash for previous ${options.type} dump`)
+		utils.handleError(
+			`Could not find commit hash for previous ${options.type} dump`,
+		);
 	}
 
 	// Download dump and extract
-	console.log('Downloading dump from storage...')
-	const file = await download(options)
-	console.log(`Downloaded dump to ${file}`)
-	const extracted = extract(file)
+	console.log('Downloading dump from storage...');
+	const file = await download(options);
+	console.log(`Downloaded dump to ${file}`);
+	const extracted = extract(file);
 
 	// Import dump into database
-	console.log(`Importing dump ${extracted}...`)
-	importDump(options, extracted)
-	console.log(`Dump imported to ${options.postgres.database}`)
-}
+	console.log(`Importing dump ${extracted}...`);
+	importDump(options, extracted);
+	console.log(`Dump imported to ${options.postgres.database}`);
+};
 
-run()
+run();
