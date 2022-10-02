@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Dev: Replace eslint with balena-lint"
+      hash: f080e5f6179f0902e026784b5b49cdb6eaf36c6e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.6
+  title: ""
+  date: 2022-10-02T14:31:41.599Z
+- commits:
     - subject: Remove eslint-plugin-react
       hash: 7c8610b21e628be7915fd99378161f7739d92c83
       body: ""
