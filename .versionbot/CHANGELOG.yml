@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update aws-sdk from 2.1184.0 to 2.1227.0
+      hash: ab8592ec5963127c954638b58d7d3770c5815fc7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.3
+  title: ""
+  date: 2022-10-02T10:00:10.270Z
+- commits:
     - subject: Change engines to >=16 to enable node 18 tests/usage
       hash: c1a2ae62edcbdf667003a6d697b14b43457640f7
       body: ""
