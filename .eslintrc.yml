@@ -8,8 +8,6 @@ plugins:
   - lodash
   - jsdoc
 extends:
-  - 'plugin:react/recommended'
-    #  - 'eslint:recommended'
   - standard
 settings:
   react:
@@ -137,8 +135,6 @@ rules:
     - error
     - event
   no-shadow:
-    - error
-  no-undefined:
     - error
   no-unused-vars:
     - error
