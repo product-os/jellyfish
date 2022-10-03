@@ -31,35 +31,44 @@ export default function CardFields({
 		typeSchema,
 	);
 
+	const uiSchema = getUiSchema(type, viewMode);
+	const showDates =
+		_.isNull(_.get(uiSchema, 'created_at')) &&
+		_.isNull(_.get(uiSchema, 'updated_at'))
+			? false
+			: true;
+
 	return (
 		<>
-			<Box py={2}>
-				{!!card.created_at && (
-					<Txt>
-						<em>Created {helpers.formatTimestamp(card.created_at)}</em>
-					</Txt>
-				)}
+			{showDates && (
+				<Box py={2}>
+					{!!card.created_at && (
+						<Txt>
+							<em>Created {helpers.formatTimestamp(card.created_at)}</em>
+						</Txt>
+					)}
 
-				{!!card.updated_at && (
-					<Txt>
-						<em>
-							Updated{' '}
-							{helpers.timeAgo(
-								_.get(
-									helpers.getLastUpdate(card),
-									['data', 'timestamp'],
-									card.updated_at,
-								) as any,
-							)}
-						</em>
-					</Txt>
-				)}
-			</Box>
+					{!!card.updated_at && (
+						<Txt>
+							<em>
+								Updated{' '}
+								{helpers.timeAgo(
+									_.get(
+										helpers.getLastUpdate(card),
+										['data', 'timestamp'],
+										card.updated_at,
+									) as any,
+								)}
+							</em>
+						</Txt>
+					)}
+				</Box>
+			)}
 
 			<Renderer
 				value={card}
 				schema={schema}
-				uiSchema={getUiSchema(type, viewMode)}
+				uiSchema={uiSchema}
 				extraContext={{
 					root: card,
 					fns: jsonSchemaFns,
