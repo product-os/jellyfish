@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Dev: Fix tslint configs"
+      hash: 0e84c621d713b395139679e1b0c8789fab2efd27
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.7
+  title: ""
+  date: 2022-10-03T02:19:09.830Z
+- commits:
     - subject: "Dev: Replace eslint with balena-lint"
       hash: f080e5f6179f0902e026784b5b49cdb6eaf36c6e
       body: ""
