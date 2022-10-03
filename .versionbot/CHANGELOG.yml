@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add Flowdock archive
+      hash: cbf9d4b5fdae44155afd7e77548ac14a4f117f43
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.13.0
+  date: 2022-10-03T06:30:22.794Z
+- commits:
     - subject: "apps/server: Update typescript from 4.7.4 to 4.8.4"
       hash: cc522107e89d5504015fe2261bd4936c67bed2c6
       body: ""
