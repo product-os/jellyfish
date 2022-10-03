@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Add ability to hide dates with uiSchema"
+      hash: deb3256efecdef10414f26d415f9240283a8694a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.8
+  title: ""
+  date: 2022-10-03T03:44:39.349Z
+- commits:
     - subject: "Dev: Fix tslint configs"
       hash: 0e84c621d713b395139679e1b0c8789fab2efd27
       body: ""
