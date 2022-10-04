@@ -1,22 +1,22 @@
-const environment = require('@balena/jellyfish-environment').defaultEnvironment;
-const ava = require('ava');
-const _ = require('lodash');
-const { v4: uuid } = require('uuid');
-const sdkHelpers = require('../sdk/helpers');
-const helpers = require('./helpers');
+import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
+import { testUtils as aTestUtils } from 'autumndb';
+import _ from 'lodash';
+import { v4 as uuid } from 'uuid';
+import { initSdk, login, teardown } from '../sdk/helpers';
+import { generateUserDetails, http } from './helpers';
 
-let sdk = {};
+const sdk = initSdk();
 
-ava.serial.before(async () => {
-	sdk = await sdkHelpers.login();
+beforeAll(async () => {
+	await login(sdk);
 });
 
-ava.serial.afterEach(() => {
-	sdkHelpers.afterEach(sdk);
+afterEach(() => {
+	teardown();
 });
 
-ava.serial('should parse application/vnd.api+json bodies', async (test) => {
-	const result = await helpers.http(
+test('should parse application/vnd.api+json bodies', async () => {
+	const result = await http(
 		'POST',
 		'/api/v2/login',
 		{
@@ -28,13 +28,13 @@ ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 		},
 	);
 
-	test.is(result.code, 200);
-	test.truthy(result.headers['x-request-id']);
-	test.truthy(result.headers['x-api-id']);
+	expect(result.code).toEqual(200);
+	expect(result.headers['x-request-id']).toBeDefined();
+	expect(result.headers['x-api-id']).toBeDefined();
 });
 
-ava.serial('should login as the default test user', async (test) => {
-	const result = await helpers.http(
+test('should login as the default test user', async () => {
+	const result = await http(
 		'POST',
 		'/api/v2/login',
 		{
@@ -46,151 +46,145 @@ ava.serial('should login as the default test user', async (test) => {
 		},
 	);
 
-	test.is(result.code, 200);
+	expect(result.code).toEqual(200);
 });
 
-ava.serial(
-	'should include the request and api ids on responses',
-	async (test) => {
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/login',
-			{
-				username: environment.test.user.username,
-				password: environment.test.user.password,
-			},
-			{
-				'Content-Type': 'application/vnd.api+json',
-			},
-		);
+test('should include the request and api ids on responses', async () => {
+	const result = await http(
+		'POST',
+		'/api/v2/login',
+		{
+			username: environment.test.user.username,
+			password: environment.test.user.password,
+		},
+		{
+			'Content-Type': 'application/vnd.api+json',
+		},
+	);
 
-		test.is(result.code, 200);
-		test.truthy(result.headers['x-request-id']);
-		test.truthy(result.headers['x-api-id']);
-	},
-);
-
-ava.serial(
-	'should create different request ids for every response',
-	async (test) => {
-		const userDetails = helpers.generateUserDetails();
-		const user = await sdk.action({
-			card: 'user@1.0.0',
-			type: 'type',
-			action: 'action-create-user@1.0.0',
-			arguments: {
-				username: `user-${userDetails.username}`,
-				email: userDetails.email,
-				password: userDetails.password,
-			},
-		});
-
-		const result1 = await helpers.http('POST', '/api/v2/action', {
-			card: `${user.slug}@${user.version}`,
-			type: 'user',
-			action: 'action-create-session@1.0.0',
-			arguments: {
-				password: userDetails.password,
-			},
-		});
-
-		const result2 = await helpers.http('POST', '/api/v2/action', {
-			card: `${user.slug}@${user.version}`,
-			type: 'user',
-			action: 'action-create-session@1.0.0',
-			arguments: {
-				password: userDetails.password,
-			},
-		});
-
-		const result3 = await helpers.http('POST', '/api/v2/action', {
-			card: `${user.slug}@${user.version}`,
-			type: 'user',
-			action: 'action-create-session@1.0.0',
-			arguments: {
-				password: userDetails.password,
-			},
-		});
-
-		test.not(result1.headers['x-request-id'], result2.headers['x-request-id']);
-		test.not(result2.headers['x-request-id'], result3.headers['x-request-id']);
-		test.not(result3.headers['x-request-id'], result1.headers['x-request-id']);
-	},
-);
-
-ava.serial('The ping endpoint should continuously work', async (test) => {
-	const result1 = await helpers.http('GET', '/ping');
-	test.is(result1.code, 200);
-	test.false(result1.response.error);
-
-	const result2 = await helpers.http('GET', '/ping');
-	test.is(result2.code, 200);
-	test.false(result2.response.error);
-
-	const result3 = await helpers.http('GET', '/ping');
-	test.is(result3.code, 200);
-	test.false(result3.response.error);
+	expect(result.code).toEqual(200);
+	expect(result.headers['x-request-id']).toBeDefined();
+	expect(result.headers['x-api-id']).toBeDefined();
 });
 
-ava.serial(
-	'should fail to query with single quotes JSON object',
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/query',
-			"{'foo':bar}",
-			{
-				Authorization: `Bearer ${token}`,
-				'Content-Type': 'application/json',
-			},
-			{
-				json: false,
-			},
-		);
+test('should create different request ids for every response', async () => {
+	const userDetails = generateUserDetails();
+	const user = await sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password,
+		},
+	});
 
-		test.is(result.code, 400);
-		test.true(JSON.parse(result.response).error);
-	},
-);
+	const result1 = await http('POST', '/api/v2/action', {
+		card: `${user.slug}@${user.version}`,
+		type: 'user',
+		action: 'action-create-session@1.0.0',
+		arguments: {
+			password: userDetails.password,
+		},
+	});
 
-ava.serial('should fail to query with a non JSON string', async (test) => {
+	const result2 = await http('POST', '/api/v2/action', {
+		card: `${user.slug}@${user.version}`,
+		type: 'user',
+		action: 'action-create-session@1.0.0',
+		arguments: {
+			password: userDetails.password,
+		},
+	});
+
+	const result3 = await http('POST', '/api/v2/action', {
+		card: `${user.slug}@${user.version}`,
+		type: 'user',
+		action: 'action-create-session@1.0.0',
+		arguments: {
+			password: userDetails.password,
+		},
+	});
+
+	expect(result1.headers['x-request-id']).not.toEqual(
+		result2.headers['x-request-id'],
+	);
+	expect(result2.headers['x-request-id']).not.toEqual(
+		result3.headers['x-request-id'],
+	);
+	expect(result3.headers['x-request-id']).not.toEqual(
+		result1.headers['x-request-id'],
+	);
+});
+
+test('The ping endpoint should continuously work', async () => {
+	const result1 = await http('GET', '/ping');
+	expect(result1.code).toEqual(200);
+	expect(result1.response.error).toBe(false);
+
+	const result2 = await http('GET', '/ping');
+	expect(result2.code).toEqual(200);
+	expect(result2.response.error).toBe(false);
+
+	const result3 = await http('GET', '/ping');
+	expect(result3.code).toEqual(200);
+	expect(result3.response.error).toBe(false);
+});
+
+test('should fail to query with single quotes JSON object', async () => {
 	const token = sdk.getAuthToken();
-	const result = await helpers.http('POST', '/api/v2/query', 'foo:bar', {
+	const result = await http(
+		'POST',
+		'/api/v2/query',
+		"{'foo':bar}",
+		{
+			Authorization: `Bearer ${token}`,
+			'Content-Type': 'application/json',
+		},
+		{
+			json: false,
+		},
+	);
+
+	expect(result.code).toEqual(400);
+	expect(JSON.parse(result.response).error).toBe(true);
+});
+
+test('should fail to query with a non JSON string', async () => {
+	const token = sdk.getAuthToken();
+	const result = await http('POST', '/api/v2/query', 'foo:bar', {
 		Authorization: `Bearer ${token}`,
 	});
 
-	test.is(result.code, 400);
-	test.true(result.response.error);
+	expect(result.code).toEqual(400);
+	expect(result.response.error).toBe(true);
 });
 
-ava.serial(
-	'should fail to query with an invalid query object',
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/query',
-			{
-				foo: 'bar',
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		test.is(result.code, 400);
-		test.true(result.response.error);
-	},
-);
-
-ava.serial('should get all elements by type', async (test) => {
+test('should fail to query with an invalid query object', async () => {
 	const token = sdk.getAuthToken();
-	const result = await helpers.http('GET', '/api/v2/type/user', null, {
+	const result = await http(
+		'POST',
+		'/api/v2/query',
+		{
+			foo: 'bar',
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result.code).toEqual(400);
+	expect(result.response.error).toBe(true);
+});
+
+test('should get all elements by type', async () => {
+	const token = sdk.getAuthToken();
+	const result = await http('GET', '/api/v2/type/user', null, {
 		Authorization: `Bearer ${token}`,
 	});
 
-	test.is(result.code, 200);
+	expect(result.code).toEqual(200);
 
 	const users = await sdk.query({
 		type: 'object',
@@ -204,411 +198,382 @@ ava.serial('should get all elements by type', async (test) => {
 		},
 	});
 
-	test.is(result.response.length, users.length);
-	test.deepEqual(result.response, users);
+	expect(result.response.length).toEqual(users.length);
+	expect(result.response).toEqual(users);
 });
 
-ava.serial(
-	'should fail with a user error when executing an unknown action',
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/action',
-			{
-				card: 'user-admin@1.0.0',
-				type: 'user',
-				action: 'action-foo-bar-baz-qux@1.0.0',
-				arguments: {
-					foo: 'bar',
-				},
+test('should fail with a user error when executing an unknown action', async () => {
+	const token = sdk.getAuthToken();
+	const result = await http(
+		'POST',
+		'/api/v2/action',
+		{
+			card: 'user-admin@1.0.0',
+			type: 'user',
+			action: 'action-foo-bar-baz-qux@1.0.0',
+			arguments: {
+				foo: 'bar',
 			},
-			{
-				Authorization: `Bearer ${token}`,
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result.code).toEqual(400);
+	expect(result.response.error).toBe(true);
+});
+
+test('should fail with a user error given an arguments mismatch', async () => {
+	const token = sdk.getAuthToken();
+	const result = await http(
+		'POST',
+		'/api/v2/action',
+		{
+			card: 'user@1.0.0',
+			type: 'type',
+			action: 'action-create-card@1.0.0',
+			arguments: {
+				foo: 'bar',
 			},
-		);
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
 
-		test.is(result.code, 400);
-		test.true(result.response.error);
-	},
-);
+	expect(result.code).toEqual(400);
+	expect(result.response.error).toBe(true);
+});
 
-ava.serial(
-	'should fail with a user error given an arguments mismatch',
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/action',
-			{
-				card: 'user@1.0.0',
-				type: 'type',
-				action: 'action-create-card@1.0.0',
-				arguments: {
-					foo: 'bar',
-				},
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
+test('an update that renders a card invalid for its type is a user error', async () => {
+	const token = sdk.getAuthToken();
+	const slug = `ping-test-${uuid()}`;
 
-		test.is(result.code, 400);
-		test.true(result.response.error);
-	},
-);
-
-ava.serial(
-	'an update that renders a card invalid for its type is a user error',
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const slug = `ping-test-${uuid()}`;
-
-		const result1 = await helpers.http(
-			'POST',
-			'/api/v2/action',
-			{
-				card: 'ping@1.0.0',
-				type: 'type',
-				action: 'action-create-card@1.0.0',
-				arguments: {
-					reason: null,
-					properties: {
-						slug,
-						version: '1.0.0',
-						data: {
-							timestamp: new Date().toISOString(),
-						},
-					},
-				},
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		test.is(result1.code, 200);
-
-		const result2 = await helpers.http(
-			'POST',
-			'/api/v2/action',
-			{
-				card: result1.response.data.id,
-				type: result1.response.data.type,
-				action: 'action-update-card@1.0.0',
-				arguments: {
-					reason: null,
-					patch: [
-						{
-							op: 'replace',
-							path: '/data/timestamp',
-							value: 'foo',
-						},
-					],
-				},
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		test.is(result2.code, 400);
-		test.true(result2.response.error);
-	},
-);
-
-ava.serial(
-	'should fail with a user error if no action card type',
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const slug = `ping-test-${uuid()}`;
-
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/action',
-			{
-				card: 'ping@1.0.0',
-				action: 'action-create-card@1.0.0',
-				arguments: {
-					reason: null,
-					properties: {
-						slug,
-						version: '1.0.0',
-						data: {
-							timestamp: new Date().toISOString(),
-						},
-					},
-				},
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		test.is(result.code, 400);
-		test.true(result.response.error);
-	},
-);
-
-ava.serial(
-	'should report a user error if creating the same event twice',
-	async (test) => {
-		const token = sdk.getAuthToken();
-
-		const thread = await sdk.card.create({
-			type: 'thread',
-			slug: helpers.generateRandomSlug({
-				prefix: 'thread',
-			}),
-			version: '1.0.0',
-			data: {},
-		});
-
-		const args = {
-			slug: helpers.generateRandomSlug({
-				prefix: 'whisper',
-			}),
-			tags: [],
-			type: 'whisper',
-			payload: {
-				message: 'foo bar baz',
-				alertsUser: [],
-				mentionsUser: [],
-			},
-		};
-
-		const result1 = await helpers.http(
-			'POST',
-			'/api/v2/action',
-			{
-				card: thread.id,
-				type: thread.type,
-				action: 'action-create-event@1.0.0',
-				arguments: args,
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		const result2 = await helpers.http(
-			'POST',
-			'/api/v2/action',
-			{
-				card: thread.id,
-				type: thread.type,
-				action: 'action-create-event@1.0.0',
-				arguments: args,
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		test.is(result1.code, 200);
-		test.not(result2.code, 200);
-		test.true(result2.response.error);
-	},
-);
-
-ava.serial(
-	'should respond with an error given a payload middleware exception',
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const data = {};
-
-		for (const time of _.range(0, 1000)) {
-			data[`${time}-${uuid()}`] = {
-				foo: 'foo bar baz qux foo bar baz qux foo bar baz qux',
-				bar: _.range(1, 10000),
-				baz: 'foo bar baz qux foo bar baz qux foo bar baz qux',
-				xxx: 'foo bar baz qux foo bar baz qux foo bar baz qux',
-				yyy: _.range(1, 10000),
-				zzz: 'foo bar baz qux foo bar baz qux foo bar baz qux',
-			};
-		}
-
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/action',
-			{
-				card: 'card@1.0.0',
-				type: 'type',
-				action: 'action-create-card@1.0.0',
-				arguments: {
-					reason: null,
-					properties: {
-						slug: helpers.generateRandomSlug({
-							prefix: 'payload-test',
-						}),
-						version: '1.0.0',
-						data,
-					},
-				},
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		test.is(result.code, 413);
-		test.deepEqual(result.response, {
-			error: true,
-			data: {
-				expected: 98061090,
-				expose: true,
-				length: 98061090,
-				limit: 5242880,
-				headers: result.response.data.headers,
-				ip: result.response.data.ip,
-				url: '/api/v2/action',
-				method: 'POST',
-				name: 'PayloadTooLargeError',
-				message: result.response.data.message,
-				stack: result.response.data.stack,
-				status: 413,
-				statusCode: 413,
-				type: 'entity.too.large',
-			},
-		});
-	},
-);
-
-ava.serial(
-	"/query endpoint should allow you to query using a view's slug",
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/query',
-			{
-				query: 'view-all-views',
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		test.is(result.code, 200);
-		test.deepEqual(
-			_.uniq(
-				_.map(result.response.data, (card) => {
-					return _.first(card.type.split('@'));
-				}),
-			),
-			['view'],
-		);
-	},
-);
-
-ava.serial(
-	"/query endpoint should allow you to query using a view's id",
-	async (test) => {
-		const token = sdk.getAuthToken();
-		const view = await sdk.card.get('view-all-views');
-		const result = await helpers.http(
-			'POST',
-			'/api/v2/query',
-			{
-				query: view.id,
-			},
-			{
-				Authorization: `Bearer ${token}`,
-			},
-		);
-
-		test.is(result.code, 200);
-		test.deepEqual(
-			_.uniq(
-				_.map(result.response.data, (card) => {
-					return _.first(card.type.split('@'));
-				}),
-			),
-			['view'],
-		);
-	},
-);
-
-ava.serial(
-	'whoami should respond even if user has little permissions',
-	async (test) => {
-		const roleSlug = helpers.generateRandomSlug({
-			prefix: 'role-user',
-		});
-
-		await sdk.action({
-			card: 'role@1.0.0',
+	const result1 = await http(
+		'POST',
+		'/api/v2/action',
+		{
+			card: 'ping@1.0.0',
 			type: 'type',
 			action: 'action-create-card@1.0.0',
 			arguments: {
 				reason: null,
 				properties: {
-					slug: roleSlug,
+					slug,
 					version: '1.0.0',
 					data: {
-						read: {
-							type: 'object',
-							additionalProperties: false,
-							required: ['id', 'slug', 'type'],
-							properties: {
-								id: {
-									type: 'string',
-								},
-								slug: {
-									type: 'string',
-								},
-								type: {
-									type: 'string',
-									enum: ['session@1.0.0', 'user@1.0.0'],
-								},
+						timestamp: new Date().toISOString(),
+					},
+				},
+			},
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result1.code).toEqual(200);
+
+	const result2 = await http(
+		'POST',
+		'/api/v2/action',
+		{
+			card: result1.response.data.id,
+			type: result1.response.data.type,
+			action: 'action-update-card@1.0.0',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/timestamp',
+						value: 'foo',
+					},
+				],
+			},
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result2.code).toEqual(400);
+	expect(result2.response.error).toBe(true);
+});
+
+test('should fail with a user error if no action card type', async () => {
+	const token = sdk.getAuthToken();
+	const slug = `ping-test-${uuid()}`;
+
+	const result = await http(
+		'POST',
+		'/api/v2/action',
+		{
+			card: 'ping@1.0.0',
+			action: 'action-create-card@1.0.0',
+			arguments: {
+				reason: null,
+				properties: {
+					slug,
+					version: '1.0.0',
+					data: {
+						timestamp: new Date().toISOString(),
+					},
+				},
+			},
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result.code).toEqual(400);
+	expect(result.response.error).toBe(true);
+});
+
+test('should report a user error if creating the same event twice', async () => {
+	const token = sdk.getAuthToken();
+
+	const thread = await sdk.card.create({
+		type: 'thread',
+		slug: aTestUtils.generateRandomSlug({
+			prefix: 'thread',
+		}),
+		version: '1.0.0',
+		data: {},
+	});
+
+	const args = {
+		slug: aTestUtils.generateRandomSlug({
+			prefix: 'whisper',
+		}),
+		tags: [],
+		type: 'whisper',
+		payload: {
+			message: 'foo bar baz',
+			alertsUser: [],
+			mentionsUser: [],
+		},
+	};
+
+	const result1 = await http(
+		'POST',
+		'/api/v2/action',
+		{
+			card: thread.id,
+			type: thread.type,
+			action: 'action-create-event@1.0.0',
+			arguments: args,
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	const result2 = await http(
+		'POST',
+		'/api/v2/action',
+		{
+			card: thread.id,
+			type: thread.type,
+			action: 'action-create-event@1.0.0',
+			arguments: args,
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result1.code).toEqual(200);
+	expect(result2.code).toEqual(400);
+	expect(result2.response.error).toBe(true);
+});
+
+test('should respond with an error given a payload middleware exception', async () => {
+	const token = sdk.getAuthToken();
+	const data = {};
+
+	for (const time of _.range(0, 1000)) {
+		data[`${time}-${uuid()}`] = {
+			foo: 'foo bar baz qux foo bar baz qux foo bar baz qux',
+			bar: _.range(1, 10000),
+			baz: 'foo bar baz qux foo bar baz qux foo bar baz qux',
+			xxx: 'foo bar baz qux foo bar baz qux foo bar baz qux',
+			yyy: _.range(1, 10000),
+			zzz: 'foo bar baz qux foo bar baz qux foo bar baz qux',
+		};
+	}
+
+	const result = await http(
+		'POST',
+		'/api/v2/action',
+		{
+			card: 'card@1.0.0',
+			type: 'type',
+			action: 'action-create-card@1.0.0',
+			arguments: {
+				reason: null,
+				properties: {
+					slug: aTestUtils.generateRandomSlug({
+						prefix: 'payload-test',
+					}),
+					version: '1.0.0',
+					data,
+				},
+			},
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result.code).toEqual(413);
+	expect(result.response).toEqual({
+		error: true,
+		data: {
+			expected: 98061090,
+			expose: true,
+			length: 98061090,
+			limit: 5242880,
+			headers: result.response.data.headers,
+			ip: result.response.data.ip,
+			url: '/api/v2/action',
+			method: 'POST',
+			name: 'PayloadTooLargeError',
+			message: result.response.data.message,
+			stack: result.response.data.stack,
+			status: 413,
+			statusCode: 413,
+			type: 'entity.too.large',
+		},
+	});
+});
+
+test("/query endpoint should allow you to query using a view's slug", async () => {
+	const token = sdk.getAuthToken();
+	const result = await http(
+		'POST',
+		'/api/v2/query',
+		{
+			query: 'view-all-views',
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result.code).toEqual(200);
+	expect(
+		_.uniq(
+			_.map(result.response.data, (card) => {
+				return _.first(card.type.split('@'));
+			}),
+		),
+	).toEqual(['view']);
+});
+
+test("/query endpoint should allow you to query using a view's id", async () => {
+	const token = sdk.getAuthToken();
+	const view = await sdk.card.get('view-all-views');
+	const result = await http(
+		'POST',
+		'/api/v2/query',
+		{
+			query: view.id,
+		},
+		{
+			Authorization: `Bearer ${token}`,
+		},
+	);
+
+	expect(result.code).toEqual(200);
+	expect(
+		_.uniq(
+			_.map(result.response.data, (card) => {
+				return _.first(card.type.split('@'));
+			}),
+		),
+	).toEqual(['view']);
+});
+
+test('whoami should respond even if user has little permissions', async () => {
+	const roleSlug = aTestUtils.generateRandomSlug({
+		prefix: 'role-user',
+	});
+
+	await sdk.action({
+		card: 'role@1.0.0',
+		type: 'type',
+		action: 'action-create-card@1.0.0',
+		arguments: {
+			reason: null,
+			properties: {
+				slug: roleSlug,
+				version: '1.0.0',
+				data: {
+					read: {
+						type: 'object',
+						additionalProperties: false,
+						required: ['id', 'slug', 'type'],
+						properties: {
+							id: {
+								type: 'string',
+							},
+							slug: {
+								type: 'string',
+							},
+							type: {
+								type: 'string',
+								enum: ['session@1.0.0', 'user@1.0.0'],
 							},
 						},
 					},
 				},
 			},
-		});
+		},
+	});
 
-		const userDetails = helpers.generateUserDetails();
-		const user = await sdk.action({
-			card: 'user@1.0.0',
-			type: 'type',
-			action: 'action-create-user@1.0.0',
-			arguments: {
-				username: `user-${userDetails.username}`,
-				email: userDetails.email,
-				password: userDetails.password,
-			},
-		});
+	const userDetails = generateUserDetails();
+	const user = await sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password,
+		},
+	});
 
-		const session = await sdk.card.create({
-			type: 'session@1.0.0',
-			slug: helpers.generateRandomSlug({
-				prefix: 'session',
-			}),
-			version: '1.0.0',
-			data: {
-				actor: user.id,
-			},
-		});
+	const session = await sdk.card.create({
+		type: 'session@1.0.0',
+		slug: generateRandomSlug({
+			prefix: 'session',
+		}),
+		version: '1.0.0',
+		data: {
+			actor: user.id,
+		},
+	});
 
-		await sdk.card.update(user.id, user.type, [
-			{
-				op: 'replace',
-				path: '/data/roles',
-				value: [roleSlug.replace(/^role-/, '')],
-			},
-		]);
+	await sdk.card.update(user.id, user.type, [
+		{
+			op: 'replace',
+			path: '/data/roles',
+			value: [roleSlug.replace(/^role-/, '')],
+		},
+	]);
 
-		const result = await helpers.http(
-			'GET',
-			'/api/v2/whoami',
-			{},
-			{
-				Authorization: `Bearer ${session.id}`,
-			},
-		);
+	const result = await http(
+		'GET',
+		'/api/v2/whoami',
+		{},
+		{
+			Authorization: `Bearer ${session.id}`,
+		},
+	);
 
-		test.false(result.response.error);
-		test.is(result.response.data.id, user.id);
-	},
-);
+	expect(result.response.error).toBe(false);
+	expect(result.response.data.id).toEqual(user.id);
+});

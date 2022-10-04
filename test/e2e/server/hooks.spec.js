@@ -1,24 +1,20 @@
-const ava = require('ava');
-const helpers = require('./helpers');
+import { http } from './helpers';
 
-ava.serial('should post a dummy "none" event', async (test) => {
-	const result = await helpers.http('POST', '/api/v2/hooks/none', {
+test('should post a dummy "none" event', async () => {
+	const result = await http('POST', '/api/v2/hooks/none', {
 		foo: 'bar',
 		bar: 'baz',
 	});
 
-	test.is(result.code, 200);
+	expect(result.code).toEqual(200);
 });
 
-ava.serial(
-	'should not be able to post an unsupported external event',
-	async (test) => {
-		const result = await helpers.http('POST', '/api/v2/hooks/test', {
-			foo: 'bar',
-			bar: 'baz',
-		});
+test('should not be able to post an unsupported external event', async () => {
+	const result = await http('POST', '/api/v2/hooks/test', {
+		foo: 'bar',
+		bar: 'baz',
+	});
 
-		test.is(result.code, 401);
-		test.true(result.response.error);
-	},
-);
+	expect(result.code).toEqual(401);
+	expect(result.response.error).toBe(true);
+});

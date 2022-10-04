@@ -1,31 +1,15 @@
-const environment = require('@balena/jellyfish-environment').defaultEnvironment;
-const ava = require('ava');
-const crypto = require('crypto');
-const jws = require('jsonwebtoken');
-const _ = require('lodash');
-const jose = require('node-jose');
-const { v4: uuid } = require('uuid');
-const helpers = require('./helpers');
+import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
+import crypto from 'crypto';
+import jws from 'jsonwebtoken';
+import _ from 'lodash';
+import jose from 'node-jose';
+import { v4 as uuid } from 'uuid';
+import { http } from './helpers';
 
-const balenaAvaTest = _.some(
-	_.values(environment.integration['balena-api']),
-	_.isEmpty,
-)
-	? ava.skip
-	: ava.serial;
-
-balenaAvaTest(
+test(
 	'should take application/jose balena-api webhooks',
-	async (test) => {
+	async () => {
 		const token = environment.integration['balena-api'];
-		console.log(
-			`[test application/jose webhooks] Using token ${JSON.stringify(
-				token,
-				null,
-				2,
-			)}`,
-		);
-
 		const object = {
 			test: 1,
 		};
@@ -44,9 +28,6 @@ balenaAvaTest(
 				subject: uuid(),
 			},
 		);
-		console.log(
-			`[test application/jose webhooks] Using signedToken ${signedToken}`,
-		);
 
 		const keyValue = Buffer.from(token.production.publicKey, 'base64');
 
@@ -61,11 +42,7 @@ balenaAvaTest(
 		cipher.update(signedToken);
 		const payload = await cipher.final();
 
-		console.log(
-			`[test application/jose webhooks] Calling endpoint '/api/v2/hooks/balena-api' with payload ${payload}`,
-		);
-
-		const result = await helpers.http(
+		const result = await http(
 			'POST',
 			'/api/v2/hooks/balena-api',
 			payload,
@@ -93,7 +70,7 @@ const githubAvaTest = _.some(
 githubAvaTest(
 	'should not be able to post a GitHub event without a signature',
 	async (test) => {
-		const result = await helpers.http('POST', '/api/v2/hooks/github', {
+		const result = await http('POST', '/api/v2/hooks/github', {
 			foo: 'bar',
 			bar: 'baz',
 			sender: {
@@ -115,7 +92,7 @@ githubAvaTest(
 			.update(object)
 			.digest('hex');
 
-		const result = await helpers.http(
+		const result = await http(
 			'POST',
 			'/api/v2/hooks/github',
 			JSON.parse(object),
@@ -130,7 +107,7 @@ githubAvaTest(
 );
 
 ava.serial('should not ignore a GitHub signature mismatch', async (test) => {
-	const result = await helpers.http(
+	const result = await http(
 		'POST',
 		'/api/v2/hooks/github',
 		{
@@ -156,7 +133,7 @@ const outreachTest =
 outreachTest(
 	'should not be able to post an Outreach event without a signature',
 	async (test) => {
-		const result = await helpers.http('POST', '/api/v2/hooks/outreach', {
+		const result = await http('POST', '/api/v2/hooks/outreach', {
 			foo: 'bar',
 			bar: 'baz',
 		});
@@ -177,7 +154,7 @@ outreachTest(
 			.update(object)
 			.digest('hex');
 
-		const result = await helpers.http(
+		const result = await http(
 			'POST',
 			'/api/v2/hooks/outreach',
 			JSON.parse(object),
@@ -192,7 +169,7 @@ outreachTest(
 );
 
 ava.serial('should not ignore an Outreach signature mismatch', async (test) => {
-	const result = await helpers.http(
+	const result = await http(
 		'POST',
 		'/api/v2/hooks/outreach',
 		{
@@ -211,7 +188,7 @@ ava.serial('should not ignore an Outreach signature mismatch', async (test) => {
 ava.serial(
 	'/api/v2/oauth/oauth-provider-outreach@1.0.0/url should return authorizeUrl',
 	async (test) => {
-		const result = await helpers.http(
+		const result = await http(
 			'GET',
 			'/api/v2/oauth/oauth-provider-outreach@1.0.0/url',
 		);
