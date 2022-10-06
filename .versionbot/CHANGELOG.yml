@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: d024d3152343c44296f72ea25368dfe6282d8b3b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.11
+  title: ""
+  date: 2022-10-06T00:46:29.468Z
+- commits:
     - subject: "apps/server: Update typescript from 4.7.4 to 4.8.4"
       hash: cc522107e89d5504015fe2261bd4936c67bed2c6
       body: ""
