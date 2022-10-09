@@ -29,9 +29,6 @@ const utils = require('./utils');
  * const hash = getCommitHash()
  */
 const getCommitHash = () => {
-	const log = 'git --no-pager log | head -n 100';
-	const logOutput = execSync(log).toString();
-	console.log('=== logOutput:', logOutput);
 	const command = 'git log --pretty="%H" | head -n 3 | tail +3';
 	const output = execSync(command).toString().trim();
 	if (output === '') {
