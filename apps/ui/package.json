@@ -87,7 +87,7 @@
 		"skhema": "^6.0.6",
 		"style-loader": "^2.0.0",
 		"styled-components": "^5.3.5",
-		"uuid": "^8.3.2"
+		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
 		"@balena/lint": "^6.2.0",
