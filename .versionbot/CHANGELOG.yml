@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 6d17a00d545541201b5f418bb93f81801ab1d65d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.17
+  title: ""
+  date: 2022-10-09T14:19:10.295Z
+- commits:
     - subject: Update uuid from 8.3.2 to 9.0.0
       hash: 4b983faf8848069922a7208a3a53d633d2442fce
       body: ""
