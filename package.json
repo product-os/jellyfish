@@ -13,8 +13,8 @@
     "node": ">=16"
   },
   "scripts": {
-    "lint": "balena-lint -e js scripts test && shellcheck scripts/*.sh scripts/*/*.sh && prettier --check **/*.json **/*.yml",
-    "lint:fix": "balena-lint -e js --fix scripts test && prettier -w **/*.json **/*.yml",
+    "lint": "balena-lint -e js *.js scripts test && shellcheck scripts/*.sh scripts/*/*.sh && prettier --check **/*.json **/*.yml",
+    "lint:fix": "balena-lint -e js --fix *.js scripts test && prettier -w **/*.json **/*.yml",
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
     "lint:server": "(cd apps/server && npm run lint)",
     "lint:ui": "(cd apps/ui && npm run lint)",
