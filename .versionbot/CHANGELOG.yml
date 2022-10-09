@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update uuid from 8.3.2 to 9.0.0
+      hash: 4b983faf8848069922a7208a3a53d633d2442fce
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.16
+  title: ""
+  date: 2022-10-09T11:09:50.679Z
+- commits:
     - subject: Update grafana/grafana from 8.5.11 to 9.1.7
       hash: 5d04d1fb28b764ca3442c58114046ed2b69a9008
       body: ""
