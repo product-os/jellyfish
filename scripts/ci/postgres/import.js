@@ -38,14 +38,24 @@ const utils = require('./utils');
 const getCommitHash = async (options) => {
 	let commitHash = '';
 	const command = 'git log --pretty="%H" | tail +3 | head -n 40';
+	console.log('=== command:', command);
 	const output = execSync(command).toString();
+	console.log('=== output:', output);
 	if (output.trim() === '') {
 		utils.handleError('Failed to get git commit hash');
 	}
 	const hashes = output.split(/\r?\n/);
 	hashes.pop();
+	console.log('=== bucket:', options.aws.s3BucketName);
 	for await (const hash of hashes) {
 		try {
+			console.log(
+				'=== key:',
+				`${utils.S3_KEY_PREFIX}/${utils.getDumpArchiveName(
+					hash,
+					options.type,
+				)}`,
+			);
 			await options.s3
 				.headObject({
 					Bucket: options.aws.s3BucketName,
