@@ -60,8 +60,6 @@ inputs:
     type: string
     default: |
       wait-for-api \
-      integration-server \
-      e2e e2e-ui \
       export-database \
       import-database \
       e2e-server-previous-dump
