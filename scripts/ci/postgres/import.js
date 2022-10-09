@@ -37,8 +37,7 @@ const utils = require('./utils');
  */
 const getCommitHash = async (options) => {
 	let commitHash = '';
-	const command = 'git log --pretty="%H" | tail +3 | head -n 40';
-	console.log('=== command:', command);
+	const command = 'git log --pretty="%H" | tail +4 | head -n 40';
 	const output = execSync(command).toString();
 	console.log('=== output:', output);
 	if (output.trim() === '') {
@@ -46,7 +45,6 @@ const getCommitHash = async (options) => {
 	}
 	const hashes = output.split(/\r?\n/);
 	hashes.pop();
-	console.log('=== bucket:', options.aws.s3BucketName);
 	for await (const hash of hashes) {
 		try {
 			console.log(
