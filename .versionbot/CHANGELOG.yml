@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update grafana/grafana from 8.5.11 to 9.1.7
+      hash: 5d04d1fb28b764ca3442c58114046ed2b69a9008
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.15
+  title: ""
+  date: 2022-10-09T10:08:48.077Z
+- commits:
     - subject: "CI: Re-enable tests and cleanup postgres scripts"
       hash: 3deb977ab581c42d44e79fad96fb11c414a0ae10
       body: ""
