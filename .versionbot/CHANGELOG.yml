@@ -1,4 +1,58 @@
 - commits:
+    - subject: Update postgres export script
+      hash: d550d14e2c385e9c73604b8e79113aa5bc8ea238
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Debug postgres export scripts
+      hash: 5f52930b4236747dd6722ca0ac1ab4b86c8623d5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove tests for debug
+      hash: e49815e77e0679995695837674df2d386c171a38
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Add postgres import debug logs
+      hash: d6b2c8db277b2f5739886ffb7153abff09e1c442
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: "UI: Remove eslint"
+      hash: dbe634ceebc9f6d72518d710996c12578811dbef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.13
+  title: ""
+  date: 2022-10-09T06:38:24.958Z
+- commits:
     - subject: "Dev: Use prettier for json/yml"
       hash: be76e04131a4af9a81f994c42093ff5bf3015229
       body: ""
