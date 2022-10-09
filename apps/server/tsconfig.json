@@ -20,11 +20,7 @@
     "gitRevision": "master",
     "out": "../../docs/typedoc/server"
   },
-  "include": [
-    "lib/**/*.ts",
-    "@types/**/*.ts",
-    "test/**/*.ts"
-  ],
+  "include": ["lib/**/*.ts", "@types/**/*.ts", "test/**/*.ts"],
   "ts-node": {
     "files": true
   }

@@ -1,4 +1,4 @@
 {
-	"extends": "@balena/lint/config/tslint-prettier.json",
-	"rules": {}
+  "extends": "@balena/lint/config/tslint-prettier.json",
+  "rules": {}
 }
