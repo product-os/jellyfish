@@ -1,6 +1,6 @@
-version: '3'
+version: "3"
 
-output: 'prefixed'
+output: "prefixed"
 
 env:
   NODE_ENV: production

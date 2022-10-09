@@ -3,8 +3,5 @@
   "compilerOptions": {
     "declaration": false
   },
-  "exclude": [
-    "lib/**/*.spec.ts",
-    "test/**/*.ts"
-  ]
+  "exclude": ["lib/**/*.spec.ts", "test/**/*.ts"]
 }
