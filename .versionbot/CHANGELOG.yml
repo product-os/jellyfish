@@ -1,4 +1,18 @@
 - commits:
+    - subject: "CI: Re-enable tests and cleanup postgres scripts"
+      hash: 3deb977ab581c42d44e79fad96fb11c414a0ae10
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.14
+  title: ""
+  date: 2022-10-09T08:35:43.955Z
+- commits:
     - subject: Update postgres export script
       hash: d550d14e2c385e9c73604b8e79113aa5bc8ea238
       body: ""
