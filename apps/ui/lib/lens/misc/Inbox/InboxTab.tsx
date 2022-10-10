@@ -20,10 +20,9 @@ interface Props {
 	channel: ChannelContract;
 	query: JsonSchema;
 	canArchive?: boolean;
-	isDirectMention?: boolean;
 }
 
-const Inbox = ({ channel, query, canArchive, ...isDirectMention }: Props) => {
+const Inbox = ({ channel, query, canArchive }: Props) => {
 	const [inboxItems, nextPage, hasNextPage, loading] = useCursorEffect(
 		query,
 		DEFAULT_OPTIONS,
@@ -38,6 +37,7 @@ const Inbox = ({ channel, query, canArchive, ...isDirectMention }: Props) => {
 			setIsLoadingPage(false);
 		}
 	};
+
 	// An oddity of react-virtuoso is that the `itemContent` cannot be a memoized component, but it can call out to a memoized component.
 	// See https://virtuoso.dev/#performance
 	const itemContent = (_index, contract) => {
@@ -47,7 +47,6 @@ const Inbox = ({ channel, query, canArchive, ...isDirectMention }: Props) => {
 				contract={contract}
 				channel={channel}
 				canArchive={canArchive}
-				{...isDirectMention}
 			/>
 		);
 	};
