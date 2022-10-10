@@ -1,4 +1,333 @@
 - commits:
+    - subject: "Dev: Lint root *.js files"
+      hash: 909c6a23722623b5b7a2e3fd4e1b7b52d481bf08
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.18
+  title: ""
+  date: 2022-10-10T01:00:36.938Z
+- commits:
+    - subject: Bump internal packages
+      hash: 6d17a00d545541201b5f418bb93f81801ab1d65d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.17
+  title: ""
+  date: 2022-10-09T14:19:10.295Z
+- commits:
+    - subject: Update uuid from 8.3.2 to 9.0.0
+      hash: 4b983faf8848069922a7208a3a53d633d2442fce
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.16
+  title: ""
+  date: 2022-10-09T11:09:50.679Z
+- commits:
+    - subject: Update grafana/grafana from 8.5.11 to 9.1.7
+      hash: 5d04d1fb28b764ca3442c58114046ed2b69a9008
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.15
+  title: ""
+  date: 2022-10-09T10:08:48.077Z
+- commits:
+    - subject: "CI: Re-enable tests and cleanup postgres scripts"
+      hash: 3deb977ab581c42d44e79fad96fb11c414a0ae10
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.14
+  title: ""
+  date: 2022-10-09T08:35:43.955Z
+- commits:
+    - subject: Update postgres export script
+      hash: d550d14e2c385e9c73604b8e79113aa5bc8ea238
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Debug postgres export scripts
+      hash: 5f52930b4236747dd6722ca0ac1ab4b86c8623d5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove tests for debug
+      hash: e49815e77e0679995695837674df2d386c171a38
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Add postgres import debug logs
+      hash: d6b2c8db277b2f5739886ffb7153abff09e1c442
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: "UI: Remove eslint"
+      hash: dbe634ceebc9f6d72518d710996c12578811dbef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.13
+  title: ""
+  date: 2022-10-09T06:38:24.958Z
+- commits:
+    - subject: "Dev: Use prettier for json/yml"
+      hash: be76e04131a4af9a81f994c42093ff5bf3015229
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.12
+  title: ""
+  date: 2022-10-09T01:55:05.490Z
+- commits:
+    - subject: Bump internal packages
+      hash: d024d3152343c44296f72ea25368dfe6282d8b3b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.11
+  title: ""
+  date: 2022-10-06T00:46:29.468Z
+- commits:
+    - subject: "apps/server: Update typescript from 4.7.4 to 4.8.4"
+      hash: cc522107e89d5504015fe2261bd4936c67bed2c6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.10
+  title: ""
+  date: 2022-10-03T05:42:40.842Z
+- commits:
+    - subject: Bump external server dependencies
+      hash: 85ba59544e57c079faffd5b94134f4e755d5b808
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.9
+  title: ""
+  date: 2022-10-03T04:42:39.526Z
+- commits:
+    - subject: "UI: Add ability to hide dates with uiSchema"
+      hash: deb3256efecdef10414f26d415f9240283a8694a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.8
+  title: ""
+  date: 2022-10-03T03:44:39.349Z
+- commits:
+    - subject: "Dev: Fix tslint configs"
+      hash: 0e84c621d713b395139679e1b0c8789fab2efd27
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.7
+  title: ""
+  date: 2022-10-03T02:19:09.830Z
+- commits:
+    - subject: "Dev: Replace eslint with balena-lint"
+      hash: f080e5f6179f0902e026784b5b49cdb6eaf36c6e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.6
+  title: ""
+  date: 2022-10-02T14:31:41.599Z
+- commits:
+    - subject: Remove eslint-plugin-react
+      hash: 7c8610b21e628be7915fd99378161f7739d92c83
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.5
+  title: ""
+  date: 2022-10-02T12:34:10.445Z
+- commits:
+    - subject: Update eslint dependencies
+      hash: 7918da09e1beacd9a598fa88847df08aeee962b4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.4
+  title: ""
+  date: 2022-10-02T11:10:47.303Z
+- commits:
+    - subject: Update aws-sdk from 2.1184.0 to 2.1227.0
+      hash: ab8592ec5963127c954638b58d7d3770c5815fc7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.3
+  title: ""
+  date: 2022-10-02T10:00:10.270Z
+- commits:
+    - subject: Change engines to >=16 to enable node 18 tests/usage
+      hash: c1a2ae62edcbdf667003a6d697b14b43457640f7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Page-
+      nested: []
+  version: 59.12.2
+  title: ""
+  date: 2022-09-28T21:51:09.412Z
+- commits:
+    - subject: Use secrets inheritance for flowzone
+      hash: 224bbfec9ecabaa5b8f09e5b6e24fad62ab5afce
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 59.12.1
+  title: ""
+  date: 2022-09-28T17:04:08.319Z
+- commits:
+    - subject: Partially revert dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
+      hash: 90ac89b14d5d15ca1149a0132cf53f15975cbb49
+      body: >
+        See,
+        https://github.com/product-os/jellyfish/commit/dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
+
+
+        `REGISTRY_|REGISTRY2_` environment variables required for tests are typically generated
+
+        dynamically in `scripts/e2e/run-tests.sh` or via `configure-balena.sh`, so they do not
+
+        need to be set in the compositions/tests. Since the JF fleet sets these to producion values,
+
+        for epehmeral tests, it is enough to simply unset these (set to ''). This workflow should
+
+        improve once we implement environment variable/device profiles in balenaCloud.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+    - subject: Switch to custom Flowzone plugin
+      hash: bcf93bace369f281b9c796c40cd260433c523d2f
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: ab77
+      nested: []
+    - subject: Switch from balenaCI to flowzone
+      hash: 499670e87e4d05977e27614fe670de16c801a3a6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 59.12.0
+  title: ""
+  date: 2022-09-28T11:47:00.680Z
+- commits:
     - subject: Include private messages in direct mentions tab
       hash: 33097a4b39f62f4ccc8279de7f3ab35e04e40d21
       body: ""

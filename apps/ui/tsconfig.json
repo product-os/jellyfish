@@ -1,30 +1,30 @@
 {
-  "extends": "@balena/lint/tsconfig.json",
-  "compilerOptions": {
-    "target": "es2019",
-    "noImplicitAny": false,
-    "allowJs": false,
-    "outDir": "../../../../build",
-    "esModuleInterop": true,
-    "removeComments": false,
-    "resolveJsonModule": true,
-    "strict": true,
-    "declaration": true,
-    "skipLibCheck": true,
-    "jsx": "react"
-  },
-  "typedocOptions": {
-    "excludePrivate": true,
-    "excludeProtected": true,
-    "excludeExternals": true,
-    "gitRevision": "master",
-    "out": "../../docs/typedoc/ui"
-  },
-  "include": [
-    "lib/**/*.ts",
-    "lib/**/*.tsx",
-    "test/**/*.ts",
-    "test/**/*.tsx",
-    "@types/**/*.d.ts"
-  ]
+	"extends": "@balena/lint/tsconfig.json",
+	"compilerOptions": {
+		"target": "es2019",
+		"noImplicitAny": false,
+		"allowJs": false,
+		"outDir": "../../../../build",
+		"esModuleInterop": true,
+		"removeComments": false,
+		"resolveJsonModule": true,
+		"strict": true,
+		"declaration": true,
+		"skipLibCheck": true,
+		"jsx": "react"
+	},
+	"typedocOptions": {
+		"excludePrivate": true,
+		"excludeProtected": true,
+		"excludeExternals": true,
+		"gitRevision": "master",
+		"out": "../../docs/typedoc/ui"
+	},
+	"include": [
+		"lib/**/*.ts",
+		"lib/**/*.tsx",
+		"test/**/*.ts",
+		"test/**/*.tsx",
+		"@types/**/*.d.ts"
+	]
 }

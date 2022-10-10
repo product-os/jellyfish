@@ -1,45 +1,43 @@
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
-const ava = require('ava')
-const _ = require('lodash')
-const {
-	v4: uuid
-} = require('uuid')
-const sdkHelpers = require('../sdk/helpers')
-const helpers = require('./helpers')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment;
+const ava = require('ava');
+const _ = require('lodash');
+const { v4: uuid } = require('uuid');
+const sdkHelpers = require('../sdk/helpers');
+const helpers = require('./helpers');
 
-let sdk = {}
+let sdk = {};
 
 ava.serial.before(async () => {
-	sdk = await sdkHelpers.login()
-})
+	sdk = await sdkHelpers.login();
+});
 
 ava.serial.beforeEach(async () => {
 	const session = await sdk.auth.login({
 		username: environment.test.user.username,
-		password: environment.test.user.password
-	})
-	sdk.setAuthToken(session.id)
-})
+		password: environment.test.user.password,
+	});
+	sdk.setAuthToken(session.id);
+});
 
 ava.serial.afterEach(() => {
-	sdkHelpers.afterEach(sdk)
-})
+	sdkHelpers.afterEach(sdk);
+});
 
 ava.serial(
 	'querying whoami with an invalid session should return unauthorized code',
 	async (test) => {
 		const result = await helpers.http('GET', '/api/v2/whoami', null, {
-			Authorization: `Bearer ${uuid()}`
-		})
+			Authorization: `Bearer ${uuid()}`,
+		});
 
-		test.is(result.code, 401)
-	}
-)
+		test.is(result.code, 401);
+	},
+);
 
 ava.serial(
 	'Users should not be able to view other users passwords',
 	async (test) => {
-		const userDetails = helpers.generateUserDetails()
+		const userDetails = helpers.generateUserDetails();
 		const targetUser = await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
@@ -47,11 +45,11 @@ ava.serial(
 			arguments: {
 				username: `user-${userDetails.username}`,
 				email: userDetails.email,
-				password: userDetails.password
-			}
-		})
+				password: userDetails.password,
+			},
+		});
 
-		const activeUserDetails = helpers.generateUserDetails()
+		const activeUserDetails = helpers.generateUserDetails();
 
 		await sdk.action({
 			card: 'user@1.0.0',
@@ -60,23 +58,23 @@ ava.serial(
 			arguments: {
 				username: `user-${activeUserDetails.username}`,
 				email: activeUserDetails.email,
-				password: activeUserDetails.password
-			}
-		})
-		await sdk.auth.login(activeUserDetails)
+				password: activeUserDetails.password,
+			},
+		});
+		await sdk.auth.login(activeUserDetails);
 
 		const fetchedUser = await sdk.card.get(targetUser.id, {
-			type: 'user'
-		})
+			type: 'user',
+		});
 
-		test.is(fetchedUser.data.password, undefined)
-	}
-)
+		test.is(fetchedUser.data.password, undefined);
+	},
+);
 
 ava.serial(
 	'timeline cards should reference the correct actor',
 	async (test) => {
-		const userDetails = helpers.generateUserDetails()
+		const userDetails = helpers.generateUserDetails();
 
 		const user = await sdk.action({
 			card: 'user@1.0.0',
@@ -85,15 +83,15 @@ ava.serial(
 			arguments: {
 				username: `user-${userDetails.username}`,
 				email: userDetails.email,
-				password: userDetails.password
-			}
-		})
+				password: userDetails.password,
+			},
+		});
 
-		await sdk.auth.login(userDetails)
+		await sdk.auth.login(userDetails);
 
 		const thread = await sdk.card.create({
-			type: 'thread'
-		})
+			type: 'thread',
+		});
 
 		// Set up the watcher before the card is updated to stop race conditions from
 		// happening
@@ -104,23 +102,23 @@ ava.serial(
 			$$links: {
 				'has attached element': {
 					type: 'object',
-					required: [ 'type' ],
+					required: ['type'],
 					properties: {
 						type: {
 							type: 'string',
-							const: 'update@1.0.0'
-						}
-					}
-				}
+							const: 'update@1.0.0',
+						},
+					},
+				},
 			},
 			properties: {
 				id: {
 					type: 'string',
-					const: thread.id
-				}
+					const: thread.id,
+				},
 			},
-			required: [ 'id' ]
-		}
+			required: ['id'],
+		};
 
 		await sdkHelpers.executeThenWait(
 			sdk,
@@ -138,51 +136,51 @@ ava.serial(
 								{
 									op: 'add',
 									path: '/data/description',
-									value: 'Lorem ipsum dolor sit amet'
-								}
-							]
-						}
+									value: 'Lorem ipsum dolor sit amet',
+								},
+							],
+						},
 					},
 					{
-						Authorization: `Bearer ${sdk.getAuthToken()}`
-					}
-				)
+						Authorization: `Bearer ${sdk.getAuthToken()}`,
+					},
+				);
 
 				if (result.code !== 200) {
-					throw new Error(`Error code: ${result.code}`)
+					throw new Error(`Error code: ${result.code}`);
 				}
 			},
-			waitQuery
-		)
+			waitQuery,
+		);
 
 		const card = await sdk.card.getWithTimeline(thread.id, {
-			type: 'thread@1.0.0'
-		})
-		test.truthy(card)
+			type: 'thread@1.0.0',
+		});
+		test.truthy(card);
 
 		const timelineActors = _.uniq(
 			card.links['has attached element'].map((item) => {
-				return item.data.actor
-			})
-		)
+				return item.data.actor;
+			}),
+		);
 
-		test.deepEqual(timelineActors, [ user.id ])
-	}
-)
+		test.deepEqual(timelineActors, [user.id]);
+	},
+);
 
 ava.serial(
 	'Users should not be able to login as the core admin user',
 	async (test) => {
-		const token = sdk.getAuthToken()
+		const token = sdk.getAuthToken();
 
 		await test.throwsAsync(
 			sdk.auth.login({
-				username: 'admin'
-			})
-		)
+				username: 'admin',
+			}),
+		);
 
-		sdk.setAuthToken(token)
-		const userData = helpers.generateUserDetails()
+		sdk.setAuthToken(token);
+		const userData = helpers.generateUserDetails();
 
 		await sdk.action({
 			card: 'user@1.0.0',
@@ -191,26 +189,26 @@ ava.serial(
 			arguments: {
 				username: `user-${userData.username}`,
 				email: userData.email,
-				password: userData.password
-			}
-		})
+				password: userData.password,
+			},
+		});
 
-		await sdk.auth.login(userData)
+		await sdk.auth.login(userData);
 
 		await test.throwsAsync(
 			sdk.auth.login({
-				username: 'admin'
-			})
-		)
-	}
-)
+				username: 'admin',
+			}),
+		);
+	},
+);
 
 ava.serial(
 	'.query() additionalProperties should not affect listing users as a new user',
 	async (test) => {
-		const id = uuid()
+		const id = uuid();
 
-		const details = helpers.generateUserDetails()
+		const details = helpers.generateUserDetails();
 		await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
@@ -218,11 +216,11 @@ ava.serial(
 			arguments: {
 				username: `user-${details.username}`,
 				email: details.email,
-				password: details.password
-			}
-		})
+				password: details.password,
+			},
+		});
 
-		const userDetails = helpers.generateUserDetails()
+		const userDetails = helpers.generateUserDetails();
 		await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
@@ -230,46 +228,46 @@ ava.serial(
 			arguments: {
 				username: `user-${userDetails.username}`,
 				email: userDetails.email,
-				password: userDetails.password
-			}
-		})
-		await sdk.auth.login(userDetails)
+				password: userDetails.password,
+			},
+		});
+		await sdk.auth.login(userDetails);
 		const results1 = await sdk.query({
 			type: 'object',
-			required: [ 'type' ],
+			required: ['type'],
 			properties: {
 				type: {
 					type: 'string',
-					const: 'user@1.0.0'
+					const: 'user@1.0.0',
 				},
 				id: {
 					type: 'string',
-					const: id
-				}
-			}
-		})
+					const: id,
+				},
+			},
+		});
 		const results2 = await sdk.query({
 			type: 'object',
 			additionalProperties: true,
-			required: [ 'type' ],
+			required: ['type'],
 			properties: {
 				type: {
 					type: 'string',
-					const: 'user@1.0.0'
+					const: 'user@1.0.0',
 				},
 				id: {
 					type: 'string',
-					const: id
-				}
-			}
-		})
-		test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'))
-	}
-)
+					const: id,
+				},
+			},
+		});
+		test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'));
+	},
+);
 
 ava.serial('should apply permissions on resolved links', async (test) => {
-	const user1Details = helpers.generateUserDetails()
-	const targetDetails = helpers.generateUserDetails()
+	const user1Details = helpers.generateUserDetails();
+	const targetDetails = helpers.generateUserDetails();
 	await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
@@ -277,9 +275,9 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		arguments: {
 			username: `user-${user1Details.username}`,
 			email: user1Details.email,
-			password: user1Details.password
-		}
-	})
+			password: user1Details.password,
+		},
+	});
 	const targetUserInfo = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
@@ -287,92 +285,92 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		arguments: {
 			username: `user-${targetDetails.username}`,
 			email: targetDetails.email,
-			password: targetDetails.password
-		}
-	})
-	const targetUser = await sdk.card.get(targetUserInfo.id)
+			password: targetDetails.password,
+		},
+	});
+	const targetUser = await sdk.card.get(targetUserInfo.id);
 
-	await sdk.auth.login(user1Details)
+	await sdk.auth.login(user1Details);
 
-	const id = uuid()
+	const id = uuid();
 
 	await sdk.event.create({
 		type: 'message',
 		tags: [],
 		target: targetUser,
 		payload: {
-			message: id
-		}
-	})
+			message: id,
+		},
+	});
 
 	const results = await sdk.query({
 		$$links: {
 			'is attached to': {
 				type: 'object',
 				additionalProperties: true,
-				required: [ 'type' ],
+				required: ['type'],
 				properties: {
 					type: {
 						type: 'string',
-						const: 'user@1.0.0'
-					}
-				}
-			}
+						const: 'user@1.0.0',
+					},
+				},
+			},
 		},
 		type: 'object',
-		required: [ 'id', 'type', 'links', 'data', 'slug' ],
+		required: ['id', 'type', 'links', 'data', 'slug'],
 		properties: {
 			id: {
-				type: 'string'
+				type: 'string',
 			},
 			type: {
 				type: 'string',
-				const: 'message@1.0.0'
+				const: 'message@1.0.0',
 			},
 			links: {
 				type: 'object',
-				additionalProperties: true
+				additionalProperties: true,
 			},
 			data: {
 				type: 'object',
-				required: [ 'payload' ],
+				required: ['payload'],
 				properties: {
 					payload: {
 						type: 'object',
-						required: [ 'message' ],
+						required: ['message'],
 						properties: {
 							message: {
 								type: 'string',
-								const: id
-							}
-						}
-					}
+								const: id,
+							},
+						},
+					},
 				},
-				additionalProperties: true
+				additionalProperties: true,
 			},
 			slug: {
-				type: 'string'
-			}
-		}
-	})
+				type: 'string',
+			},
+		},
+	});
 
-	const linkedUser = results[0].links['is attached to'][0]
+	const linkedUser = results[0].links['is attached to'][0];
 
-	test.falsy(linkedUser.data.hash)
-	test.falsy(linkedUser.data.roles)
-	test.falsy(linkedUser.data.profile)
-})
+	test.falsy(linkedUser.data.hash);
+	test.falsy(linkedUser.data.roles);
+	test.falsy(linkedUser.data.profile);
+});
 
 ava.serial(
 	'Users should not be able to view create cards that create users',
 	async (test) => {
-		const user1Details = helpers.generateUserDetails()
-		const user2Details = helpers.generateUserDetails()
+		const user1Details = helpers.generateUserDetails();
+		const user2Details = helpers.generateUserDetails();
 
-		await sdk.auth.signup(user1Details)
-		const user2 = await sdk.auth.signup(user2Details)
+		await sdk.auth.signup(user1Details);
+		const user2 = await sdk.auth.signup(user2Details);
 
-		await sdk.auth.login(user1Details)
+		await sdk.auth.login(user1Details);
 
 		// The create event for user 2 should not be visible to user 1
 		const results = await sdk.query({
@@ -381,19 +379,19 @@ ava.serial(
 					type: 'object',
 					properties: {
 						id: {
-							const: user2.id
-						}
-					}
-				}
+							const: user2.id,
+						},
+					},
+				},
 			},
 			type: 'object',
 			properties: {
 				type: {
-					const: 'create@1.0.0'
-				}
-			}
-		})
+					const: 'create@1.0.0',
+				},
+			},
+		});
 
-		test.is(results.length, 0)
-	}
-)
+		test.is(results.length, 0);
+	},
+);

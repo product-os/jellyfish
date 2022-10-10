@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 networks:
   internal: {}
 services:
@@ -8,20 +8,29 @@ services:
     networks:
       - internal
     ports:
-      - '5432:5432'
+      - "5432:5432"
     healthcheck:
       interval: 15s
       retries: 3
       test: pg_isready -U docker -d postgres
       timeout: 5s
-    command: ['postgres', '-c', 'fsync=off', '-c', 'synchronous_commit=off', '-c', 'full_page_writes=off']
+    command:
+      [
+        "postgres",
+        "-c",
+        "fsync=off",
+        "-c",
+        "synchronous_commit=off",
+        "-c",
+        "full_page_writes=off",
+      ]
   redis:
     image: redis:6-alpine
     restart: unless-stopped
     networks:
       - internal
     ports:
-      - '6379:6379'
+      - "6379:6379"
     healthcheck:
       interval: 15s
       retries: 3
@@ -36,8 +45,8 @@ services:
       MINIO_ROOT_PASSWORD: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
     command: server /data --console-address ":9001"
     ports:
-      - '43680:9000'
-      - '43697:9001'
+      - "43680:9000"
+      - "43697:9001"
   minio-client:
     image: minio/mc
     depends_on:

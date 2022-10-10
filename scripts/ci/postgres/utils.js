@@ -4,15 +4,15 @@
  * Proprietary and confidential.
  */
 
-const AWS = require('aws-sdk')
-const _ = require('lodash')
-const path = require('path')
+const AWS = require('aws-sdk');
+const _ = require('lodash');
+const path = require('path');
 
 // This directory is the directory used when importing and exporting dumps
-const WORK_DIR = '/tmp'
+const WORK_DIR = '/tmp';
 
 // Key prefix for dumps on S3
-exports.S3_KEY_PREFIX = 'dumps'
+exports.S3_KEY_PREFIX = 'dumps';
 
 /**
  * @summary Get dump base name
@@ -29,8 +29,8 @@ exports.S3_KEY_PREFIX = 'dumps'
  * console.log(dumpName)
  */
 exports.getDumpName = (hash, type) => {
-	return `${hash}_${type}`
-}
+	return `${hash}_${type}`;
+};
 
 /**
  * @summary Get dump archive name
@@ -47,8 +47,8 @@ exports.getDumpName = (hash, type) => {
  * console.log(dumpArchiveName)
  */
 exports.getDumpArchiveName = (hash, type) => {
-	return `${exports.getDumpName(hash, type)}.gz`
-}
+	return `${exports.getDumpName(hash, type)}.gz`;
+};
 
 /**
  * @summary Get dump archive path
@@ -65,8 +65,8 @@ exports.getDumpArchiveName = (hash, type) => {
  * console.log(dumpName)
  */
 exports.getDumpArchivePath = (hash, type) => {
-	return path.resolve(WORK_DIR, exports.getDumpArchiveName(hash, type))
-}
+	return path.resolve(WORK_DIR, exports.getDumpArchiveName(hash, type));
+};
 
 /**
  * @summary Check that required options are set as valid strings
@@ -89,10 +89,10 @@ exports.getDumpArchivePath = (hash, type) => {
 exports.checkOptions = (type, keys, options) => {
 	keys.forEach((key) => {
 		if (!exports.isValidString(options[key])) {
-			exports.handleError(`Must set ${type} option: ${key}`)
+			exports.handleError(`Must set ${type} option: ${key}`);
 		}
-	})
-}
+	});
+};
 
 /**
  * @summary Validate options
@@ -111,24 +111,23 @@ exports.checkOptions = (type, keys, options) => {
 exports.validate = (options) => {
 	// Check that dump type is set
 	if (!exports.isValidString(options.type)) {
-		exports.handleError('Dump type not set')
+		exports.handleError('Dump type not set');
 	}
 
 	// Check Postgres options
-	exports.checkOptions('postgres', [
-		'host',
-		'database',
-		'user',
-		'password'
-	], options.postgres)
+	exports.checkOptions(
+		'postgres',
+		['host', 'database', 'user', 'password'],
+		options.postgres,
+	);
 
 	// Check AWS S3 options
-	exports.checkOptions('aws', [
-		'accessKeyId',
-		'secretAccessKey',
-		's3BucketName'
-	], options.aws)
-}
+	exports.checkOptions(
+		'aws',
+		['accessKeyId', 'secretAccessKey', 's3BucketName'],
+		options.aws,
+	);
+};
 
 /**
  * @summary Create and return an AWS S3 client instance
@@ -148,9 +147,9 @@ exports.validate = (options) => {
 exports.initS3 = (options) => {
 	return new AWS.S3({
 		accessKeyId: options.aws.accessKeyId,
-		secretAccessKey: options.aws.secretAccessKey
-	})
-}
+		secretAccessKey: options.aws.secretAccessKey,
+	});
+};
 
 /**
  * @summary Check if a value is a non-empty string
@@ -166,10 +165,10 @@ exports.initS3 = (options) => {
  */
 exports.isValidString = (value) => {
 	if (_.isString(value) && !_.isEmpty(value)) {
-		return true
+		return true;
 	}
-	return false
-}
+	return false;
+};
 
 /**
  * @summary Handle errors
@@ -178,6 +177,6 @@ exports.isValidString = (value) => {
  * @param {String} msg - error message
  */
 exports.handleError = (msg) => {
-	console.error(msg)
-	process.exit(1)
-}
+	console.error(msg);
+	process.exit(1);
+};

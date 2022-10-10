@@ -1,0 +1,3 @@
+apps/*/build
+secrets
+.versionbot

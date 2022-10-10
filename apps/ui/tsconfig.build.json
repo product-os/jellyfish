@@ -1,9 +1,9 @@
 {
-  "extends": "./tsconfig.json",
-  "exclude": [
-    "lib/**/*.spec.ts",
-    "lib/**/*.spec.tsx",
-    "test/**/*.ts",
-    "test/**/*.tsx"
-  ]
+	"extends": "./tsconfig.json",
+	"exclude": [
+		"lib/**/*.spec.ts",
+		"lib/**/*.spec.tsx",
+		"test/**/*.ts",
+		"test/**/*.tsx"
+	]
 }

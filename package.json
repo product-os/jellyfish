@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "59.11.4",
+  "version": "59.12.18",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "seamstress",
@@ -10,11 +10,11 @@
     "url": "git@github.com:product-os/jellyfish.git"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check",
-    "lint:check": "shellcheck scripts/*.sh scripts/*/*.sh",
+    "lint": "balena-lint -e js *.js scripts test && shellcheck scripts/*.sh scripts/*/*.sh && prettier --check **/*.json **/*.yml",
+    "lint:fix": "balena-lint -e js --fix *.js scripts test && prettier -w **/*.json **/*.yml",
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
     "lint:server": "(cd apps/server && npm run lint)",
     "lint:ui": "(cd apps/ui && npm run lint)",
@@ -47,52 +47,48 @@
     ]
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --cache --fix"
+    "*.js": [
+      "balena-lint -e js --fix"
     ],
     "*.{ts,tsx}": [
       "balena-lint --fix"
     ],
     "*.sh": [
       "shellcheck"
+    ],
+    "*.{json,yml}": [
+      "prettier -w"
     ]
   },
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^13.0.93",
-    "@balena/jellyfish-environment": "^13.0.13",
+    "@balena/jellyfish-client-sdk": "^13.0.134",
+    "@balena/jellyfish-environment": "^14.3.10",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.22.2",
     "ava": "^4.3.1",
-    "aws-sdk": "^2.1184.0",
+    "aws-sdk": "^2.1227.0",
     "catch-uncommitted": "^2.0.0",
     "cli-spinner": "^0.2.10",
-    "eslint": "^8.20.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^39.3.3",
-    "eslint-plugin-lodash": "^7.4.0",
-    "eslint-plugin-n": "^15.2.4",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.30.1",
     "jsonwebtoken": "^8.5.1",
     "lint-staged": "^13.0.0",
     "lodash": "^4.17.21",
     "node-jose": "^2.1.1",
     "nomnoml": "^1.5.2",
     "playwright": "^1.22.2",
+    "prettier": "^2.7.1",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
     "shellcheck": "^1.1.0",
     "simple-git-hooks": "^2.8.0",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-09-26T10:42:48.022Z"
+    "publishedAt": "2022-10-10T01:00:39.386Z"
   },
   "balena": {
     "environment": [

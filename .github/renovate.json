@@ -1,25 +1,14 @@
 {
-  "extends": [
-    "github>product-os/renovate-config"
-  ],
-  "ignoreDeps": [
-    "node",
-    "redis"
-  ],
+  "extends": ["github>product-os/renovate-config"],
+  "ignoreDeps": ["node", "redis"],
   "branchConcurrentLimit": 2,
   "prConcurrentLimit": 2,
   "packageRules": [
     {
       "groupName": "non-major-frontend",
-      "matchPackageNames": [
-        "rendition",
-        "styled-components"
-      ],
+      "matchPackageNames": ["rendition", "styled-components"],
       "matchPackagePatterns": ["^react"],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     }
   ]

@@ -6,12 +6,12 @@ exports.createUser = async (sdk, user) => {
 		arguments: {
 			email: user.email,
 			username: `user-${user.username}`,
-			password: user.password
-		}
-	})
+			password: user.password,
+		},
+	});
 
-	return sdk.card.get(result.id)
-}
+	return sdk.card.get(result.id);
+};
 
 exports.updateUser = async (sdk, userId, patch) => {
 	await sdk.action({
@@ -20,14 +20,14 @@ exports.updateUser = async (sdk, userId, patch) => {
 		action: 'action-update-card@1.0.0',
 		arguments: {
 			reason: 'for testing',
-			patch
-		}
-	})
-	return sdk.card.get(userId)
-}
+			patch,
+		},
+	});
+	return sdk.card.get(userId);
+};
 
 exports.addUserToBalenaOrg = async (sdk, userId) => {
-	const userCard = await sdk.card.get(userId)
-	const balenaOrgCard = await sdk.card.get('org-balena')
-	await sdk.card.link(userCard, balenaOrgCard, 'is member of')
-}
+	const userCard = await sdk.card.get(userId);
+	const balenaOrgCard = await sdk.card.get('org-balena');
+	await sdk.card.link(userCard, balenaOrgCard, 'is member of');
+};
