@@ -7,18 +7,18 @@ const config = {
 		headless: true,
 		viewport: {
 			width: 1366,
-			height: 687
+			height: 687,
 		},
 		ignoreHTTPSErrors: false,
 		baseURL: process.env.UI_HOST || 'http://jel.ly.fish.local',
 		browserName: 'chromium',
 		launchOptions: {
-			args: [ '--disable-gpu', '--disable-dev-shm-usage' ]
-		}
+			args: ['--disable-gpu', '--disable-dev-shm-usage'],
+		},
 	},
 	timeout: 2 * 60 * 1000,
 	retries: 2,
-	workers: 1
-}
+	workers: 1,
+};
 
-module.exports = config
+module.exports = config;
