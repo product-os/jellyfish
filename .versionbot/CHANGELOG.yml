@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Dev: Lint root *.js files"
+      hash: 909c6a23722623b5b7a2e3fd4e1b7b52d481bf08
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.18
+  title: ""
+  date: 2022-10-10T01:00:36.938Z
+- commits:
     - subject: Bump internal packages
       hash: 6d17a00d545541201b5f418bb93f81801ab1d65d
       body: ""
