@@ -30,7 +30,6 @@ interface Props {
 	contract: Contract;
 	channel: ChannelContract;
 	canArchive?: boolean;
-	isDirectMention?: boolean;
 }
 
 export const EventBox = React.memo(
