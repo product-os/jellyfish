@@ -120,7 +120,7 @@ exports.prepareUser = async (sdk, org, role, name) => {
 		await sdk.card.link(card, org, 'is member of');
 	}
 
-	const userSdk = await getSdk({
+	const userSdk = getSdk({
 		apiPrefix: 'api/v2',
 		apiUrl: `${environment.http.host}:${environment.http.port}`,
 	});
@@ -183,44 +183,6 @@ exports.waitForNotifications = (page, notificationsLength) => {
 			if (notifications && notifications.length === notificationsLength) {
 				return notifications;
 			}
-			const allNotifications = await page.evaluate(async () => {
-				const results = await window.sdk.card.getAllByType('notification');
-				return results;
-			});
-
-			console.log(
-				'allNotifications',
-				JSON.stringify(allNotifications, null, 2),
-			);
-
-			const allSubscriptions = await page.evaluate(async () => {
-				// Query for all subscription contracts with $$links for attached elements
-				const results = await window.sdk.query({
-					anyOf: [
-						{
-							$$links: {
-								'has attached': {
-									type: 'object',
-								},
-							},
-						},
-						true,
-					],
-					type: 'object',
-					properties: {
-						type: {
-							const: 'subscription@1.0.0',
-						},
-					},
-				});
-				return results;
-			});
-
-			console.log(
-				'allSubscriptions',
-				JSON.stringify(allSubscriptions, null, 2),
-			);
-
 			throw new Error('No notifications found');
 		},
 		5000,
