@@ -1,4 +1,28 @@
 - commits:
+    - subject: "CI: Remove old skipped tests and debug logs"
+      hash: 2a60e1b66ee7554bdd6dced9c2e6703557c46157
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: "CI: Use JSON for Jest configs"
+      hash: 8189ead3e03cd6d7d8ace0b9f5e18809d5c35ed7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.19
+  title: ""
+  date: 2022-10-11T09:40:40.882Z
+- commits:
     - subject: "Dev: Lint root *.js files"
       hash: 909c6a23722623b5b7a2e3fd4e1b7b52d481bf08
       body: ""
