@@ -1,0 +1,53 @@
+---
+name: deploy balenaCloud
+# https://github.com/product-os/flowzone/tree/master/.github/actions
+inputs:
+  json:
+    description: "JSON stringified object containing all the inputs from the calling workflow"
+    required: true
+  secrets:
+    description: "JSON stringified object containing all the secrets from the calling workflow"
+    required: true
+
+  # --- custom environment
+  AWS_REGION:
+    type: string
+    default: "us-east-1"
+  VERBOSE:
+    type: string
+    default: "false"
+
+runs:
+  # https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
+  using: "composite"
+  steps:
+    - name: install additional dependencies
+      shell: bash
+      run: |
+        set -ue
+
+        [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
+
+        which aws || (sudo apt update && sudo apt install -y awscli)
+
+    # always destroy test EC2 instances even if the workflow is cancelled
+    - name: destroy ephemeral test device
+      shell: bash
+      run: |
+        set -ue
+
+        [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
+
+        instance_id="$(aws ec2 describe-instances \
+          --filters Name=tag:GITHUB_SHA,Values=${GITHUB_SHA}-tests \
+          --output text \
+          --query 'Reservations[*].Instances[*].{Instance:InstanceId}')"
+
+        if [[ -n $instance_id ]]; then
+            aws ec2 terminate-instances --instance-ids "${instance_id}"
+        fi
+
+      env:
+        AWS_ACCESS_KEY_ID: ${{ fromJSON(inputs.secrets).AWS_ACCESS_KEY_ID }}
+        AWS_DEFAULT_REGION: ${{ inputs.AWS_REGION }}
+        AWS_SECRET_ACCESS_KEY: ${{ fromJSON(inputs.secrets).AWS_SECRET_ACCESS_KEY }}
