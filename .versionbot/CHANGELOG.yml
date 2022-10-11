@@ -1,4 +1,16 @@
 - commits:
+    - subject: Always destroy EC2 test instance
+      hash: bfd1293bcb13ddefa1cc5fbead5d2f4bca567c8f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 59.12.20
+  title: ""
+  date: 2022-10-11T22:11:12.237Z
+- commits:
     - subject: "CI: Remove old skipped tests and debug logs"
       hash: 2a60e1b66ee7554bdd6dced9c2e6703557c46157
       body: ""
