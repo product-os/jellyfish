@@ -188,7 +188,7 @@ runs:
       # https://github.com/actions/runner/issues/1979
       #timeout-minutes: 60
       id: push-release
-      uses: balena-io/balena-ci@ab77/operational
+      uses: balena-io/deploy-to-balena-action@master
       with:
         balena_token: ${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}
         cache: false

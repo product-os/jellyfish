@@ -288,7 +288,7 @@ services:
 
   # https://github.com/balena-io/ca-private
   balena-ca:
-    image: balena/ca-private:v0.0.7
+    image: balena/ca-private:v0.0.8
     environment:
       <<: *default-environment
       ORG_UNIT: productOS
