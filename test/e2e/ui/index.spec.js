@@ -1,6 +1,5 @@
 const environment = require('@balena/jellyfish-environment').defaultEnvironment;
 const { test, expect } = require('@playwright/test');
-const assert = require('assert').strict;
 const _ = require('lodash');
 const path = require('path');
 const { v4: uuid } = require('uuid');
@@ -11,17 +10,6 @@ const macros = require('./macros');
 let sdk = {};
 let user = {};
 let user2 = {};
-
-const selectors = {
-	chat: {
-		message: '[data-test="event-card__message"]',
-		search: '.inbox__search input',
-		markAsReadButton: '[data-test="inbox__mark-all-as-read"]',
-	},
-	repo: {
-		searchBox: '[data-test="repository__search"] input',
-	},
-};
 
 const users = {
 	community: {
@@ -69,10 +57,7 @@ test.describe('Core', () => {
 });
 
 test.describe('Contract actions', () => {
-	test('Should let users copy a working permalink', async ({
-		page,
-		browser,
-	}) => {
+	test.only('Should let users copy contract data', async ({ browser }) => {
 		const context = await browser.newContext();
 
 		// https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions
@@ -80,64 +65,33 @@ test.describe('Contract actions', () => {
 		const newpage = await context.newPage();
 		await login(newpage, users.community);
 
-		// Create a thread contract
+		// Create and go to thread contract
 		const contract = await sdk.card.create({
 			slug: `thread-${uuid()}`,
 			type: 'thread@1.0.0',
 		});
-
-		// Go to the thread and copy its permalink
 		await newpage.goto(`/${contract.id}`);
 		await newpage.waitForSelector('.column--thread');
 		await newpage.locator('[data-test="card-action-menu"]').click();
-		await newpage.locator('[data-test="card-action-menu__permalink"]').click();
 
+		// Assert permalink copy
+		await newpage.locator('[data-test="card-action-menu__permalink"]').click();
 		const permalink = await newpage.evaluate(() => {
 			return window.navigator.clipboard.readText();
 		});
+		expect(permalink.startsWith('http')).toBe(true);
+		expect(permalink.endsWith(`/${contract.slug}`)).toBe(true);
 
-		context.clearPermissions();
-
-		await newpage.goto(permalink);
-		await newpage.reload();
-		await newpage.waitForSelector('.column--thread');
-		const url = newpage.url();
-
-		// Needs to be proto://jel.{{uuid}}.{{dns_tld}} (sans :UI_PORT)
-		expect(url).toEqual(
-			`${environment.oauth.redirectBaseUrl}/${contract.slug}`,
-		);
-
-		await newpage.close();
-	});
-
-	test('Should let users copy a card as JSON', async ({ page, browser }) => {
-		const context = await browser.newContext();
-		await context.grantPermissions(['clipboard-read']);
-		const newpage = await context.newPage();
-		await login(newpage, users.community);
-
-		// Create a thread contract
-		const contract = await sdk.card.create({
-			slug: `thread-${uuid()}`,
-			type: 'thread@1.0.0',
-		});
-
-		// Go to the thread and copy its JSON
-		await newpage.goto(`/${contract.id}`);
-		await newpage.locator('[data-test="card-action-menu"]').click();
+		// Assert JSON copy
 		await newpage.locator('[data-test="card-action-menu__json"]').click();
-
 		const copiedJSON = await newpage.evaluate(() => {
 			return window.navigator.clipboard.readText();
 		});
-
-		context.clearPermissions();
-
 		expect(_.omit(contract, ['links']).slug).toEqual(
 			_.omit(JSON.parse(copiedJSON), ['links']).slug,
 		);
 
+		context.clearPermissions();
 		await newpage.close();
 	});
 
@@ -596,94 +550,6 @@ test.describe('Outreach', () => {
 		expect(state.returnUrl).toBe(`${baseURL}/${user.slug}`);
 
 		await page.unroute('https://api.outreach.io/oauth/authorize**');
-	});
-});
-
-test.describe('Repository', () => {
-	// TODO: Fix or remove this test. Should messages attached to related thread appear in repo's timeline?
-	test.skip('Messages can be filtered by searching for them', async ({
-		page,
-	}) => {
-		await login(page, users.community);
-
-		const repoName = `repository-${uuid()}`;
-		const repoData = {
-			type: 'repository@1.0.0',
-			slug: repoName,
-			name: repoName,
-			data: {
-				name: repoName,
-			},
-		};
-		const repo = await page.evaluate((repository) => {
-			return window.sdk.card.create(repository);
-		}, repoData);
-
-		const addThreadToRepo = async (targetRepo) => {
-			const threadData = {
-				type: 'thread',
-				slug: `thread-${uuid()}`,
-				data: {},
-			};
-			const repoThread = await page.evaluate(async (card) => {
-				const threadDetails = await window.sdk.card.create(card);
-				return window.sdk.card.get(threadDetails.id);
-			}, threadData);
-			await page.evaluate(
-				(options) => {
-					return window.sdk.card.link(
-						options.thread,
-						options.repository,
-						'is of',
-					);
-				},
-				{
-					thread: repoThread,
-					repository: targetRepo,
-				},
-			);
-			return repoThread;
-		};
-
-		const addMessageToThread = async (thread, message) => {
-			const msgData = {
-				type: 'message',
-				target: thread,
-				slug: `message-${uuid()}`,
-				payload: {
-					message,
-				},
-			};
-
-			return page.evaluate((event) => {
-				return window.sdk.event.create(event);
-			}, msgData);
-		};
-
-		// Create a thread and add two messages to them
-		const thread1 = await addThreadToRepo(repo);
-		const msg1 = await addMessageToThread(thread1, 'First message');
-		const msg2 = await addMessageToThread(thread1, 'Second message');
-
-		await macros.goto(page, `/${repo.id}`);
-		await page.locator('[data-test="timeline-tab"]').click();
-
-		// Initially both messages are displayed in the repo list
-		await page.waitForSelector(`#event-${msg1.id}`);
-		await page.waitForSelector(`#event-${msg2.id}`);
-
-		// Now search for the first message
-		await page.type(selectors.repo.searchBox, 'First');
-
-		// The second message should disappear from the results
-		await macros.waitForSelectorToDisappear(page, `#event-${msg2.id}`);
-
-		// Now clear the search input
-		await macros.clearInput(page, selectors.repo.searchBox);
-
-		// Both messages should be displayed again
-		await page.waitForSelector(`#event-${msg1.id}`);
-		await page.waitForSelector(`#event-${msg2.id}`);
 	});
 });
 
@@ -1162,186 +1028,6 @@ test.describe('Chat', () => {
 		await page2.close();
 	});
 
-	test.skip('One-to-one messages to a user should appear in their inbox', async ({
-		page,
-		browser,
-	}) => {
-		const context = await browser.newContext();
-		const page2 = await context.newPage();
-		await Promise.all([
-			login(page, users.community),
-			login(page2, users.community2),
-		]);
-
-		const thread = await page.evaluate(
-			(options) => {
-				return window.sdk.card.create({
-					type: 'thread@1.0.0',
-					markers: [`${options.user1.slug}+${options.user2.slug}`],
-				});
-			},
-			{
-				user1: user,
-				user2,
-			},
-		);
-		const columnSelector = `.column--slug-${thread.slug}`;
-
-		// Navigate to the thread page
-		await page.goto(`/${thread.id}`);
-		await page.waitForSelector(columnSelector);
-		await page.locator('[data-test="timeline-tab"]').click();
-		const msg = `1-to-1 ${uuid()}`;
-		await page.waitForSelector('.new-message-input');
-		await macros.createChatMessage(page, columnSelector, msg);
-
-		// Navigate to the inbox page
-		await page2.goto('/inbox');
-		const messageText = await macros.getElementText(
-			page2,
-			'[data-test="event-card__message"]',
-		);
-		expect(messageText.trim()).toEqual(msg);
-
-		await page2.close();
-	});
-
-	test('Only messages that ping a user, their groups, or their 1-to-1 conversations should appear in their inbox', async ({
-		page,
-		browser,
-	}) => {
-		const context = await browser.newContext();
-		const page2 = await context.newPage();
-		await Promise.all([
-			login(page, users.community),
-			login(page2, users.community2),
-		]);
-
-		const userGroups = await page.evaluate((usr) => {
-			return window.sdk.query({
-				type: 'object',
-				required: ['type', 'name'],
-				$$links: {
-					'has group member': {
-						type: 'object',
-						required: ['slug'],
-						properties: {
-							slug: {
-								const: usr.slug,
-							},
-						},
-						additionalProperties: false,
-					},
-				},
-				properties: {
-					type: {
-						const: 'group@1.0.0',
-					},
-				},
-			});
-		}, user2);
-
-		const userGroupNames = _.map(userGroups, 'name');
-
-		// Do things with the SDK to trigger the "status messages"
-		// like getting refresh tokens
-		await page.evaluate(() => {
-			return window.sdk.auth.refreshToken();
-		});
-
-		await page.evaluate(() => {
-			return window.sdk.auth.refreshToken();
-		});
-
-		await page.evaluate(() => {
-			return window.sdk.auth.refreshToken();
-		});
-
-		// Making a thread
-		const thread = await page.evaluate(() => {
-			return window.sdk.card.create({
-				type: 'thread@1.0.0',
-			});
-		});
-		const columnSelector = `.column--slug-${thread.slug}`;
-
-		// Then we send 2 tagged messages to the user
-		await page.goto(`/${thread.id}`);
-		await page.waitForSelector(columnSelector);
-		await page.locator('[data-test="timeline-tab"]').click();
-		const msg = `@${user2.slug.slice(5)} ${uuid()}`;
-		await page.waitForSelector('.new-message-input');
-		await macros.createChatMessage(page, columnSelector, msg);
-		await macros.createChatMessage(page, columnSelector, msg);
-
-		// And send a message to our own group
-		await page2.goto(`/${thread.id}`);
-		await page2.waitForSelector(columnSelector);
-		await page2.locator('[data-test="timeline-tab"]').click();
-		const ownGroupMsg = `@@${userGroupNames[0]} ${uuid()}`;
-		await page2.waitForSelector('.new-message-input');
-		await macros.createChatMessage(page2, columnSelector, ownGroupMsg);
-
-		// Navigate to the inbox page
-		await page2.goto('/inbox');
-		await new Promise((resolve) => {
-			setTimeout(resolve, 1000);
-		});
-
-		// Get all children of the messageList-ListWrapper
-		// These should be all messages
-		const children = await page2.$$('[data-test="messageList-event"]');
-
-		// Loop throught all the children to get the labels
-		const messagesWithUser = [];
-		for (const child of children) {
-			// Get the labels
-			const text = await page2.evaluate((ele) => {
-				return ele.textContent;
-			}, child);
-
-			const eventId = (
-				await macros.getElementAttribute(page2, child, 'id')
-			).replace(/^event-/, '');
-			if (eventId === ownGroupMsg.id) {
-				test.fail('Message to own group found in inbox');
-			}
-
-			const mentionsGroup = (groupName) => {
-				return text.includes(groupName);
-			};
-
-			// Check if labels include the @user2
-			if (
-				text.includes(user2.slug.slice(5)) ||
-				_.some(userGroupNames, mentionsGroup)
-			) {
-				// Push all texts to an array
-				messagesWithUser.push(true);
-			} else {
-				// Check if it is a 1-to-1 message that includes user2
-				const event = await page2.evaluate((id) => {
-					return window.sdk.card.get(id);
-				}, eventId);
-				const userInMarkerRegExp = new RegExp(`(\\+|^)${user2.slug}(\\+|$)`);
-				if (_.some(_.invokeMap(event.markers, 'match', userInMarkerRegExp))) {
-					messagesWithUser.push(true);
-				} else {
-					messagesWithUser.push(false);
-				}
-			}
-		}
-
-		// Check if array is expected length
-		expect(
-			messagesWithUser.every((currentValue) => {
-				return currentValue === true;
-			}),
-		).toBeTruthy();
-
-		await page2.close();
-	});
-
 	test.skip('When having two chats side-by-side both should update with new messages', async ({
 		page,
 	}) => {
@@ -1404,138 +1090,6 @@ test.describe('Chat', () => {
 			'[data-test="event-card__message"]',
 		);
 		expect(messageText.trim()).toEqual(msg);
-
-		await page2.close();
-	});
-
-	// TODO re-enable this test once "mark all as read" on new inbox is implemented
-	test.skip('Users should be able to mark all messages as read from their inbox', async ({
-		page,
-		browser,
-	}) => {
-		const context = await browser.newContext();
-		const page2 = await context.newPage();
-		await Promise.all([
-			login(page, users.community),
-			login(page2, users.community2),
-		]);
-
-		const thread = await page.evaluate(() => {
-			return window.sdk.card.create({
-				type: 'thread@1.0.0',
-			});
-		});
-		const columnSelector = `.column--slug-${thread.slug}`;
-
-		// Navigate to the thread page
-		await page.goto(`/${thread.id}`);
-		await page.waitForSelector(columnSelector);
-		await page.locator('[data-test="timeline-tab"]').click();
-		const msg = `@${user2.slug.slice(5)} ${uuid()}`;
-		await page.waitForSelector('.new-message-input');
-		await macros.createChatMessage(page, columnSelector, msg);
-
-		await page2.goto('/inbox');
-		await page2.waitForSelector(selectors.chat.message);
-		await page2.locator(selectors.chat.markAsReadButton).click();
-		await macros.waitForSelectorToDisappear(page2, selectors.chat.message);
-
-		await page2.close();
-	});
-
-	// TODO re-enable this test once filtering on new inbox is implemented
-	test.skip('When filtering unread messages, only filtered messages can be marked as read', async ({
-		page,
-		browser,
-	}) => {
-		const context = await browser.newContext();
-		const page2 = await context.newPage();
-		await Promise.all([
-			login(page, users.community),
-			login(page2, users.community2),
-		]);
-
-		// Start by marking all messages as read
-		await page2.goto('/inbox');
-		await page2.locator(selectors.chat.markAsReadButton).click();
-
-		// Create three new messages
-		const messageDetails = _.range(3).map(() => {
-			return {
-				mentionsUser: [user2.slug],
-				slug: `message-${uuid()}`,
-				payload: `@${user2.slug.slice(5)} ${uuid()}`,
-			};
-		});
-
-		const messages = await page.evaluate(async (msgs) => {
-			const thread = await window.sdk.card.create({
-				type: 'thread@1.0.0',
-			});
-			return Promise.all(
-				msgs.map((msg) => {
-					return window.sdk.event.create({
-						target: thread,
-						slug: msg.slug,
-						tags: [],
-						type: 'message',
-						payload: {
-							mentionsUser: msg.mentionsUser,
-							message: msg.payload,
-						},
-					});
-				}),
-			);
-		}, messageDetails);
-
-		// Navigate to the inbox page and reload
-		await page2.goto('/inbox');
-
-		// All three messages should appear in the inbox
-		await page2.waitForSelector(selectors.chat.message);
-		let messageElements = await page2.$$(selectors.chat.message);
-		expect(messageElements.length).toEqual(3);
-		let markAsReadButtonText = await macros.getElementText(
-			page2,
-			selectors.chat.markAsReadButton,
-		);
-		expect(markAsReadButtonText).toEqual('Mark 3 as read');
-
-		// Now search for the 2nd message
-		await macros.setInputValue(
-			page2,
-			selectors.chat.search,
-			messageDetails[1].payload,
-		);
-
-		// Verify only the 2nd message is left in the inbox
-		await macros.retry(
-			10,
-			async () => {
-				messageElements = await page2.$$(selectors.chat.message);
-				assert(messageElements.length === 1);
-			},
-			2000,
-		);
-		await page2.waitForSelector(`[id=event-${messages[1].id}]`);
-		markAsReadButtonText = await macros.getElementText(
-			page2,
-			selectors.chat.markAsReadButton,
-		);
-		expect(markAsReadButtonText).toEqual('Mark 1 as read');
-
-		// Mark just the filtered message as read
-		await page2.locator(selectors.chat.markAsReadButton).click();
-
-		// The filtered message should disappear from the unread inbox
-		await page2.locator(`[id=event-${messages[1].id}]`).click();
-
-		// Reload the page
-		await page2.goto('/inbox');
-
-		// And wait for the other two messages to re-appear (still unread)
-		await page2.waitForSelector(`[id="event-${messages[0].id}"]`);
-		await page2.waitForSelector(`[id="event-${messages[2].id}"]`);
 
 		await page2.close();
 	});
