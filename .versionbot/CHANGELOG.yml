@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 74b7ce13f70dcb74d1ec8f5ffa2c0dea1367f6e7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.12.21
+  title: ""
+  date: 2022-10-12T03:59:52.117Z
+- commits:
     - subject: Always destroy EC2 test instance
       hash: bfd1293bcb13ddefa1cc5fbead5d2f4bca567c8f
       body: ""
