@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add plugin-feedback
+      hash: 3c7f41fcc9fa8be34dbe8a83c4dfa43924886b77
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 60.1.0
+  title: ""
+  date: 2022-10-13T04:28:38.512Z
+- commits:
     - subject: Revert "Replace plugin-typeform with plugin-feedback"
       hash: 501fc66c3044b4bba2b0f1040b0cd5a299767b3e
       body: ""
