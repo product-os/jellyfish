@@ -1,4 +1,20 @@
 - commits:
+    - subject: Bump logshipper to v1.0.0+rev12.
+      hash: 54500c8bcaa928b1f3a48a03931b3c332f80596c
+      body: |
+        This logshipper version uses Vector API v2 which also
+        enables compression.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 60.1.2
+  title: ""
+  date: 2022-10-13T07:33:52.989Z
+- commits:
     - subject: Add more plugin-outreach mirror logs
       hash: 6040e5eed36a701b6443ab77fbcde0dfdf857b51
       body: ""
