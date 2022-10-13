@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add more plugin-outreach mirror logs
+      hash: 6040e5eed36a701b6443ab77fbcde0dfdf857b51
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 60.1.1
+  title: ""
+  date: 2022-10-13T06:10:44.656Z
+- commits:
     - subject: Add plugin-feedback
       hash: 3c7f41fcc9fa8be34dbe8a83c4dfa43924886b77
       body: ""
