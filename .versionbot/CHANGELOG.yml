@@ -1,4 +1,18 @@
 - commits:
+    - subject: Replace plugin-typeform with plugin-feedback
+      hash: 4c58f73ec3f233206828b4f99b70dc241bf9bbab
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 60.0.0
+  title: ""
+  date: 2022-10-13T01:59:16.481Z
+- commits:
     - subject: Bump internal packages
       hash: 74b7ce13f70dcb74d1ec8f5ffa2c0dea1367f6e7
       body: ""
