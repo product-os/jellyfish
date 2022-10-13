@@ -1,4 +1,32 @@
 - commits:
+    - subject: Bump logshipper to v1.0.1+rev3.
+      hash: 9e6b2c9d52c1234ea8b65091868b6335dea86382
+      body: |
+        This logshipper version improves the reliability of
+        sending logs using Vector API v2.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+    - subject: Bump logshipper to v1.0.0+rev12.
+      hash: fd4ef480afdcb485619cdb625a35f4f2c2a48094
+      body: |
+        This logshipper version uses Vector API v2 which also
+        enables compression.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 60.1.3
+  title: ""
+  date: 2022-10-13T12:58:04.421Z
+- commits:
     - subject: Bump logshipper to v1.0.0+rev12.
       hash: 54500c8bcaa928b1f3a48a03931b3c332f80596c
       body: |
