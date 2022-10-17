@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Outreach: Use default actor for mirror requests"
+      hash: 6cbf4fe21b61f1d0739b16c25a4c6052bba2633d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 60.3.1
+  title: ""
+  date: 2022-10-17T03:23:39.713Z
+- commits:
     - subject: Add balena-hub feedback support
       hash: 2426b0df44f849e7e9678bfb00d6e16c535161e6
       body: ""
