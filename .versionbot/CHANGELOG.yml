@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add balena-hub feedback support
+      hash: 2426b0df44f849e7e9678bfb00d6e16c535161e6
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 60.3.0
+  title: ""
+  date: 2022-10-17T02:12:08.663Z
+- commits:
     - subject: Add typeform-feedback relationships
       hash: 719401189a697fa2cd51346dd7ab8066f757580d
       body: ""
