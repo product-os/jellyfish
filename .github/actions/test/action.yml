@@ -461,6 +461,9 @@ runs:
           --service registry \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
+        balena env add INTEGRATION_DEFAULT_USER 'admin' \
+          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
         balena env add INTEGRATION_BALENA_API_PRIVATE_KEY '' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
