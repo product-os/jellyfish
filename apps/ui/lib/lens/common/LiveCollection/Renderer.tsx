@@ -730,7 +730,7 @@ export default withSetup(
 										}}
 										onSortOptionsChange={this.handleSortOptionsChange}
 									/>
-
+									{options.sortDir}
 									<Content
 										user={user}
 										card={card}

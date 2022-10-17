@@ -87,6 +87,8 @@ export interface LensRendererProps {
 	pageOptions: {
 		page: number;
 		totalPages: number;
+		sortBy: string | string[];
+		sortDir: 'asc' | 'desc';
 	};
 	page: number;
 	totalPages: number;

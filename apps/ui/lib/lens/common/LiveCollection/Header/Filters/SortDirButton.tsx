@@ -25,6 +25,7 @@ export const SortDirButton: React.FunctionComponent<SortDirButtonProps> = ({
 	}, []);
 
 	const objectValue = React.useMemo(() => {
+		console.log('VALUE', value); // asc or desc
 		return {
 			value,
 		};
@@ -32,11 +33,11 @@ export const SortDirButton: React.FunctionComponent<SortDirButtonProps> = ({
 
 	const handleChange = React.useCallback(
 		(eventArgs) => {
+			console.log('eventArg', eventArgs);
 			onChange(eventArgs.value.value);
 		},
 		[onChange],
 	);
-
 	return (
 		<Select
 			{...rest}

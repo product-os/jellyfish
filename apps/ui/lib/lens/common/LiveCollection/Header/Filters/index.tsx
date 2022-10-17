@@ -263,6 +263,7 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 
 		const handleSortDirChange = React.useCallback(
 			(sortDir) => {
+				console.log('SORTdir', sortDir);
 				onSortOptionsChange({
 					sortDir,
 				});
@@ -335,6 +336,7 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 
 		return (
 			<StyledSummaryWrapper>
+				HOLAAAA111
 				<Filters
 					schema={schemaForFilters as JSONSchema7}
 					filters={summaryFilters as JSONSchema7[]}

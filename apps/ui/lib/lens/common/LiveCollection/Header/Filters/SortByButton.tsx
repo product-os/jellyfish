@@ -39,6 +39,7 @@ const isSupportView = memoize((types) => {
 
 const getSortByOptions = (cardSchema, tailTypes) => {
 	const tailSchemas = _.map(tailTypes, (tailType) => {
+		console.log('TAILTYPES', tailTypes);
 		return clone(_.get(tailType, ['data', 'schema'], {}));
 	});
 
@@ -80,7 +81,7 @@ export default withSetup(
 				cardSchema: {},
 
 				// TODO remove this once we have support for sorting by linked cards
-				isSupportView: false,
+				isSupportView: true,
 			};
 			this.handleSortBySelectionChange =
 				this.handleSortBySelectionChange.bind(this);
@@ -100,8 +101,12 @@ export default withSetup(
 				data: { schema: cardSchema },
 			} = (await this.props.sdk.getBySlug('card@1.0.0')) as any;
 
+			const results = getSortByOptions(cardSchema, tailTypes);
+			console.log('state', this.state.sortByOptions);
+			console.log('resulta', results);
+
 			this.setState({
-				sortByOptions: getSortByOptions(cardSchema, tailTypes),
+				sortByOptions: results,
 				cardSchema,
 			});
 		}
@@ -114,12 +119,15 @@ export default withSetup(
 
 			// If the tail types have changed, recalculate the sort by options
 			// TODO remove check for support view once we have support for sorting by linked cards
+			const cardSchemaCopy = this.state.cardSchema;
 			if (
 				!circularDeepEqual(tailTypeSlugs, prevTailTypeSlugs) &&
 				!this.state.isSupportView
 			) {
+				const results = getSortByOptions(cardSchemaCopy, tailTypes);
+
 				this.setState({
-					sortByOptions: getSortByOptions(this.state.cardSchema, tailTypes),
+					sortByOptions: results,
 				});
 			}
 		}
@@ -127,6 +135,7 @@ export default withSetup(
 		handleSortBySelectionChange({ option: { value } }) {
 			const valueAsList = value.split('.');
 			this.props.setSortByField(valueAsList);
+			console.log('insideHandleSortBySelectionChange');
 		}
 
 		render() {
@@ -145,7 +154,7 @@ export default withSetup(
 			const currentValue = {
 				value: _.join(currentSortBy, '.'),
 			};
-
+			console.log('STATE', this.state.sortByOptions);
 			return (
 				<Select
 					{...rest}
