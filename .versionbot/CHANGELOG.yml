@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Backend: Handle preflight requests for /hooks"
+      hash: 5ad6901c9d92432ab443d2f32dd55f65385de681
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 60.3.3
+  title: ""
+  date: 2022-10-18T02:07:16.460Z
+- commits:
     - subject: "Outreach: Revert use default actor for mirror"
       hash: e5b25ceae01f96fe8de6f189adc54eff606f21d3
       body: ""
