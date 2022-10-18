@@ -543,6 +543,11 @@ export const attachRoutes = (
 				return response.status(200).end();
 			}
 
+			// Handle CORS pre-flight OPTIONS requests
+			if (request.method.match(/^options$/i)) {
+				return response.status(204).end();
+			}
+
 			const integrationToken = environment.integration[request.params.provider];
 
 			try {
