@@ -32,6 +32,7 @@ const FIELDS_TO_OMIT: any[] = [
 const PREFIX = 'Sort by: ';
 
 const isSupportView = memoize((types) => {
+	console.log('types', types);
 	return _.find(types, {
 		slug: 'support-thread',
 	});
@@ -91,12 +92,12 @@ export default withSetup(
 			const { tailTypes } = this.props;
 
 			// TODO remove this once we have support for sorting by linked cards
-			if (isSupportView(tailTypes)) {
-				this.setState({
-					isSupportView: true,
-				});
-				return;
-			}
+			// if (isSupportView(tailTypes)) {
+			// 	this.setState({
+			// 		isSupportView: false, // enables sortBy dropdown in support but show no options
+			// 	});
+			// 	return;
+			// }
 			const {
 				data: { schema: cardSchema },
 			} = (await this.props.sdk.getBySlug('card@1.0.0')) as any;
@@ -148,7 +149,7 @@ export default withSetup(
 
 			// TODO remove this once we have support for sorting by linked cards
 			if (this.state.isSupportView) {
-				return null;
+				// 	return null;
 			}
 
 			const currentValue = {

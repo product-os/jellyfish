@@ -14,11 +14,11 @@ export const SortDirButton: React.FunctionComponent<SortDirButtonProps> = ({
 	const options = React.useMemo(() => {
 		return [
 			{
-				title: 'Asc by Date',
+				title: 'Asc',
 				value: 'asc',
 			},
 			{
-				title: 'Desc by Date',
+				title: 'Desc',
 				value: 'desc',
 			},
 		];

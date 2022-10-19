@@ -263,7 +263,6 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 
 		const handleSortDirChange = React.useCallback(
 			(sortDir) => {
-				console.log('SORTdir', sortDir);
 				onSortOptionsChange({
 					sortDir,
 				});
@@ -314,6 +313,8 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 						flex={1}
 						mt={2}
 					>
+						{' '}
+						Here is SortBy
 						<SortByButton
 							pageOptions={pageOptions}
 							setSortByField={handleSortByChange}
