@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 33ef3ff9afd35a8675e0ee0195dd5e06731d4bd3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 60.3.4
+  title: ""
+  date: 2022-10-20T05:39:03.110Z
+- commits:
     - subject: "Backend: Handle preflight requests for /hooks"
       hash: 5ad6901c9d92432ab443d2f32dd55f65385de681
       body: ""
