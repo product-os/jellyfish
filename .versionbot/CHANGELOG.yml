@@ -1,4 +1,22 @@
 - commits:
+    - subject: Remove transformer support
+      hash: 57a1be3e28d85345fdcb9fc487ee015b4fb393dc
+      body: |
+        Transformers are no longer being used/managed in Jellyfish. Removing
+        support for transfomers as the code in jellyish-worker needed to
+        continue support presents a processing cost for each contract
+        processed by the worker.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 61.0.0
+  title: ""
+  date: 2022-10-21T03:58:57.062Z
+- commits:
     - subject: Bump internal packages
       hash: 33ef3ff9afd35a8675e0ee0195dd5e06731d4bd3
       body: ""
