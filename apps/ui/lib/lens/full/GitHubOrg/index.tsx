@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import { createLazyComponent } from '../../../components/SafeLazy';
 
-export const RepositoryLens = createLazyComponent(
-	() => import(/* webpackChunkName: "lens-check-run" */ './GitHubOrg'),
-);
+export const RepositoryLens = createLazyComponent(() => import('./GitHubOrg'));
 
 const lens = {
 	slug: 'lens-full-default',

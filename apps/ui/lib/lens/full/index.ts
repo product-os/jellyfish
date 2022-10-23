@@ -11,7 +11,6 @@ import View from './View';
 import ViewDirectMessages from './ViewDirectMessages';
 import Thread from './Thread';
 import User from './User';
-import TransformerWorker from './TransformerWorker';
 
 export default [
 	Channel,
@@ -27,5 +26,4 @@ export default [
 	User,
 	View,
 	ViewDirectMessages,
-	TransformerWorker,
 ];
