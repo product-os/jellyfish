@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 import skhema from 'skhema';
-import memoize from 'memoize-one';
 import { circularDeepEqual } from 'fast-equals';
 import clone from 'deep-copy';
 import { Select, SelectProps } from 'rendition';
@@ -101,10 +100,8 @@ export default withSetup(
 				data: { schema: cardSchema },
 			} = (await this.props.sdk.getBySlug('card@1.0.0')) as any;
 
-			const results = getSortByOptions(cardSchema, tailTypes);
-
 			this.setState({
-				sortByOptions: results,
+				sortByOptions: getSortByOptions(cardSchema, tailTypes),
 				cardSchema,
 			});
 		}
@@ -122,10 +119,8 @@ export default withSetup(
 				!circularDeepEqual(tailTypeSlugs, prevTailTypeSlugs) &&
 				!this.state.isSupportView
 			) {
-				const results = getSortByOptions(cardSchemaCopy, tailTypes);
-
 				this.setState({
-					sortByOptions: results,
+					sortByOptions: getSortByOptions(cardSchemaCopy, tailTypes),
 				});
 			}
 		}
