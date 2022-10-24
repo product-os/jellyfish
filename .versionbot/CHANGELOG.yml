@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Remove transformer lens"
+      hash: c1c0b5bc0e58fd36438c1980b226470c38c37ad3
+      body: |
+        Jellyfish no longer supports transformers, removing related UI elements
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.0.0
+  title: ""
+  date: 2022-10-24T01:33:59.826Z
+- commits:
     - subject: Remove transformer support
       hash: 57a1be3e28d85345fdcb9fc487ee015b4fb393dc
       body: |
