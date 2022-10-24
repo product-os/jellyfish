@@ -31,16 +31,14 @@ const FIELDS_TO_OMIT: any[] = [
 
 const PREFIX = 'Sort by: ';
 
-const isSupportView = memoize((types) => {
-	console.log('types', types);
-	return _.find(types, {
-		slug: 'support-thread',
-	});
-});
+// const isSupportView = memoize((types) => {
+// 	return _.find(types, {
+// 		slug: 'support-thread',
+// 	});
+// });
 
 const getSortByOptions = (cardSchema, tailTypes) => {
 	const tailSchemas = _.map(tailTypes, (tailType) => {
-		console.log('TAILTYPES', tailTypes);
 		return clone(_.get(tailType, ['data', 'schema'], {}));
 	});
 
@@ -82,7 +80,7 @@ export default withSetup(
 				cardSchema: {},
 
 				// TODO remove this once we have support for sorting by linked cards
-				isSupportView: true,
+				isSupportView: false,
 			};
 			this.handleSortBySelectionChange =
 				this.handleSortBySelectionChange.bind(this);
@@ -92,6 +90,7 @@ export default withSetup(
 			const { tailTypes } = this.props;
 
 			// TODO remove this once we have support for sorting by linked cards
+			// Commenting isSupportView for now
 			// if (isSupportView(tailTypes)) {
 			// 	this.setState({
 			// 		isSupportView: false, // enables sortBy dropdown in support but show no options
@@ -103,8 +102,6 @@ export default withSetup(
 			} = (await this.props.sdk.getBySlug('card@1.0.0')) as any;
 
 			const results = getSortByOptions(cardSchema, tailTypes);
-			console.log('state', this.state.sortByOptions);
-			console.log('resulta', results);
 
 			this.setState({
 				sortByOptions: results,
@@ -136,7 +133,6 @@ export default withSetup(
 		handleSortBySelectionChange({ option: { value } }) {
 			const valueAsList = value.split('.');
 			this.props.setSortByField(valueAsList);
-			console.log('insideHandleSortBySelectionChange');
 		}
 
 		render() {
@@ -148,14 +144,13 @@ export default withSetup(
 			} = this.props;
 
 			// TODO remove this once we have support for sorting by linked cards
-			if (this.state.isSupportView) {
-				// 	return null;
-			}
+			// if (this.state.isSupportView) {
+			// 	return null;
+			// }
 
 			const currentValue = {
 				value: _.join(currentSortBy, '.'),
 			};
-			console.log('STATE', this.state.sortByOptions);
 			return (
 				<Select
 					{...rest}

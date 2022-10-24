@@ -95,8 +95,8 @@ export default withSetup(
 				(lens && _.find(lenses, { slug: lens.slug })) || _.first(lenses);
 
 			const options = {
-				...this.props.options,
 				..._.get(activeLens, ['data', 'queryOptions'], {}),
+				...this.props.options,
 			};
 
 			const maskedQuery =

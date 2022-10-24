@@ -84,21 +84,18 @@ export default class Content extends React.Component<ContentProps, any> {
 							</Txt.p>
 						)}
 						{Boolean(results) && Boolean(activeLens) && (
-							<>
-								Below Header
-								<activeLens.data.renderer
-									user={user}
-									card={card}
-									channel={channel}
-									tail={sortedTail}
-									nextPage={nextPage}
-									pageOptions={pageOptions}
-									page={pageOptions.page}
-									totalPages={pageOptions.totalPages}
-									tailTypes={tailTypes}
-									hasNextPage={!!hasNextPage}
-								/>
-							</>
+							<activeLens.data.renderer
+								user={user}
+								card={card}
+								channel={channel}
+								tail={sortedTail}
+								nextPage={nextPage}
+								pageOptions={pageOptions}
+								page={pageOptions.page}
+								totalPages={pageOptions.totalPages}
+								tailTypes={tailTypes}
+								hasNextPage={!!hasNextPage}
+							/>
 						)}
 					</Flex>
 					{!hideFooter && tailTypes.length && <ViewFooter types={tailTypes} />}
