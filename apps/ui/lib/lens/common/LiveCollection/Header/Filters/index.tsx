@@ -313,7 +313,6 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 						flex={1}
 						mt={2}
 					>
-						{' '}
 						<SortByButton
 							pageOptions={pageOptions}
 							setSortByField={handleSortByChange}

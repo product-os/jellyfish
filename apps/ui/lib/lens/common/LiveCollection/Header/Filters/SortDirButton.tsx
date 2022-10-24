@@ -36,6 +36,7 @@ export const SortDirButton: React.FunctionComponent<SortDirButtonProps> = ({
 		},
 		[onChange],
 	);
+
 	return (
 		<Select
 			{...rest}
