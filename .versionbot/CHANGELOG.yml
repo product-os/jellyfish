@@ -1,4 +1,27 @@
 - commits:
+    - subject: Add Sort label by date
+      hash: daa909558dd621229d1c2db03f97e8652c1dfc26
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Yingwen Chen yingwen.chen@balena.io
+        signed-off-by: Yingwen Chen yingwen.chen@balena.io
+      author: yingwen chen
+      nested: []
+    - subject: Display direct pings only in inbox
+      hash: f1b8d7a371f7a61d5f556515e71568aaec423094
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: YingwenChen yingwenchen@balena.io
+        signed-off-by: YingwenChen yingwenchen@balena.io
+      author: yingwen chen
+      nested: []
+  version: 59.13.0
+  date: 2022-10-24T20:52:12.083Z
+- commits:
     - subject: "Dev: Lint root *.js files"
       hash: 909c6a23722623b5b7a2e3fd4e1b7b52d481bf08
       body: ""
