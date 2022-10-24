@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import { createLazyComponent } from '../../../components/SafeLazy';
 
-export const Improvement = createLazyComponent(
-	() => import(/* webpackChunkName: "lens-check-run" */ './Improvement'),
-);
+export const Improvement = createLazyComponent(() => import('./Improvement'));
 
 const lens = {
 	slug: 'lens-full-improvement',

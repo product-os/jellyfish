@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import { createLazyComponent } from '../../../components/SafeLazy';
 
-export const SingleCard = createLazyComponent(
-	() => import(/* webpackChunkName: "lens-check-run" */ './SingleCard'),
-);
+export const SingleCard = createLazyComponent(() => import('./SingleCard'));
 
 const lens = {
 	slug: 'lens-full-default',
