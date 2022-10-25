@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update jellyfish-environment to 14.4.10
+      hash: cccb2e51ea06b6de272bfaf86767e48d88c307a5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.0.2
+  title: ""
+  date: 2022-10-25T04:35:12.723Z
+- commits:
     - subject: Bump internal packages
       hash: 4b28b4535e82dff2ab9410dc46ad760030f2ba4f
       body: ""
