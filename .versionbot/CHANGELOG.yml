@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 4b28b4535e82dff2ab9410dc46ad760030f2ba4f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.0.1
+  title: ""
+  date: 2022-10-25T01:36:06.495Z
+- commits:
     - subject: "UI: Remove transformer lens"
       hash: c1c0b5bc0e58fd36438c1980b226470c38c37ad3
       body: |
