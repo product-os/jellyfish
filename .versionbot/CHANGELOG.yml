@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update jellyfish-worker to 37.0.8
+      hash: 4d37b7b76b739379a82285189208206cb570ddb8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.0.3
+  title: ""
+  date: 2022-10-26T04:51:48.846Z
+- commits:
     - subject: Update jellyfish-environment to 14.4.10
       hash: cccb2e51ea06b6de272bfaf86767e48d88c307a5
       body: ""
