@@ -11,13 +11,6 @@ COPY ./apps/server/tsconfig.json /usr/src/jellyfish/apps/server/tsconfig.json
 COPY ./apps/server/tsconfig.build.json /usr/src/jellyfish/apps/server/tsconfig.build.json
 COPY ./apps/server/run.sh /usr/src/jellyfish/apps/server/run.sh
 
-#dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
-#dev-copy=./apps/server/nodemon.json /usr/src/jellyfish/apps/server/nodemon.json
-#dev-copy=./apps/server/packages/ /usr/src/jellyfish/packages/
-#dev-run=/usr/src/jellyfish/scripts/install-packages.js
-
-#dev-cmd-live=cd /usr/src/jellyfish/apps/server && npm run dev
-#dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
 COPY ./apps/server/test/ /usr/src/jellyfish/apps/server/test/
 COPY ./apps/server/@types/ /usr/src/jellyfish/apps/server/@types/
@@ -25,4 +18,4 @@ COPY ./apps/server/tslint.json /usr/src/jellyfish/apps/server/tslint.json
 RUN npm run lint
 RUN npm run build
 
-CMD [ "npm", "start" ]
+CMD [ "node", "--abort-on-uncaught-exception", "--stack-trace-limit=100", "build/index.js"]

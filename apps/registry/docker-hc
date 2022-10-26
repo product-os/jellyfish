@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Connects to the haproxy instance running on this app
+
+
+if [[ -n ${HAPROXY_ON_HOST} ]]; then
+  # https://stackoverflow.com/a/24326540/70238
+  DOCKER_HOST_IP=$(route -n | awk '/UG[ \t]/{print $2}')
+  HAPROXY_HOST=$DOCKER_HOST_IP
+elif [[ -n ${HAPROXY_CONTAINER_NAME} ]]; then
+  HAPROXY_HOST=${HAPROXY_CONTAINER_NAME}
+else
+  HAPROXY_HOST="haproxy"
+fi
+
+echo "Connecting to HAPROXY_HOST" ${HAPROXY_HOST}
+
+set -a
+
+[[ -f /etc/docker.env ]] && source /etc/docker.env
+
+(systemctl is-active balena-registry \
+  && curl -I --fail localhost) || exit $?
+
+if [[ -s ${NODE_EXTRA_CA_CERTS} ]]; then
+    true | openssl s_client \
+      -connect ${HAPROXY_HOST}:443 \
+      -servername "${REGISTRY2_HOST}" \
+      -CAfile "${NODE_EXTRA_CA_CERTS}"
+else
+    true | openssl s_client \
+      -connect ${HAPROXY_HOST}:443 \
+      -servername "${REGISTRY2_HOST}"
+fi
+

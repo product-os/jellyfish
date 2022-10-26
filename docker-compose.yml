@@ -100,7 +100,6 @@ services:
     build:
       context: .
       dockerfile: apps/server/Dockerfile
-
   ui:
     entrypoint:
       - /bin/bash
@@ -205,10 +204,10 @@ services:
 
   # https://github.com/balena-io/open-balena-registry
   registry:
-    image: balena/open-balena-registry:v2.25.5
+    build: apps/registry
     depends_on:
       - mdns
-      - haproxy
+      - host-haproxy
     restart: unless-stopped
     cap_add:
       - SYS_RESOURCE
@@ -229,6 +228,7 @@ services:
       - resin-data:/balena
     environment:
       <<: *default-environment
+      HAPROXY_ON_HOST: "true"
       REGISTRY2_CACHE_ADDR: redis:6379
       REGISTRY2_CACHE_DB: 1
       REGISTRY2_CACHE_ENABLED: "true"
@@ -333,6 +333,61 @@ services:
       - resin-data:/balena
 
   # https://github.com/balena-io/open-balena-haproxy
+  host-haproxy:
+    build: apps/host-haproxy
+    network_mode: host
+    depends_on:
+      - cert-manager
+    healthcheck:
+      test: /bin/sh -c 'ls -la /proc/*/exe | grep -q /usr/local/sbin/haproxy'
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    expose:
+      # haproxy/http
+      - "80"
+      # haproxy/tcp-router
+      - "443"
+      # haproxy/stats
+      - "1936"
+      # Prometheus/metrics (ec2_sd_config)
+      - "9000"
+      - "9001"
+    environment:
+      <<: *default-environment
+    volumes:
+      - certs-data:/certs
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: 0
+    restart: unless-stopped
+    labels:
+      io.balena.update.strategy: hand-over
+      io.balena.update.handover-timeout: 10000
+  haproxy-handover-helper:
+    build: apps/haproxy-handover-helper
+    environment:
+      VERSION: "4"
+    privileged: true
+    depends_on:
+      - host-haproxy
+    labels:
+      io.balena.update.strategy: hand-over
+      # Note that this timer starts to run after the new node is started, so it needs to give enough time for
+      # the new service to be ready to handle requests
+      io.balena.update.handover-timeout: 10000
+  dnsmasq:
+    # https://hub.docker.com/r/4km3/dnsmasq
+    # https://thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html
+    image: 4km3/dnsmasq:2.85-r2
+    command: --no-resolv --no-hosts --cache-size=0 --no-negcache --max-cache-ttl=0 --max-ttl=0 --server=127.0.0.11 --log-facility=-
+    # --log-queries
+    ports:
+      - "5355:53/udp"
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: 0
+
+  # this haproxy is used by other services on the bridge network
+  # https://github.com/balena-io/open-balena-haproxy
   haproxy:
     build: apps/haproxy
     depends_on:
@@ -342,16 +397,16 @@ services:
       interval: 60s
       timeout: 10s
       retries: 3
-    ports:
+    expose:
       # haproxy/http
-      - "80:80/tcp"
+      - "80/tcp"
       # haproxy/tcp-router
-      - "443:443/tcp"
+      - "443/tcp"
       # haproxy/stats
-      - "1936:1936/tcp"
+      - "1936/tcp"
       # Prometheus/metrics (ec2_sd_config)
-      - "9000:9000/tcp"
-      - "9001:9001/tcp"
+      - "9000/tcp"
+      - "9001/tcp"
     environment:
       <<: *default-environment
     volumes:
@@ -359,7 +414,6 @@ services:
     sysctls:
       net.ipv4.ip_unprivileged_port_start: 0
     restart: unless-stopped
-
   # dynamically configure Docker network aliases based on DNS_TLD and ALIAS list
   # allows DNS resolution from systemd-less images on the Docker network
   # (TBC) https://github.com/prometheus/prometheus/issues/2537

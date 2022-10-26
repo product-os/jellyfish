@@ -57,7 +57,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		options.plugins,
 	);
 
-	await worker.initialize(logContext, async (actionRequest) => {
+	const workerMessageEventHandler = async (actionRequest) => {
 		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
 		try {
 			// Get the actor by id
@@ -80,7 +80,8 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 				error,
 			});
 		}
-	});
+	};
+	await worker.initialize(logContext, workerMessageEventHandler);
 
 	const closeWorker = async () => {
 		await worker.stop();
@@ -232,9 +233,9 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		kernel,
 		port: webServer.port,
 		close: async () => {
+			await webServer.stop();
 			socketServer.close();
 			metricsServer.close();
-			await webServer.stop();
 			await closeWorker();
 		},
 	};

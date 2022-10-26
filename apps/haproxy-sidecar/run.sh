@@ -28,6 +28,7 @@ for alias in ${ALIASES//,/ }; do
 done
 
 while true; do
+    # wait until the app finishes updates
     if [[ -n $BALENA_SUPERVISOR_ADDRESS ]] && [[ -n $BALENA_SUPERVISOR_API_KEY ]]; then
         while [[ "$(curl --silent --retry 3 --fail \
           "${BALENA_SUPERVISOR_ADDRESS}/v1/device?apikey=${BALENA_SUPERVISOR_API_KEY}" \
@@ -37,33 +38,35 @@ while true; do
         sleep "$(( (RANDOM % 5) + 5 ))s"
     fi
 
+    # wait until haproxy is running
     while [[ "$(docker ps \
       --filter "name=haproxy" \
-      --filter "expose=1936/tcp" \
+      --filter "label=io.balena.service-name=haproxy" \
       --filter "status=running" \
       --filter "network=${network}" \
       --format "{{.ID}}")" == '' ]]; do
         sleep "$(( (RANDOM % 3) + 3 ))s"
     done
 
-    haproxy="$(docker ps \
+    haproxyID="$(docker ps \
       --filter "name=haproxy" \
-      --filter "expose=1936/tcp" \
+      --filter "label=io.balena.service-name=haproxy" \
       --filter "status=running" \
       --filter "network=${network}" \
       --format "{{.ID}}")"
 
-    if ! [[ $restarted == "${haproxy}" ]]; then
-        echo "[haproxy-sidecar] Reconnecting haproxy to the network"
-        docker network disconnect "${network}" "${haproxy}"
+    # if haproxy is new ( wasn't restarted before by us )
+    if ! [[ $restartedID == "${haproxyID}" ]]; then
+        echo "[haproxy-sidecar] Reconnecting haproxy to the network using aliases " "${aliases}"
+        docker network disconnect "${network}" "${haproxyID}"
 
         # shellcheck disable=SC2086
-        docker network connect --alias haproxy ${aliases} "${network}" "${haproxy}"
+        docker network connect --alias haproxy ${aliases} "${network}" "${haproxyID}"
 
         echo "[haproxy-sidecar] Restarting haproxy"
-        docker restart "${haproxy}"
+        docker restart "${haproxyID}"
 
-        restarted="${haproxy}"
+        restartedID="${haproxyID}"
     fi
 
     sleep "$(( (RANDOM % 15) + 15 ))s"

@@ -3,9 +3,11 @@ import { getLogger } from '@balena/jellyfish-logger';
 import { bootstrap } from './bootstrap';
 import { getPlugins } from './plugins';
 import cluster from 'node:cluster';
-import { cpus, networkInterfaces } from 'node:os';
+import { cpus } from 'node:os';
+import os from 'node:os';
 import process from 'node:process';
 import { HandoverPeer } from 'handover-lib';
+import { HandoverStatus } from 'handover-lib';
 import _ from 'lodash';
 
 // Avoid including package.json in the build output!
@@ -16,6 +18,9 @@ const logger = getLogger(__filename);
 
 let numCPUs = cpus().length;
 
+// period between notifiying our "DOWN" status and starting the shutdown process
+const SHUTDOWN_GRACE_PERIOD = 500;
+
 const MAX_WORKERS = process.env.MAX_WORKERS;
 if (MAX_WORKERS) {
 	numCPUs = Math.min(numCPUs, parseInt(MAX_WORKERS, 10));
@@ -25,7 +30,9 @@ const serverId = Math.round(Math.random() * 1000);
 
 let hostId = environment.pod.name; // on a docker-compose would be 'localhost'
 if (hostId === 'localhost') {
-	const localAddresses = networkInterfaces()?.eth0;
+	const localAddresses = os
+		.networkInterfaces()
+		?.eth0?.filter((addr) => addr.family === 'IPv4');
 	if (localAddresses && localAddresses[0] && localAddresses[0].address) {
 		hostId = 'IP-' + localAddresses[0].address;
 	}
@@ -56,13 +63,54 @@ process.on('unhandledRejection', (reason: Error | unknown, _promise) => {
 	return onError(reason, 'Unhandled Rejection');
 });
 
+// This is where we perform the drain
+// It will `await` until it returns to signal that the handover is done.
+const shutdownGracefully = async (context) => {
+	// logger.info(context, `Keeping the workers alive during handover.`);
+	let exitedWorkers = 0;
+	const activeWorkers = Object.values(cluster.workers || {});
+	for (const worker of activeWorkers) {
+		worker?.on('message', (message) => {
+			if (message?.msg === 'DONE') {
+				exitedWorkers++;
+			}
+		});
+		worker?.send('SHUTDOWN');
+	}
+	while (exitedWorkers < activeWorkers.length) {
+		logger.info(
+			context,
+			`exitedWorkers: ${exitedWorkers} of ${activeWorkers.length}`,
+		);
+		await new Promise((r) => setTimeout(r, 100));
+	}
+	logger.info(
+		context,
+		`All workers exited. exitedWorkers: ${exitedWorkers} of ${activeWorkers.length}`,
+	);
+};
+
 const startDate = new Date();
 const run = async () => {
 	if (cluster.isPrimary) {
 		const context = {
 			id: `${baseLogId}-primary`,
 		};
+
+		// Note that supervisor doesn't send a USR1 in handover mode; if the container doesn't shutdown itself before the timeout the supervisor sends a SIGTERM
+		process.on('SIGUSR1', () => {
+			console.log('Received SIGUSR1. Shutting down gracefully.');
+			shutdownGracefully(context);
+		});
+
+		process.on('SIGTERM', () => {
+			console.log('Received SIGTERM. Shutting down now.');
+			// Default behavior: exiting with code 128 + signal number.
+			process.exit(128 + 15);
+		});
+
 		const handoverPeer = new HandoverPeer(startDate, context);
+		const handoverStatus = createHandoverStatus();
 
 		logger.info(
 			context,
@@ -119,6 +167,7 @@ const run = async () => {
 				if (activeWorkers === workersNeeded) {
 					logger.info(context, `All ${workersNeeded} needed workers started.`);
 					handoverPeer.startBroadcasting();
+					handoverStatus.startBroadcastingServiceUp();
 				}
 			} else if (message?.msg === 'DONE') {
 				// Ignored, is handled by the shutdown code
@@ -127,11 +176,11 @@ const run = async () => {
 			}
 		});
 
-		// handoverPeer will call this function when we're shutting down. It will `await` until it returns to signal that the handover is done.
-		// Reminder that the handover ( new instance takes the hostname ) is not performed until the old container is killed, so we have to balance between clean-shutdown and almost-zero-downtime
-		// Here we go with the "almost-zero-downtime": don't stop servicing requests. The container may get killed while it's processing a request
+		// handoverPeer will call this function when we're shutting down.
 		const shutdownCallback = async () => {
-			logger.info(context, `Keeping the workers alive during handover.`);
+			handoverStatus.startBroadcastingServiceDown();
+			await new Promise((r) => setTimeout(r, SHUTDOWN_GRACE_PERIOD));
+			await shutdownGracefully(context);
 		};
 
 		handoverPeer.startListening(shutdownCallback);
@@ -168,7 +217,7 @@ const run = async () => {
 							logger.info(context, `${cluster.worker?.id}:Server stopped`);
 							process.send!({ msg: 'DONE' });
 							// bye
-							setTimeout(() => cluster.worker?.kill(), 100);
+							setTimeout(() => cluster.worker?.kill(), 10);
 						}
 					});
 
@@ -189,3 +238,22 @@ const run = async () => {
 };
 
 run();
+
+function getIPv4InterfaceInfo(iface?: string): os.NetworkInterfaceInfo[] {
+	return Object.entries(os.networkInterfaces())
+		.filter(([nic]) => !iface || nic === iface)
+		.flatMap(([, ips]) => ips || [])
+		.filter((ip) => !ip.internal && ip.family === 'IPv4');
+}
+
+function createHandoverStatus(): HandoverStatus {
+	const timestamp = new Date();
+	const serviceName = process.env.BALENA_SERVICE_NAME || 'api';
+
+	const ipV4Addresses: string[] = ([] as os.NetworkInterfaceInfo[])
+		.concat(getIPv4InterfaceInfo('eth0'), getIPv4InterfaceInfo('eth1'))
+		.map((nif) => nif.address);
+	const addresses = ipV4Addresses;
+	const handoverStatus = new HandoverStatus(timestamp, serviceName, addresses);
+	return handoverStatus;
+}

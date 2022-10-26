@@ -1,0 +1,17 @@
+{
+  "backend": "api-backend",
+  "servers": [
+    { "name": "api0", "address": "10.16.16.10", "state": "maint" },
+    { "name": "api1", "address": "10.16.16.11", "state": "maint" },
+    { "name": "api2", "address": "10.16.16.12", "state": "maint" },
+    { "name": "api3", "address": "10.16.16.13", "state": "maint" },
+    { "name": "api4", "address": "10.16.16.14", "state": "maint" },
+    { "name": "api5", "address": "10.16.16.15", "state": "maint" },
+    { "name": "api6", "address": "10.16.16.16", "state": "maint" },
+    { "name": "api7", "address": "10.16.16.17", "state": "maint" },
+    { "name": "api8", "address": "10.16.16.18", "state": "maint" },
+    { "name": "api9", "address": "10.16.16.19", "state": "maint" },
+    { "name": "api10", "address": "10.16.16.20", "state": "maint" },
+    { "name": "api11", "address": "10.16.16.21", "state": "maint" }
+  ]
+}

@@ -44,7 +44,7 @@
     "errio": "^1.2.2",
     "express": "^4.18.1",
     "express-basic-auth": "^1.2.1",
-    "handover-lib": "^0.0.10",
+    "handover-lib": "^0.2.3",
     "is-uuid": "^1.0.2",
     "json-e": "^4.4.3",
     "jsonwebtoken": "^8.5.1",
