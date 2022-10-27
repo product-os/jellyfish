@@ -228,7 +228,12 @@ const run = async () => {
 					}
 				})
 				.catch((error) => {
-					logger.error(context, 'Server error', error);
+					const message = 'Error on catch of bootstrap';
+					if (_.isError(error)) {
+						logger.exception(context, message, error);
+					} else {
+						logger.error(context, message, error);
+					}
 					process.exit(1);
 				});
 		} catch (error) {
