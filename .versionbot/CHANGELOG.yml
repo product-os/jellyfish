@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add plugin-hubot
+      hash: 773b72329f74f00c084b451f14256d4aa9bbc462
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.1.0
+  title: ""
+  date: 2022-10-27T02:36:38.053Z
+- commits:
     - subject: Update jellyfish-worker to 37.0.8
       hash: 4d37b7b76b739379a82285189208206cb570ddb8
       body: ""
