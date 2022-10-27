@@ -33,6 +33,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	}
 
 	// Instantiate an autumndb instance that will handle DB operations
+	logger.info(logContext, 'Setting up autumndb');
 	const backendOptions =
 		options && options.database
 			? Object.assign({}, environment.database.options, options.database)
@@ -44,12 +45,14 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		backendOptions,
 	);
 
+	logger.info(logContext, 'Setting up metrics server');
 	const metricsServer = metrics.startServer(
 		logContext,
 		environment.metrics.ports.app,
 	);
 
 	// Create and initialize the worker instance. This will process jobs from the queue.
+	logger.info(logContext, 'Starting worker instance');
 	const worker = new Worker(
 		kernel,
 		kernel.adminSession()!,
@@ -82,6 +85,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		}
 	};
 	await worker.initialize(logContext, workerMessageEventHandler);
+	logger.info(logContext, 'worker initialized');
 
 	const closeWorker = async () => {
 		await worker.stop();
@@ -228,6 +232,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	// Wait for the server to settle before starting
 	await setTimeout(2000);
 
+	logger.info(logContext, 'Bootstrap done, returning');
 	return {
 		worker,
 		kernel,
