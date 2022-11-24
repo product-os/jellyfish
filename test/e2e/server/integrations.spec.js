@@ -217,6 +217,7 @@ ava.serial(
 		);
 
 		const scopes = [
+			'accounts.all',
 			'mailboxes.all',
 			'prospects.all',
 			'sequences.all',
