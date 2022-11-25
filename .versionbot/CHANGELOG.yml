@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update plugin-outreach to 5.2.5
+      hash: 6b0a9179973db589291a690697c0250268286436
+      body: |
+        Search for Outreach accounts before creating one
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.1.3
+  title: ""
+  date: 2022-11-25T06:16:43.806Z
+- commits:
     - subject: "Outreach: Create and link accounts"
       hash: 0c46b171f8fc647ff388929b2d17e6a675f4d580
       body: ""
