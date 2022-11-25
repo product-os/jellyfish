@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Outreach: Create and link accounts"
+      hash: 0c46b171f8fc647ff388929b2d17e6a675f4d580
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.1.2
+  title: ""
+  date: 2022-11-25T04:20:38.141Z
+- commits:
     - subject: Update worker, add accounts to outreach scope
       hash: 8c3d1a6b6a0fa133496bdabc0c28863802a2e9e4
       body: ""
