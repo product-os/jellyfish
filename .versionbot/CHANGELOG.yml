@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update plugin-outreach to 5.2.17
+      hash: 82f2e5dd71c9f52e10a558b60adbe50bcf9f8df0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.1.5
+  title: ""
+  date: 2022-11-28T03:38:36.995Z
+- commits:
     - subject: Update plugin-outreach to 5.2.14
       hash: 345e9d50fab30eef5b70a2294b25fbe242ac92b0
       body: ""
