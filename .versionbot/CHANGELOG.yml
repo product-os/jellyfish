@@ -1,4 +1,18 @@
 - commits:
+    - subject: Give community role access to user company
+      hash: 6d5fe3767b45ca6b5a7892e8a8949b88f666fb07
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.1.6
+  title: ""
+  date: 2022-12-02T03:46:18.315Z
+- commits:
     - subject: Update plugin-outreach to 5.2.17
       hash: 82f2e5dd71c9f52e10a558b60adbe50bcf9f8df0
       body: ""
