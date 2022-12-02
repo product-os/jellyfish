@@ -1,4 +1,4 @@
-FROM balena/open-balena-base:v13.5.1
+FROM balena/open-balena-base:v14.1.2
 
 WORKDIR /usr/src/jellyfish/apps/server
 
