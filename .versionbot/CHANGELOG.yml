@@ -1,4 +1,18 @@
 - commits:
+    - subject: "CI: Stop extending renovate config"
+      hash: 8d78ff6620f43457cd33ee3f0152305b2cf3b065
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 62.1.7
+  title: ""
+  date: 2022-12-13T01:59:00.983Z
+- commits:
     - subject: Give community role access to user company
       hash: 6d5fe3767b45ca6b5a7892e8a8949b88f666fb07
       body: ""
