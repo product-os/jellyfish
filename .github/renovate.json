@@ -1,8 +1,5 @@
 {
-  "extends": ["github>product-os/renovate-config"],
   "ignoreDeps": ["node", "redis"],
-  "branchConcurrentLimit": 2,
-  "prConcurrentLimit": 2,
   "packageRules": [
     {
       "groupName": "non-major-frontend",
