@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update balena/ca-private Docker tag to v0.0.10
+      hash: 9f59805e6bc05d9d9a100d73dcb67e9cf2d20d21
+      body: |
+        Update balena/ca-private to 0.0.10
+
+        Update balena/ca-private from 0.0.8 to 0.0.10
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 62.1.8
+  title: ""
+  date: 2022-12-13T04:49:40.749Z
+- commits:
     - subject: "CI: Stop extending renovate config"
       hash: 8d78ff6620f43457cd33ee3f0152305b2cf3b065
       body: ""
