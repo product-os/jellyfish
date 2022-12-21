@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update prom/prometheus Docker tag to v2.41.0
+      hash: a90798b4773d6afe2ba98da61d42a9af144ac8b7
+      body: |
+        Update prom/prometheus to 2.41.0
+
+        Update prom/prometheus from 2.37.0 to 2.41.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.10.0
+  title: ""
+  date: 2022-12-21T19:49:57.896Z
+- commits:
     - subject: Update grafana/grafana Docker tag to v9.3.2
       hash: 282ff5e80b66576f207b3fe99052341d4105dfda
       body: |
