@@ -1,4 +1,4 @@
-FROM prom/prometheus:v2.37.0
+FROM prom/prometheus:v2.41.0
 
 COPY balena.sh /usr/local/bin/
 
