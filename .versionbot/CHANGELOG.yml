@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update dependency @balena/jellyfish-plugin-hubot to 0.15.0
+      hash: ee9c5ab751a3590e236c572e00cfc216c9c7db01
+      body: |
+        Update @balena/jellyfish-plugin-hubot to 0.15.0
+
+        Update @balena/jellyfish-plugin-hubot from 0.14.1 to 0.15.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.7.0
+  title: ""
+  date: 2022-12-21T13:48:57.396Z
+- commits:
     - subject: Update balena/open-balena-s3 Docker tag to v2.17.4
       hash: a8666767e74eb5c7f5024972e3993b3a3ab9ee68
       body: |
