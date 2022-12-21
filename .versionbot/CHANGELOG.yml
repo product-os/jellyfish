@@ -1,4 +1,19 @@
 - commits:
+    - subject: Pin dependencies
+      hash: b118751e8d7208632525484cf52d21cb40cc71bc
+      body: |
+        Update actions/checkout to
+
+        Update actions/checkout from 3 to
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.2.0
+  title: ""
+  date: 2022-12-21T00:31:42.640Z
+- commits:
     - subject: Update balena/cert-manager Docker tag to v0.1.13
       hash: 08e8e4da7f26c004bccf2cfe436bd5bc282364c8
       body: |
