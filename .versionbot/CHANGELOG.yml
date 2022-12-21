@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update grafana/grafana Docker tag to v9.3.2
+      hash: 282ff5e80b66576f207b3fe99052341d4105dfda
+      body: |
+        Update grafana/grafana to 9.3.2
+
+        Update grafana/grafana from 9.1.7 to 9.3.2
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.9.0
+  title: ""
+  date: 2022-12-21T17:49:07.828Z
+- commits:
     - subject: Update dependency handover-lib to 0.2.3
       hash: 81928af1ae839fe350d5ea86ff33911ce8c72008
       body: |
