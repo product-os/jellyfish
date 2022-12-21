@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update nginx Docker tag to v1.23.3
+      hash: 5caf9ce886d7d1288c8f097a6dafc51fc16a52f7
+      body: |
+        Update nginx to 1.23.3
+
+        Update nginx from 1.23.1 to 1.23.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 62.2.2
+  title: ""
+  date: 2022-12-21T03:49:02.508Z
+- commits:
     - subject: Update balena/open-balena-db Docker tag to v5.1.3
       hash: e3512caf6ad78df189baf4e679eb389643ad1a5a
       body: |
