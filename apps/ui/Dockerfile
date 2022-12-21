@@ -37,7 +37,7 @@ RUN npm run test
 # Runtime
 ###########################################################
 
-FROM nginx:1.23.1
+FROM nginx:1.23.3
 WORKDIR /usr/share/nginx/html
 COPY --from=test /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
 COPY apps/ui/run.sh /usr/src/jellyfish/apps/ui/run.sh
