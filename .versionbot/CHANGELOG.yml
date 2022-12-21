@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update balena/balena-mdns-publisher Docker tag to v1.20.6
+      hash: 24309db5770d2b23957dc65eeadf3988b59e36c2
+      body: |
+        Update balena/balena-mdns-publisher to 1.20.6
+
+        Update balena/balena-mdns-publisher from 1.16.6 to 1.20.6
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.3.0
+  title: ""
+  date: 2022-12-21T05:48:09.030Z
+- commits:
     - subject: Update nginx Docker tag to v1.23.3
       hash: 5caf9ce886d7d1288c8f097a6dafc51fc16a52f7
       body: |
