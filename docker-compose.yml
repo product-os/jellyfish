@@ -205,7 +205,7 @@ services:
 
   # https://github.com/balena-io/open-balena-registry
   registry:
-    image: balena/open-balena-registry:v2.25.5
+    image: balena/open-balena-registry:v2.29.4
     depends_on:
       - mdns
       - haproxy
