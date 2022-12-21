@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update dependency handover-lib to 0.2.3
+      hash: 81928af1ae839fe350d5ea86ff33911ce8c72008
+      body: |
+        Update handover-lib to 0.2.3
+
+        Update handover-lib from 0.0.10 to 0.2.3
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.8.0
+  title: ""
+  date: 2022-12-21T15:49:08.363Z
+- commits:
     - subject: Update dependency @balena/jellyfish-plugin-hubot to 0.15.0
       hash: ee9c5ab751a3590e236c572e00cfc216c9c7db01
       body: |
