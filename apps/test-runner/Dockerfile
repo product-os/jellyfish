@@ -1,4 +1,4 @@
-FROM balena/open-balena-base:v13.5.1 AS base
+FROM balena/open-balena-base:v13.6.1 AS base
 
 WORKDIR /usr/src/jellyfish
 ENV DEBIAN_FRONTEND noninteractive
