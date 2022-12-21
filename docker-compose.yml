@@ -173,7 +173,7 @@ services:
   # TODO Don't run on PROD
   # https://github.com/balena-io/open-balena-s3
   s3:
-    image: balena/open-balena-s3:v2.13.10
+    image: balena/open-balena-s3:v2.17.4
     volumes:
       - s3-data:/export
       - certs-data:/certs
