@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update dependency jsonwebtoken to 9.0.0 [SECURITY]
+      hash: b614bdbe4b7ece4e6246ba736650db1eddc7469f
+      body: |
+        Update jsonwebtoken to 9.0.0
+
+        Update jsonwebtoken from 8.5.1 to 9.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 62.10.1
+  title: ""
+  date: 2023-01-01T08:09:09.263Z
+- commits:
     - subject: Update prom/prometheus Docker tag to v2.41.0
       hash: a90798b4773d6afe2ba98da61d42a9af144ac8b7
       body: |
