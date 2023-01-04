@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump loader-utils from 2.0.2 to 2.0.4 in /apps/ui
+      hash: 1a724743e7a368c5e5724ae22bdd5acff24d3a97
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: dependabot[bot]
+      nested: []
+  version: 62.10.4
+  title: ""
+  date: 2023-01-04T12:38:33.879Z
+- commits:
     - subject: Bump engine.io from 6.2.0 to 6.2.1 in /apps/server
       hash: 1bced8fdc14dca0182ce599a6817958a0d05acd6
       body: ""
