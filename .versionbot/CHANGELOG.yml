@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump engine.io from 6.2.0 to 6.2.1 in /apps/server
+      hash: 1bced8fdc14dca0182ce599a6817958a0d05acd6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: dependabot[bot]
+      nested: []
+  version: 62.10.3
+  title: ""
+  date: 2023-01-04T10:26:15.564Z
+- commits:
     - subject: Bump decode-uri-component from 0.2.0 to 0.2.2 in /apps/ui
       hash: 31d82fe6b6d4941e4b84281ee3f9069785c8e65b
       body: ""
