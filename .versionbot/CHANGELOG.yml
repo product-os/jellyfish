@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump decode-uri-component from 0.2.0 to 0.2.2 in /apps/ui
+      hash: 31d82fe6b6d4941e4b84281ee3f9069785c8e65b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: dependabot[bot]
+      nested: []
+  version: 62.10.2
+  title: ""
+  date: 2023-01-04T09:38:27.082Z
+- commits:
     - subject: Update dependency jsonwebtoken to 9.0.0 [SECURITY]
       hash: b614bdbe4b7ece4e6246ba736650db1eddc7469f
       body: |
