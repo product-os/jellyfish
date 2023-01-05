@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v13.6.1 as base
+FROM balena/open-balena-base:v14.1.4 as base
 
 WORKDIR /usr/src/jellyfish/apps/ui
 

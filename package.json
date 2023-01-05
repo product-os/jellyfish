@@ -10,7 +10,7 @@
     "url": "git@github.com:product-os/jellyfish.git"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "lint": "balena-lint -e js *.js scripts test && shellcheck scripts/*.sh scripts/*/*.sh && prettier --check **/*.json **/*.yml",
