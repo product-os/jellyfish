@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump json5 from 2.2.1 to 2.2.3 in /apps/ui
+      hash: 184035cb4225e66b3f438caf7779b818ad7dd7a8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: dependabot[bot]
+      nested: []
+  version: 62.10.7
+  title: ""
+  date: 2023-01-05T01:58:57.937Z
+- commits:
     - subject: Bump json5 from 2.2.0 to 2.2.3 in /apps/server
       hash: 6b2cd2d5d991bcb1731810de1cac3d0c3fdf2f87
       body: ""
