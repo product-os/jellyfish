@@ -38,14 +38,9 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        instance_id="$(aws ec2 describe-instances \
-          --filters Name=tag:GITHUB_SHA,Values=${GITHUB_SHA}-tests \
-          --output text \
-          --query 'Reservations[*].Instances[*].{Instance:InstanceId}')"
-
-        if [[ -n $instance_id ]]; then
-            aws ec2 terminate-instances --instance-ids "${instance_id}"
-        fi
+        aws ec2 describe-instances --filters Name=tag:GITHUB_SHA,Values=${GITHUB_SHA}-tests \
+          | jq -r .Reservations[].Instances[].InstanceId \
+          | xargs aws ec2 terminate-instances --instance-ids || true
 
       env:
         AWS_ACCESS_KEY_ID: ${{ fromJSON(inputs.secrets).AWS_ACCESS_KEY_ID }}
