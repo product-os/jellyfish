@@ -28,9 +28,9 @@ inputs:
   AWS_VPC_SECURITY_GROUP_IDS:
     type: string
     default: "sg-09f3c836cfe28939c"
-  AWS_VPC_SUBNET_ID:
+  AWS_VPC_SUBNET_IDS:
     type: string
-    default: "subnet-0235593b90b9d5262"
+    default: "subnet-0ae657c99739c192f subnet-0235593b90b9d5262"
   BALENA_CLI_URL:
     type: string
     default: "https://github.com/balena-io/balena-cli/releases/download"
@@ -543,19 +543,21 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        for market_type in spot on-demand; do
-            # https://docs.aws.amazon.com/cli/latest/reference/ec2/run-instances.html
-            response="$(aws ec2 run-instances \
-              --launch-template 'LaunchTemplateId=${{ inputs.AWS_EC2_LAUNCH_TEMPLATE }},Version=${{ inputs.AWS_EC2_LT_VERSION }}' \
-              --instance-type '${{ inputs.AWS_EC2_INSTANCE_TYPE }}' \
-              $([[ $market_type =~ spot ]] && echo '--instance-market-options MarketType=spot') \
-              --security-group-ids '${{ inputs.AWS_VPC_SECURITY_GROUP_IDS }}' \
-              --subnet-id '${{ inputs.AWS_VPC_SUBNET_ID }}' \
-              --associate-public-ip-address \
-              --user-data file://config.json \
-              --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${{ inputs.JELLYFISH_TESTS_SERVICE }}},{Key=MarketType,Value=${market_type}},{Key=Owner,Value=${{ inputs.AWS_IAM_USERNAME }}},{Key=GITHUB_SHA,Value=${GITHUB_SHA}-tests}]" || true)"
+        for subnet_id in ${{ inputs.AWS_VPC_SUBNET_IDS }}; do
+            for market_type in spot on-demand; do
+                # https://docs.aws.amazon.com/cli/latest/reference/ec2/run-instances.html
+                response="$(aws ec2 run-instances \
+                  --launch-template 'LaunchTemplateId=${{ inputs.AWS_EC2_LAUNCH_TEMPLATE }},Version=${{ inputs.AWS_EC2_LT_VERSION }}' \
+                  --instance-type '${{ inputs.AWS_EC2_INSTANCE_TYPE }}' \
+                  $([[ $market_type =~ spot ]] && echo '--instance-market-options MarketType=spot') \
+                  --security-group-ids '${{ inputs.AWS_VPC_SECURITY_GROUP_IDS }}' \
+                  --subnet-id "${subnet_id}" \
+                  --associate-public-ip-address \
+                  --user-data file://config.json \
+                  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${{ inputs.JELLYFISH_TESTS_SERVICE }}},{Key=MarketType,Value=${market_type}},{Key=Owner,Value=${{ inputs.AWS_IAM_USERNAME }}},{Key=GITHUB_SHA,Value=${GITHUB_SHA}-tests}]" || true)"
 
-            [[ -n $response ]] && break
+                [[ -n $response ]] && break
+            done
         done
 
         [[ -z $response ]] && exit 1
