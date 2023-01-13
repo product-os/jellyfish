@@ -1,4 +1,16 @@
 - commits:
+    - subject: Refactor AWS/EC2 cleanup
+      hash: 6309e6512d6c6600d1c029a58a296bcc33db52b2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 62.10.10
+  title: ""
+  date: 2023-01-13T00:10:29.641Z
+- commits:
     - subject: Use multiple subnets
       hash: c892a140d9a9a99f8f9ab8412a489c093c5a3a1b
       body: ""
