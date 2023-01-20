@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update balena/open-balena-registry Docker tag to v2.30.0
+      hash: bba627cab11983407cf35d0d08878631b577f3d6
+      body: |
+        Update balena/open-balena-registry to 2.30.0
+
+        Update balena/open-balena-registry from 2.29.4 to 2.30.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.14.0
+  title: ""
+  date: 2023-01-20T20:24:42.895Z
+- commits:
     - subject: Update balena/balena-mdns-publisher Docker tag to v1.21.0
       hash: 20e8e538690a997e4f6824d551c69c69b62312d3
       body: |
