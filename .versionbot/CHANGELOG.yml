@@ -1,4 +1,17 @@
 - commits:
+    - subject: Enable minification of the UI bundle, dropping the size from ~12.1MB to
+        ~4.6MB
+      hash: ea7550950de4463adfda066f70470ca3265ad434
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 62.10.11
+  title: ""
+  date: 2023-01-20T16:38:30.649Z
+- commits:
     - subject: Refactor AWS/EC2 cleanup
       hash: 6309e6512d6c6600d1c029a58a296bcc33db52b2
       body: ""
