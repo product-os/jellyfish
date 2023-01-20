@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update actions/checkout digest to ac59398
+      hash: 44f92d4fddb92bd18e9b6ae61defe56447a47c68
+      body: |
+        Update actions/checkout to
+
+        Update actions/checkout from 3 to
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.11.0
+  title: ""
+  date: 2023-01-20T17:32:00.591Z
+- commits:
     - subject: Enable minification of the UI bundle, dropping the size from ~12.1MB to
         ~4.6MB
       hash: ea7550950de4463adfda066f70470ca3265ad434
