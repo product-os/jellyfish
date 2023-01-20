@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update balena/balena-mdns-publisher Docker tag to v1.21.0
+      hash: 20e8e538690a997e4f6824d551c69c69b62312d3
+      body: |
+        Update balena/balena-mdns-publisher to 1.21.0
+
+        Update balena/balena-mdns-publisher from 1.20.6 to 1.21.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Renovate Bot
+      nested: []
+  version: 62.13.0
+  title: ""
+  date: 2023-01-20T19:31:36.267Z
+- commits:
     - subject: Update github/codeql-action digest to a34ca99
       hash: 2c970affd034258c296f92f3904427bf2bf0ba25
       body: |
