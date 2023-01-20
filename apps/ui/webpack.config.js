@@ -30,8 +30,6 @@ console.log(`Generating bundle from ${uiRoot}`)
 const config = {
 	entry: path.join(uiRoot, 'index.tsx'),
 	target: 'web',
-	devtool: process.env.NODE_ENV === 'production' ? 'eval' : 'eval-cheap-module-source-map',
-	mode: process.env.NODE_ENV || 'production',
 
 	output: {
 		filename: '[name].[contenthash].js',
@@ -113,7 +111,6 @@ const config = {
 
 		new DefinePlugin({
 			env: {
-				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
 				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI),
 				JF_DEBUG_SW: JSON.stringify(process.env.JF_DEBUG_SW),
 

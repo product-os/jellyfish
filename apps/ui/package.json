@@ -9,7 +9,7 @@
 	},
 	"scripts": {
 		"clean": "rimraf dist",
-		"build": "npm run clean && NODE_ENV=production NODE_OPTIONS=--max-old-space-size=6144 webpack --config=./webpack.config.js",
+		"build": "npm run clean && NODE_OPTIONS=--max-old-space-size=6144 webpack --mode=production --config=./webpack.config.js",
 		"lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,assert,canvas,history,typedoc",
 		"lint:fix": "balena-lint --fix lib test",
 		"test": "npm run lint && npm run test:tsc && npm run test:unit",
@@ -18,7 +18,7 @@
 		"doc": "typedoc lib/",
 		"prepack": "npm run build",
 		"env": "mkdir -p ./dist/ui && NODE_ENV=development PUBLIC_DIR='./' ./conf/env.sh && cp ./env-config.js ./dist/ui/",
-		"dev": "npm run env && NODE_ENV=development webpack serve --config=./webpack.config.js --color"
+		"dev": "npm run env && webpack --mode=development serve --config=./webpack.config.js --color"
 	},
 	"author": "Balena.io. <hello@balena.io>",
 	"license": "AGPL-3.0",
