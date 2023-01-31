@@ -1,20 +1,18 @@
 name: Flowzone
-
 on:
   pull_request:
     types: [opened, synchronize, closed]
     branches:
       - "main"
       - "master"
-
 jobs:
   flowzone:
     name: Flowzone
-    uses: product-os/flowzone/.github/workflows/flowzone.yml@master
+    uses: product-os/flowzone/.github/workflows/flowzone.yml@87ce10c98551c0922b9c698b078de64aad5ca425
     secrets: inherit
-
     with:
       # disable default balena action and handle in custom action(s) instead
       balena_slugs: ""
       # https://github.com/actions/runner/issues/1979
       jobs_timeout_minutes: 60
+      protect_branch: false
