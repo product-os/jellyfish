@@ -13,7 +13,6 @@
     "node_modules/@balena/jellyfish-plugin-discourse/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-feedback/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-github/build/**/*.js",
-    "node_modules/@balena/jellyfish-plugin-hubot/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-typeform/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-incidents/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-front/build/**/*.js",

@@ -6,7 +6,6 @@ import { incidentsPlugin } from '@balena/jellyfish-plugin-incidents';
 import { outreachPlugin } from '@balena/jellyfish-plugin-outreach';
 import { typeformPlugin } from '@balena/jellyfish-plugin-typeform';
 import { feedbackPlugin } from '@balena/jellyfish-plugin-feedback';
-import { hubotPlugin } from '@balena/jellyfish-plugin-hubot';
 import { PluginDefinition } from '@balena/jellyfish-worker';
 
 export function getPlugins(): PluginDefinition[] {
@@ -19,6 +18,5 @@ export function getPlugins(): PluginDefinition[] {
 		balenaApiPlugin(),
 		incidentsPlugin(),
 		feedbackPlugin(),
-		hubotPlugin(),
 	] as any;
 }
