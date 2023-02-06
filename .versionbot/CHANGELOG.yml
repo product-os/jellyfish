@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove jellyfish-plugin-hubot
+      hash: 823cbdff7f46cc3ca1a214a31125b383b632586d
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 63.0.0
+  title: ""
+  date: 2023-02-06T23:58:32.222Z
+- commits:
     - subject: Update balena/open-balena-s3 Docker tag to v2.18.0
       hash: 17bb70600f16abdacc0486544569972404aba3b0
       body: |
