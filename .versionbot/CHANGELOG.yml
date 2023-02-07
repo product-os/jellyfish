@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove jellyfish-plugin-feedback
+      hash: b78de6ca76d925c770d57472f6950bacc75f756c
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 64.0.0
+  title: ""
+  date: 2023-02-07T02:07:19.462Z
+- commits:
     - subject: Remove jellyfish-plugin-hubot
       hash: 823cbdff7f46cc3ca1a214a31125b383b632586d
       body: ""
