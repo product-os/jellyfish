@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove jellyfish-plugin-incidents
+      hash: edd991dc81b8b40816a80596b78177372214ef91
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 65.0.0
+  title: ""
+  date: 2023-02-07T02:54:52.877Z
+- commits:
     - subject: Remove jellyfish-plugin-feedback
       hash: b78de6ca76d925c770d57472f6950bacc75f756c
       body: ""
