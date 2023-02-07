@@ -24,8 +24,6 @@ upstream:
     url: "https://github.com/product-os/jellyfish-plugin-front"
   - repo: "jellyfish-plugin-github"
     url: "https://github.com/product-os/jellyfish-plugin-github"
-  - repo: "jellyfish-plugin-incidents"
-    url: "https://github.com/product-os/jellyfish-plugin-incidents"
   - repo: "jellyfish-plugin-outreach"
     url: "https://github.com/product-os/jellyfish-plugin-outreach"
   - repo: "jellyfish-plugin-typeform"
