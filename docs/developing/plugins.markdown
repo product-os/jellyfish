@@ -31,5 +31,4 @@ For some real examples in use in production, check the following repositories:
 - [jellyfish-plugin-front](https://github.com/product-os/jellyfish-plugin-front)
 - [jellyfish-plugin-typeform](https://github.com/product-os/jellyfish-plugin-typeform)
 - [jellyfish-plugin-discourse](https://github.com/product-os/jellyfish-plugin-discourse)
-- [jellyfish-plugin-outreach](https://github.com/product-os/jellyfish-plugin-outreach)
 - [jelyfish-plugin-github](https://github.com/product-os/jellyfish-plugin-github)

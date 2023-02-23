@@ -30,7 +30,7 @@ export const attachMiddlewares = (
 			// as sometimes they end up being huge.
 			limit: '5mb',
 
-			// Services such as Outreach send a content
+			// Some services send a content
 			// type "application/vnd.api+json"
 			type: ['application/*+json', 'application/json'],
 
