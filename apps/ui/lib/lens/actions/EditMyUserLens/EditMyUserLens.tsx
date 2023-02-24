@@ -3,19 +3,16 @@ import _ from 'lodash';
 import React from 'react';
 import {
 	Box,
-	Flex,
 	Button,
 	Heading,
 	Txt,
 	Tab,
 	Tabs,
-	Divider,
-	Link,
 	Form,
 	TextWithCopy,
 } from 'rendition';
 import * as skhema from 'skhema';
-import { Icon, Setup, withSetup } from '../../../components';
+import { Setup, withSetup } from '../../../components';
 import * as timezones from '../../../services/timezones';
 import * as helpers from '../../../services/helpers';
 import { customQueryTabs } from '../../common';
@@ -96,7 +93,6 @@ export default withSetup(
 				'handleFormSubmit',
 				'handlePasswordFormChange',
 				'changePassword',
-				'startAuthorize',
 			]);
 
 			const userTypeCard = helpers.getType('user', props.types);
@@ -154,19 +150,6 @@ export default withSetup(
 			methods.forEach((method) => {
 				this[method] = this[method].bind(this);
 			});
-		}
-
-		async startAuthorize() {
-			this.setState({
-				fetchingIntegrationUrl: true,
-			});
-			const user = this.props.card.card;
-			const url = await this.props.actions.getIntegrationAuthUrl({
-				userSlug: user.slug,
-				providerSlug: 'oauth-provider-outreach@1.0.0',
-				returnUrl: location.href,
-			});
-			window.location.href = url;
 		}
 
 		handlePasswordFormChange(data) {
@@ -269,7 +252,7 @@ export default withSetup(
 					title={<Heading.h4>Settings</Heading.h4>}
 				>
 					<Tabs
-						// @ts-ignore: Rendition's Tabs component is (incorrectly?) cast to React.FunctionComponent<TabsProps>
+						// @ts-expect-error: Rendition's Tabs component is (incorrectly?) cast to React.FunctionComponent<TabsProps>
 						// so it doesn't know about pt and px
 						pt={3}
 					>
@@ -323,37 +306,6 @@ export default withSetup(
 									onFormSubmit={this.handleFormSubmit}
 									value={user}
 								/>
-							</Box>
-						</Tab>
-
-						<Tab title="Oauth" data-test="tab_oauth">
-							<Box p={3} flex={1}>
-								<Divider color="#eee" />
-
-								<Flex justifyContent="space-between" alignItems="center">
-									<Link href="https://www.outreach.io/" blank>
-										<Txt bold mr={2}>
-											Outreach
-										</Txt>
-									</Link>
-
-									{_.get(user, ['data', 'oauth', 'outreach']) ? (
-										<Txt>Authorized</Txt>
-									) : (
-										<Button
-											data-test="integration-connection--outreach"
-											onClick={this.startAuthorize}
-										>
-											{this.state.fetchingIntegrationUrl ? (
-												<Icon spin name="cog" />
-											) : (
-												'Connect'
-											)}
-										</Button>
-									)}
-								</Flex>
-
-								<Divider color="#eee" />
 							</Box>
 						</Tab>
 

@@ -51,7 +51,6 @@ export default withSetup(
 				'handleFormSubmit',
 				'handlePasswordFormChange',
 				'changePassword',
-				'startAuthorize',
 			]);
 
 			const userTypeCard = helpers.getType('user', props.types);
@@ -246,19 +245,6 @@ export default withSetup(
 			methods.forEach((method) => {
 				this[method] = this[method].bind(this);
 			});
-		}
-
-		async startAuthorize() {
-			this.setState({
-				fetchingIntegrationUrl: true,
-			});
-			const user = this.props.card;
-			const url = await this.props.actions.getIntegrationAuthUrl({
-				userSlug: user.slug,
-				providerSlug: 'oauth-provider-outreach@1.0.0',
-				returnUrl: location.href,
-			});
-			window.location.href = url;
 		}
 
 		handlePasswordFormChange(data) {
