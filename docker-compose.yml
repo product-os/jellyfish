@@ -132,13 +132,18 @@ services:
   # TODO Don't run on PROD
   # https://github.com/balena-io/open-balena-db
   postgres:
-    image: balena/open-balena-db:v5.1.3
+    image: postgres:15
     restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+    ports:
+      - "5432:5432"
     healthcheck:
-      interval: 15s
-      retries: 3
-      test: pg_isready -U "${POSTGRES_USER}" -d postgres
+      test: ["CMD-SHELL", "pg_isready -U docker"]
+      interval: 5s
       timeout: 5s
+      retries: 5
     command:
       [
         "postgres",
@@ -148,10 +153,6 @@ services:
         "synchronous_commit=off",
         "-c",
         "full_page_writes=off",
-        "-c",
-        "max_connections=500",
-        "-c",
-        "shared_buffers=512MB",
       ]
     volumes:
       - postgres-data:/var/lib/postgresql/data

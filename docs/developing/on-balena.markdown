@@ -175,10 +175,7 @@ echo 'SUT=1 scripts/ci/run-tests.sh \
   wait-for-api \
   integration-server \
   e2e \
-  e2e-ui \
-  export-database \
-  import-database \
-  e2e-server-previous-dump' | balena ssh "${SHORT_UUID}.local" jellyfish-tests
+  e2e-ui | balena ssh "${SHORT_UUID}.local" jellyfish-tests
 ```
 
 ## Footnotes

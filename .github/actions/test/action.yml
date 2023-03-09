@@ -61,10 +61,7 @@ inputs:
     default: |
       wait-for-api \
       integration-server \
-      e2e e2e-ui \
-      export-database \
-      import-database \
-      e2e-server-previous-dump
+      e2e e2e-ui
   LIVECHAT_PORT:
     type: number
     default: 443
