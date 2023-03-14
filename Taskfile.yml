@@ -39,18 +39,6 @@ tasks:
     cmds:
       - npm run test:integration:server
 
-  export-database:
-    cmds:
-      - ./scripts/ci/postgres/export.js e2e-server
-
-  import-database:
-    cmds:
-      - ./scripts/ci/postgres/import.js e2e-server
-
-  e2e-server-previous-dump:
-    cmds:
-      - task: e2e-server
-
   test:
     cmds:
       - task: catch-uncommitted
@@ -60,6 +48,3 @@ tasks:
       - task: integration-server
       - task: e2e
       - task: e2e-ui
-      - task: export-database
-      - task: import-database
-      - task: e2e-server-previous-dump
