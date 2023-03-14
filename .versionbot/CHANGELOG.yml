@@ -1,4 +1,16 @@
 - commits:
+    - subject: Move to postgres 15
+      hash: 6df58e4e1e0e52bdd8be349829e1bb5153af1d6e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 66.0.1
+  title: ""
+  date: 2023-03-14T05:51:09.206Z
+- commits:
     - subject: Remove jellyfish-plugin-outreach
       hash: c3b344e096ea2ff42ab139b63f1ae7bdfe0b51de
       body: ""
