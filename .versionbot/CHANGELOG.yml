@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update worker and autumndb
+      hash: bca018929b825cc41855581c9714e0c0e34fc9ca
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 66.0.2
+  title: ""
+  date: 2023-03-21T08:14:51.960Z
+- commits:
     - subject: Move to postgres 15
       hash: 6df58e4e1e0e52bdd8be349829e1bb5153af1d6e
       body: ""
