@@ -1,4 +1,35 @@
 - commits:
+    - subject: Bump ua-parser-js from 0.7.31 to 0.7.34 in /apps/ui
+      hash: 46592998aeb245eac7e77d4a94af1d21f69dcc51
+      body: >
+        Bumps [ua-parser-js](https://github.com/faisalman/ua-parser-js) from
+        0.7.31 to 0.7.34.
+
+        - [Release notes](https://github.com/faisalman/ua-parser-js/releases)
+
+        - [Changelog](https://github.com/faisalman/ua-parser-js/blob/0.7.34/changelog.md)
+
+        - [Commits](https://github.com/faisalman/ua-parser-js/compare/0.7.31...0.7.34)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: ua-parser-js
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 66.0.3
+  title: ""
+  date: 2023-03-22T09:19:27.023Z
+- commits:
     - subject: Update worker and autumndb
       hash: bca018929b825cc41855581c9714e0c0e34fc9ca
       body: ""
