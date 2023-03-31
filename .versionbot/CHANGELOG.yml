@@ -1,4 +1,35 @@
 - commits:
+    - subject: Bump dns-packet from 5.3.1 to 5.4.0 in /apps/ui
+      hash: c800c32bb8f95dc396a1d31e907d759ac45b7375
+      body: >
+        Bumps [dns-packet](https://github.com/mafintosh/dns-packet) from 5.3.1 to
+        5.4.0.
+
+        - [Release notes](https://github.com/mafintosh/dns-packet/releases)
+
+        - [Changelog](https://github.com/mafintosh/dns-packet/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/mafintosh/dns-packet/compare/v5.3.1...5.4.0)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: dns-packet
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 66.0.4
+  title: ""
+  date: 2023-03-31T09:27:16.886Z
+- commits:
     - subject: Bump ua-parser-js from 0.7.31 to 0.7.34 in /apps/ui
       hash: 46592998aeb245eac7e77d4a94af1d21f69dcc51
       body: >
