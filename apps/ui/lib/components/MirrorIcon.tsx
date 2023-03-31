@@ -9,17 +9,17 @@ import frontAppSvg from '../icons/front-app.svg';
 const Mirrors = [
 	{
 		name: 'Discourse',
-		matcher: /forums.balena.io/,
+		matcher: /forums\.balena\.io/,
 		icon: <Icon name="discourse" brands />,
 	},
 	{
 		name: 'GitHub',
-		matcher: /github.com/,
+		matcher: /github\.com/,
 		icon: <Icon name="github" brands />,
 	},
 	{
 		name: 'Front',
-		matcher: /frontapp.com/,
+		matcher: /frontapp\.com/,
 		icon: (
 			<Img
 				// @ts-ignore
