@@ -1,4 +1,28 @@
 - commits:
+    - subject: Bump luxon from 3.1.0 to 3.3.0 in /apps/server
+      hash: ff0de01fc455d2002df04d55534f7f2f10247917
+      body: |
+        Bumps [luxon](https://github.com/moment/luxon) from 3.1.0 to 3.3.0.
+        - [Release notes](https://github.com/moment/luxon/releases)
+        - [Changelog](https://github.com/moment/luxon/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/moment/luxon/compare/3.1.0...3.3.0)
+
+        ---
+        updated-dependencies:
+        - dependency-name: luxon
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 66.0.7
+  title: ""
+  date: 2023-03-31T21:54:22.578Z
+- commits:
     - subject: Bump node-jose from 2.1.1 to 2.2.0 in /apps/server
       hash: 78296dfb0b9e64d85201a32da88fc31952ac8271
       body: >
