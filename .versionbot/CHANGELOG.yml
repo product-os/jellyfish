@@ -1,4 +1,32 @@
 - commits:
+    - subject: Bump webpack from 5.73.0 to 5.76.0 in /apps/ui
+      hash: b946fe178dd019e68b7139029457188af16d1d68
+      body: >
+        Bumps [webpack](https://github.com/webpack/webpack) from 5.73.0 to 5.76.0.
+
+        - [Release notes](https://github.com/webpack/webpack/releases)
+
+        - [Commits](https://github.com/webpack/webpack/compare/v5.73.0...v5.76.0)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: webpack
+          dependency-type: direct:development
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 66.0.5
+  title: ""
+  date: 2023-03-31T11:33:38.931Z
+- commits:
     - subject: Bump dns-packet from 5.3.1 to 5.4.0 in /apps/ui
       hash: c800c32bb8f95dc396a1d31e907d759ac45b7375
       body: >
