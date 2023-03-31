@@ -4,9 +4,7 @@ import { Flex, Modal } from 'rendition';
 import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
 import { ActionLink, ContextMenu, PlainButton, Icon } from '../';
-import CardLinker from '../CardLinker';
 import CardOwner from '../CardOwner';
-import VideoLink from '../VideoLink';
 import { BookmarkButton } from '../BookmarkButton';
 import type {
 	Contract,
@@ -102,7 +100,6 @@ export default class CardActions extends React.Component<Props, State> {
 
 	render() {
 		const { card } = this.props;
-		const isView = card.type === 'view@1.0.0';
 
 		// True if there is a relationship that matches the card type and 'is owned by'
 		const supportsOwnership = this.props.relationships.some((r) => {
@@ -141,18 +138,6 @@ export default class CardActions extends React.Component<Props, State> {
 						}}
 						icon={<Icon name="pencil-alt" />}
 					/>
-
-					{!isView && (
-						<>
-							<VideoLink card={this.props.card} p={2} />
-
-							<CardLinker
-								types={this.props.types}
-								card={this.props.card}
-								actions={this.props.actions}
-							/>
-						</>
-					)}
 
 					<span>
 						<PlainButton
