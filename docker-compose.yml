@@ -57,7 +57,6 @@ services:
       POSTGRES_PASSWORD: docker
       POSTGRES_USER: docker
       REDIS_HOST: redis
-      SENTRY_CONFIG: ","
       SERVER_PORT: 443
       TOKENS_CONFIG: ","
       UI_PORT: 443
@@ -71,7 +70,6 @@ services:
       <<: *default-environment
       # /etc/docker.env:API_HOST=api.{{balena_device_uuid}}.{{dns_tld}}
       HOSTS_CONFIG: API_HOST:api,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel
-      SENTRY_CONFIG: ","
       # /etc/docker.env:RESET_PASSWORD_SECRET_TOKEN="$(openssl rand -hex 16)"
       TOKENS_CONFIG: RESET_PASSWORD_SECRET_TOKEN:hex,MONITOR_SECRET_TOKEN:hex
       NO_LOG_SUCCESS: 1
@@ -109,8 +107,6 @@ services:
     environment:
       <<: *default-environment
       HOSTS_CONFIG: API_HOST:api,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel
-      SENTRY_CONFIG: ","
-      SENTRY_DSN_UI: 0
       SERVER_PORT: 443
       TOKENS_CONFIG: ","
       UI_PORT: 80
@@ -185,7 +181,6 @@ services:
       # (TBC) MinIO/S3 untested
       # https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html#s3ForcePathStyle-property
       HOSTS_CONFIG: AWS_S3_ENDPOINT:s3
-      SENTRY_CONFIG: ","
       TOKENS_CONFIG: S3_MINIO_ACCESS_KEY:hex,S3_MINIO_SECRET_KEY:hex,AWS_ACCESS_KEY_ID:S3_MINIO_ACCESS_KEY,AWS_SECRET_ACCESS_KEY:S3_MINIO_SECRET_KEY
       # (TBC) MINIO_DOMAIN: https://docs.min.io/docs/minio-server-configuration-guide.html
       MINIO_DOMAIN: ly.fish.local
@@ -237,7 +232,6 @@ services:
       REGISTRY2_STORAGEPATH: /data
       HOSTS_CONFIG: REGISTRY_HOST:registry,REGISTRY2_HOST:registry,REGISTRY2_TOKEN_AUTH_ISSUER:api,REGISTRY_TOKEN_AUTH_CERT_ISSUER:api,REGISTRY2_TOKEN_AUTH_REALM:api
       TOKENS_CONFIG: REGISTRY2_SECRETKEY:hex
-      SENTRY_CONFIG: ","
 
   prometheus:
     build: apps/prometheus
@@ -279,7 +273,6 @@ services:
       <<: *default-environment
       MDNS_SUBDOMAINS: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3,stats,ui
       HOSTS_CONFIG: API_HOST:api,AWS_S3_ENDPOINT:s3,REGISTRY_HOST:registry,REGISTRY2_HOST:registry,UI_HOST:jel
-      SENTRY_CONFIG: ","
       TOKENS_CONFIG: ","
     healthcheck:
       test: /usr/src/app/docker-hc

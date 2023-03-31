@@ -14,10 +14,6 @@ export const isProduction = () => {
 	return env.NODE_ENV === 'production';
 };
 
-export const sentry = {
-	dsn: windowEnv.SENTRY_DSN_UI || '0',
-};
-
 export const api = {
 	prefix: 'api/v2',
 	url:

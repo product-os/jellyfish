@@ -101,11 +101,6 @@ export const getWrapper = (
 		selectCard: sinon.stub().returns(sinon.stub().returns(null)),
 	},
 	setupProps = {
-		errorReporter: {
-			reportException: (error: Error) => {
-				console.error(error);
-			},
-		},
 		sdk: {
 			getAuthToken: sinon.stub(),
 			stream: {
@@ -125,7 +120,6 @@ export const getWrapper = (
 						<SetupProvider
 							sdk={setupProps.sdk as any}
 							analytics={{} as any}
-							errorReporter={setupProps.errorReporter as any}
 							environment={{} as any}
 						>
 							<ReduxProvider store={store}>

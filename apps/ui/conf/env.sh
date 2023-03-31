@@ -23,7 +23,6 @@ touch "./$BASE_FILENAME"
 	# Append configuration property to JS file
 	echo "  SERVER_HOST: \"$SERVER_HOST\","
 	echo "  SERVER_PORT: \"$SERVER_PORT\","
-	echo "  SENTRY_DSN_UI: \"$SENTRY_DSN_UI\","
 
 	echo "}"
 } >> "./$BASE_FILENAME"

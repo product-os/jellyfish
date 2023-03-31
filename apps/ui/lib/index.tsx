@@ -28,7 +28,6 @@ import CardLoaderContextProvider from './components/CardLoaderContextProvider';
 import { createLazyComponent } from './components/SafeLazy';
 import { getSdk } from '@balena/jellyfish-client-sdk';
 import Analytics from './services/analytics';
-import ErrorReporter from './services/error-reporter';
 import { reducer } from './store/reducer';
 import { actionCreators, selectors } from './store';
 
@@ -136,21 +135,12 @@ const App = () => {
 		});
 	}, []);
 
-	const errorReporter = React.useMemo(() => {
-		return new ErrorReporter({
-			isProduction: environment.isProduction(),
-			dsn: environment.sentry.dsn,
-			version: environment.version,
-		});
-	}, []);
-
 	const store = React.useMemo(() => {
 		const middleware = [
 			routerMiddleware(history),
 			reduxThunk.withExtraArgument({
 				sdk,
 				analytics,
-				errorReporter,
 			}),
 		];
 
@@ -165,7 +155,7 @@ const App = () => {
 			reducer,
 			composeEnhancers(redux.applyMiddleware(...middleware)),
 		);
-	}, [sdk, analytics, errorReporter]);
+	}, [sdk, analytics]);
 
 	const persistor = React.useMemo(() => {
 		const onHydrated = async () => {
@@ -201,7 +191,6 @@ const App = () => {
 						environment={environment}
 						sdk={sdk}
 						analytics={analytics}
-						errorReporter={errorReporter}
 					>
 						<Provider store={store}>
 							<PersistGate loading={null} persistor={persistor}>

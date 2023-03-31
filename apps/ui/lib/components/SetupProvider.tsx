@@ -1,14 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import Analytics from '../services/analytics';
-import ErrorReporter from '../services/error-reporter';
 import * as env from '../environment';
 
 export interface Setup {
 	environment: typeof env;
 	sdk: JellyfishSDK;
 	analytics: Analytics;
-	errorReporter: ErrorReporter;
 }
 
 const setupContext = React.createContext<Setup | null>(null);
@@ -16,7 +14,6 @@ const setupContext = React.createContext<Setup | null>(null);
 export const SetupProvider: FunctionComponent<Setup> = ({
 	environment,
 	analytics,
-	errorReporter,
 	sdk,
 	children,
 }) => {
@@ -25,9 +22,8 @@ export const SetupProvider: FunctionComponent<Setup> = ({
 			environment,
 			sdk,
 			analytics,
-			errorReporter,
 		};
-	}, [environment, sdk, analytics, errorReporter]);
+	}, [environment, sdk, analytics]);
 
 	return (
 		<setupContext.Provider value={setup}>{children}</setupContext.Provider>
