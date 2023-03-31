@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove Google Meet
+      hash: af81084e384776850a52e58bc351f050902aba99
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 67.0.0
+  title: ""
+  date: 2023-03-31T23:59:01.809Z
+- commits:
     - subject: Fix mirror icon hostname regex
       hash: 634e4957f1fa83806e78f78b5bd3101d62eaaafd
       body: ""
