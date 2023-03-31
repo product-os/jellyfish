@@ -1,4 +1,34 @@
 - commits:
+    - subject: Bump node-jose from 2.1.1 to 2.2.0 in /apps/server
+      hash: 78296dfb0b9e64d85201a32da88fc31952ac8271
+      body: >
+        Bumps [node-jose](https://github.com/cisco/node-jose) from 2.1.1 to 2.2.0.
+
+        - [Release notes](https://github.com/cisco/node-jose/releases)
+
+        - [Changelog](https://github.com/cisco/node-jose/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/cisco/node-jose/compare/v2.1.1...v2.2.0)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: node-jose
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 66.0.6
+  title: ""
+  date: 2023-03-31T12:18:10.765Z
+- commits:
     - subject: Bump webpack from 5.73.0 to 5.76.0 in /apps/ui
       hash: b946fe178dd019e68b7139029457188af16d1d68
       body: >
