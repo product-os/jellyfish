@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove registry
+      hash: 37f0fa5b029ad3f622c50de75584fb67f30f09ed
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 69.0.0
+  title: ""
+  date: 2023-04-01T04:18:05.023Z
+- commits:
     - subject: Remove livepush
       hash: be9f368002c2e5663ce4335b6e4c0c75b36246d5
       body: ""
