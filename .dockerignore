@@ -1,8 +1,5 @@
 !.git/
 .cache-loader
-.libs/**/*.tgz*
-.libs/**/lib
-.libs/**/package*.json
 .nyc_ouput
 .tmp
 .versionbot
