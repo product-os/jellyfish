@@ -1,4 +1,34 @@
 - commits:
+    - subject: Bump node-jose from 2.1.1 to 2.2.0
+      hash: 3a82cab8205cf0dcd0aa2ed0e1b500266189ac4a
+      body: >
+        Bumps [node-jose](https://github.com/cisco/node-jose) from 2.1.1 to 2.2.0.
+
+        - [Release notes](https://github.com/cisco/node-jose/releases)
+
+        - [Changelog](https://github.com/cisco/node-jose/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/cisco/node-jose/compare/v2.1.1...v2.2.0)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: node-jose
+          dependency-type: direct:development
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 71.0.1
+  title: ""
+  date: 2023-04-01T11:58:39.638Z
+- commits:
     - subject: Remove prometheus and grafana
       hash: 0e22a3dc2ea0ff47a9f689ecb79174cc72be5e65
       body: ""
