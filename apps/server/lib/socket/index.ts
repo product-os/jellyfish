@@ -1,5 +1,4 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import * as prometheus from '@balena/socket-prometheus-metrics';
 import type {
 	AutumnDBSession,
 	Contract,
@@ -7,9 +6,6 @@ import type {
 	Kernel,
 	QueryOptions,
 } from 'autumndb';
-import express from 'express';
-import basicAuth from 'express-basic-auth';
-import http from 'http';
 import _ from 'lodash';
 import * as socketIo from 'socket.io';
 import redisAdapter from 'socket.io-redis';
@@ -207,34 +203,12 @@ export const attachSocket = (kernel: Kernel, server) => {
 		});
 	});
 
-	// Collect and expose socket metrics
-	const metrics = prometheus.metrics(socketServer, {
-		collectDefaultMetrics: true,
-		createServer: false,
-	});
-	const application = express();
-	const expressServer = new http.Server(application);
-	application.use(
-		basicAuth({
-			users: {
-				monitor: environment.metrics.token,
-			},
-		}),
-	);
-	application.get('/metrics', async (_req, res) => {
-		res.set('Content-Type', metrics.register.contentType);
-		res.send(await metrics.register.metrics());
-		res.end();
-	});
-	expressServer.listen(environment.metrics.ports.socket);
-
 	return {
 		close: () => {
 			_.forEach(openStreams, (stream) => {
 				stream.close();
 			});
 
-			expressServer.close();
 			socketServer.close();
 		},
 	};
