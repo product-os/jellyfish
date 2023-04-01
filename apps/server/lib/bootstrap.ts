@@ -1,7 +1,6 @@
 import * as assert from '@balena/jellyfish-assert';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import * as metrics from '@balena/jellyfish-metrics';
 import { ActionRequestContract, Worker } from '@balena/jellyfish-worker';
 import { strict } from 'assert';
 import { Cache, errors as autumndbErrors, Kernel } from 'autumndb';
@@ -44,11 +43,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		backendOptions,
 	);
 
-	const metricsServer = metrics.startServer(
-		logContext,
-		environment.metrics.ports.app,
-	);
-
 	// Create and initialize the worker instance. This will process jobs from the queue.
 	const worker = new Worker(
 		kernel,
@@ -58,7 +52,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	);
 
 	await worker.initialize(logContext, async (actionRequest) => {
-		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
 		try {
 			// Get the actor by id
 			if (!actionRequest.data.actor) {
@@ -233,7 +226,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		port: webServer.port,
 		close: async () => {
 			socketServer.close();
-			metricsServer.close();
 			await webServer.stop();
 			await closeWorker();
 		},

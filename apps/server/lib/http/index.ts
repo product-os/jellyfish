@@ -1,8 +1,8 @@
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import * as metrics from '@balena/jellyfish-metrics';
 import type { Sync, Worker } from '@balena/jellyfish-worker';
 import type { Kernel } from 'autumndb';
 import errio from 'errio';
+import express from 'express';
 import http from 'http';
 import { attachMiddlewares } from './middlewares';
 import { attachRoutes } from './routes';
@@ -11,7 +11,7 @@ const logger = getLogger(__filename);
 
 // TS-TODO: Define proper type for configuration argument
 export const createServer = (logContext: LogContext, configuration: any) => {
-	const application = metrics.initExpress();
+	const application = express();
 
 	const server = new http.Server(application);
 	let ready = false;

@@ -24,11 +24,9 @@ Many parts of Jellyfish are still under development, and this document aims to c
 	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)
 	- [**Developing on balena**](https://github.com/product-os/jellyfish/blob/master/docs/developing/on-balena.markdown)
 	- [**Running tests**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests.markdown)
-	- [**Adding metrics**](https://github.com/product-os/jellyfish-metrics/blob/master/doc/adding-metrics.markdown)
 	- [**Managing secrets**](https://github.com/product-os/secrets)
 - **Links**
 	- [**Production logs**](https://monitor.balena-cloud.com/explore?left=%5B%22now-3h%22,%22now%22,%22loki%22,%7B%22expr%22:%22%22,%22datasource%22:%22loki%22,%22refId%22:%22A%22%7D%5D&orgId=1)
-	- [**Metrics**](https://monitor.balena-cloud.com/dashboards/f/auto/auto)
 - **Integrations**
 	- [**Integrating with GitHub**](https://github.com/product-os/jellyfish/blob/master/docs/integrating-github.markdown)
 

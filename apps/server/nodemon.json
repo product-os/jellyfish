@@ -9,7 +9,6 @@
     "node_modules/@balena/jellyfish-environment/build/**/*.js",
     "node_modules/@balena/jellyfish-jellyscript/build/**/*.js",
     "node_modules/@balena/jellyfish-logger/build/**/*.js",
-    "node_modules/@balena/jellyfish-metrics/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-discourse/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-github/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-front/build/**/*.js",
