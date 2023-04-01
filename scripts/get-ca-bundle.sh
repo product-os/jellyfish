@@ -1,11 +1,5 @@
 #!/bin/bash
 
-###
-# Copyright (C) Balena.io - All Rights Reserved
-# Unauthorized copying of this file, via any medium is strictly prohibited.
-# Proprietary and confidential.
-###
-
 # Get certificate manager container ID
 cert_manager=$(DOCKER_HOST=${SHORT_UUID}.local docker ps \
   --filter "name=cert-manager" \

@@ -13,13 +13,6 @@ RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 COPY ./package.json /usr/src/jellyfish/package.json
 COPY ./apps/ui /usr/src/jellyfish/apps/ui
 
-#dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
-#dev-copy=./apps/ui/packages/ /usr/src/jellyfish/packages/
-#dev-run=/usr/src/jellyfish/scripts/install-packages.js
-
-#dev-cmd-live=cd /usr/src/jellyfish/apps/ui && npm run dev
-#dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
-
 RUN npm run build
 
 ###########################################################
