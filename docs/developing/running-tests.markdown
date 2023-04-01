@@ -24,8 +24,6 @@ git secret reveal -f
 ## Examples
 Below are a number of command examples.
 
-A number of tests require that multiple services be running and can talk to one another. The easiest to do this is with [Livepush](https://github.com/product-os/jellyfish#developing-with-livepush), but examples are also given for when Jellyfish is running locally. See the [local development guide](https://github.com/product-os/jellyfish/tree/master/docs/developing) for more on how to run Jellyfish locally. Also, if the output is a bit too noisy, try `LOGLEVEL=crit`.
-
 ### Lint
 Run lint checks:
 ```sh

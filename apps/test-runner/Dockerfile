@@ -42,12 +42,6 @@ ARG SUT=1
 
 WORKDIR /usr/src/jellyfish
 
-# --- Local Mode livepush
-#dev-copy=. ./
-#dev-run=systemctl enable confd
-#dev-cmd-live=/usr/bin/entry.sh
-# --- stops here
-
 SHELL [ "/bin/bash", "-c" ]
 
 RUN [[ $SUT -eq 1 ]] && npm ci && task lint
