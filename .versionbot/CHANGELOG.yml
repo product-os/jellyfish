@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove prometheus and grafana
+      hash: 0e22a3dc2ea0ff47a9f689ecb79174cc72be5e65
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 71.0.0
+  title: ""
+  date: 2023-04-01T07:33:39.373Z
+- commits:
     - subject: Remove .libs directory
       hash: 552590254f75964add5f25e9b946370ca67a7d61
       body: ""
