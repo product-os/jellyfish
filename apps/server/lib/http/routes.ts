@@ -16,7 +16,6 @@ import { v4 as uuidv4 } from 'uuid';
 import * as facades from './facades';
 import { Storage } from './file-storage';
 import * as oauth from './oauth';
-import * as registry from './registry';
 import { authMiddleware } from '../auth';
 
 // Avoid including package.json in the build output!
@@ -192,10 +191,6 @@ export const attachRoutes = (
 					data: errorObject,
 				});
 			});
-	});
-
-	application.get('/api/v2/registry', async (request, response) => {
-		return registry.authenticate(request, response, kernel);
 	});
 
 	application.get(

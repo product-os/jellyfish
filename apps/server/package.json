@@ -44,7 +44,6 @@
     "handover-lib": "^0.2.0",
     "is-uuid": "^1.0.2",
     "json-e": "^4.4.3",
-    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "multer": "^1.4.4",
     "skhema": "^6.0.6",

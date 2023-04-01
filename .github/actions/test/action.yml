@@ -86,12 +86,6 @@ inputs:
   REDIS_HOST:
     type: string
     default: "redis"
-  REGISTRY2_CACHE_ADDR:
-    type: string
-    default: "redis:6379"
-  REGISTRY2_STORAGEPATH:
-    type: string
-    default: "/data"
   RELEASES:
     type: number
     default: 50
@@ -373,18 +367,6 @@ runs:
         balena env add SERVER_HOST "api.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ inputs.DNS_TLD }}" \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-        balena env add REGISTRY_HOST "registry.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ inputs.DNS_TLD }}" \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_HOST "registry.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ inputs.DNS_TLD }}" \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add SENTRY_DSN_UI '' \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add SENTRY_DSN_SERVER '' \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
         balena env add AWS_ACCESS_KEY_ID '' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
@@ -422,42 +404,6 @@ runs:
           --service mdns \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-        balena env add REGISTRY2_TOKEN_AUTH_ISSUER "api.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ inputs.DNS_TLD }}" \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_TOKEN_AUTH_REALM "https://api.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ inputs.DNS_TLD }}" \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_STORAGEPATH '${{ inputs.REGISTRY2_STORAGEPATH }}' \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_CACHE_ADDR '${{ inputs.REGISTRY2_CACHE_ADDR }}' \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_S3_CLOUDFRONT_ENDPOINT '' \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_S3_CLOUDFRONT_KEYPAIR_ID '' \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_S3_CLOUDFRONT_PRIVATEKEY '' \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_S3_KEY '' \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY2_S3_SECRET '' \
-          --service registry \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
         balena env add INTEGRATION_DEFAULT_USER 'admin' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
@@ -465,18 +411,6 @@ runs:
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
         balena env add INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION '' \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY_TOKEN_AUTH_CERT_PUB '' \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY_TOKEN_AUTH_CERT_ISSUER '' \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY_TOKEN_AUTH_CERT_KEY '' \
-          --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-        balena env add REGISTRY_TOKEN_AUTH_CERT_KID '' \
           --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
     # FIXME: balenCloud environment/device profiles to reduce verbosity
