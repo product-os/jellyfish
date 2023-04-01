@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove architecture summary generation
+      hash: 109faaec8ca4d1b052107f15d5852de74ed86c95
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 67.0.1
+  title: ""
+  date: 2023-04-01T01:26:55.504Z
+- commits:
     - subject: Remove Google Meet
       hash: af81084e384776850a52e58bc351f050902aba99
       body: ""
