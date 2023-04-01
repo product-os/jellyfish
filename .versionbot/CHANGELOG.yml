@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove .libs directory
+      hash: 552590254f75964add5f25e9b946370ca67a7d61
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 70.0.1
+  title: ""
+  date: 2023-04-01T05:33:17.946Z
+- commits:
     - subject: Remove jellyfish-plugin-typeform
       hash: e8d87c03130910871839354dab0820ef7592cb7e
       body: ""
