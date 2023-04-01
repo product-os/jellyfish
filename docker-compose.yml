@@ -198,24 +198,6 @@ services:
       - /sys/fs/cgroup
     restart: unless-stopped
 
-  prometheus:
-    build: apps/prometheus
-    healthcheck:
-      interval: 15s
-      retries: 3
-      test: pgrep prometheus
-    restart: unless-stopped
-    volumes:
-      - resin-data:/balena
-
-  grafana:
-    build: apps/grafana
-    healthcheck:
-      interval: 15s
-      retries: 3
-      test: pgrep grafana-server
-    restart: unless-stopped
-
   # https://github.com/balena-io/balena-mdns-publisher
   mdns:
     image: balena/balena-mdns-publisher:v1.21.0
@@ -236,7 +218,7 @@ services:
     restart: unless-stopped
     environment:
       <<: *default-environment
-      MDNS_SUBDOMAINS: api,grafana,jel,livechat,postgres,prometheus,redis,s3,stats,ui
+      MDNS_SUBDOMAINS: api,jel,livechat,postgres,redis,s3,stats,ui
       HOSTS_CONFIG: API_HOST:api,AWS_S3_ENDPOINT:s3,UI_HOST:jel
       TOKENS_CONFIG: ","
     healthcheck:
@@ -308,9 +290,6 @@ services:
       - "443:443/tcp"
       # haproxy/stats
       - "1936:1936/tcp"
-      # Prometheus/metrics (ec2_sd_config)
-      - "9000:9000/tcp"
-      - "9001:9001/tcp"
     environment:
       <<: *default-environment
     volumes:
@@ -321,7 +300,6 @@ services:
 
   # dynamically configure Docker network aliases based on DNS_TLD and ALIAS list
   # allows DNS resolution from systemd-less images on the Docker network
-  # (TBC) https://github.com/prometheus/prometheus/issues/2537
   haproxy-sidecar:
     build: apps/haproxy-sidecar
     restart: unless-stopped
@@ -332,7 +310,7 @@ services:
     environment:
       <<: *default-environment
       # resolved internally as {{service}}.{{tld-without-balena-device-uuid}}
-      ALIASES: api,grafana,jel,livechat,postgres,prometheus,redis,s3
+      ALIASES: api,jel,livechat,postgres,redis,s3
     labels:
       io.balena.features.balena-socket: "1"
       io.balena.features.supervisor-api: "1"
