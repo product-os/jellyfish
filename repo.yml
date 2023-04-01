@@ -24,5 +24,3 @@ upstream:
     url: "https://github.com/product-os/jellyfish-plugin-front"
   - repo: "jellyfish-plugin-github"
     url: "https://github.com/product-os/jellyfish-plugin-github"
-  - repo: "jellyfish-plugin-typeform"
-    url: "https://github.com/product-os/jellyfish-plugin-typeform"

@@ -29,6 +29,5 @@ Actions should be placed within the `lib/actions` directory of the plugin repo. 
 ### Examples
 For some real examples in use in production, check the following repositories:
 - [jellyfish-plugin-front](https://github.com/product-os/jellyfish-plugin-front)
-- [jellyfish-plugin-typeform](https://github.com/product-os/jellyfish-plugin-typeform)
 - [jellyfish-plugin-discourse](https://github.com/product-os/jellyfish-plugin-discourse)
 - [jelyfish-plugin-github](https://github.com/product-os/jellyfish-plugin-github)
