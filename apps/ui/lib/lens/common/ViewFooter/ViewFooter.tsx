@@ -70,7 +70,6 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 	types,
 	user,
 	actions,
-	errorReporter: { handleAsyncError },
 	sdk,
 	analytics,
 	relationships,
@@ -82,7 +81,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 		(event) => {
 			event.preventDefault();
 			event.stopPropagation();
-			handleAsyncError(onAddCard(types[0]));
+			onAddCard(types[0]);
 		},
 		[types],
 	);
@@ -161,7 +160,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 							key={type.slug}
 							data-test={`viewfooter__add-link--${type.slug}`}
 							onClick={() => {
-								handleAsyncError(onAddCard(type));
+								onAddCard(type);
 							}}
 						>
 							Add {type.name || type.slug}
@@ -175,7 +174,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 					width={38}
 					data-test={`viewfooter__add-btn--${types[0].slug}`}
 					onClick={() => {
-						handleAsyncError(onAddCard(types[0]));
+						onAddCard(types[0]);
 					}}
 					tooltip={{
 						text: `Add ${types[0].name || types[0].slug}`,

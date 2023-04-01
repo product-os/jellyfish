@@ -179,14 +179,8 @@ describe('Redux action creators', () => {
 			identify: sandbox.fake(),
 		};
 
-		const errorReporter = {
-			reportException: sandbox.fake(),
-			setUser: sandbox.fake(),
-		};
-
 		context.thunkContext = {
 			analytics,
-			errorReporter,
 			sdk: context.sdk,
 		};
 

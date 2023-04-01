@@ -53,16 +53,10 @@ export default class ErrorBoundary extends React.Component<any, any> {
 	}
 
 	componentDidCatch(error: any, info: any) {
-		const { errorReporter } = this.props;
-
 		console.error('Caught error in boundary', {
 			info,
 			error,
 		});
-
-		if (errorReporter) {
-			errorReporter.reportException(error, info);
-		}
 	}
 
 	getDefaultErrorElement() {

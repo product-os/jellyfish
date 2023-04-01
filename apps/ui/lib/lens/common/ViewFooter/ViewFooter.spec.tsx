@@ -30,7 +30,6 @@ describe('ViewFooter', () => {
 					addCard: sandbox.stub(),
 					openCreateChannel: sandbox.stub(),
 				},
-				errorReporter: { handleAsyncError: sandbox.stub() },
 				channel: {},
 				channelData: {
 					head: {},

@@ -29,7 +29,6 @@ import { State } from '../reducer';
 import * as selectors from '../selectors';
 import { ChannelContract, UIActor } from '../../types';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import ErrorReporter from '../../services/error-reporter';
 import Analytics from '../../services/analytics';
 import assert from 'assert';
 import { Operation } from 'fast-json-patch';
@@ -37,7 +36,6 @@ import { Operation } from 'fast-json-patch';
 type ThunkExtraArgs = {
 	sdk: JellyfishSDK;
 	analytics: Analytics;
-	errorReporter: ErrorReporter;
 };
 
 type JellyThunk<R> = ThunkAction<
@@ -530,7 +528,7 @@ export const actionCreators = {
 	},
 
 	bootstrap(): JellyThunk<Promise<UserContract | void>> {
-		return (dispatch, getState, { sdk, errorReporter }) => {
+		return (dispatch, getState, { sdk }) => {
 			return sdk.auth.whoami<UserContract>().then((user) => {
 				if (!user) {
 					throw new Error('Could not retrieve user');
@@ -561,12 +559,6 @@ export const actionCreators = {
 							value: config,
 						});
 					}
-
-					errorReporter.setUser({
-						id: user.id,
-						slug: user.slug,
-						email: _.get(user, ['data', 'email']) as string,
-					});
 
 					// Check token expiration and refresh it if it is due to expire in the next 24 hours
 					sdk.card
@@ -697,14 +689,13 @@ export const actionCreators = {
 	},
 
 	logout(): JellyThunk<void> {
-		return (dispatch, _getState, { sdk, analytics, errorReporter }) => {
+		return (dispatch, _getState, { sdk, analytics }) => {
 			if (tokenRefreshInterval) {
 				clearInterval(tokenRefreshInterval);
 			}
 
 			analytics.track('ui.logout');
 			analytics.identify();
-			errorReporter.setUser(null);
 			if (commsStream) {
 				commsStream.close();
 				commsStream = null;
