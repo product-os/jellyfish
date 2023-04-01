@@ -8,7 +8,6 @@ volumes:
   pki-data: null
   postgres-data: null
   redis-data: null
-  registry-data: null
   resin-data: null
   s3-data: null
 
@@ -199,40 +198,6 @@ services:
       - /sys/fs/cgroup
     restart: unless-stopped
 
-  # https://github.com/balena-io/open-balena-registry
-  registry:
-    image: balena/open-balena-registry:v2.30.0
-    depends_on:
-      - mdns
-      - haproxy
-    restart: unless-stopped
-    cap_add:
-      - SYS_RESOURCE
-      - SYS_ADMIN
-    security_opt:
-      - apparmor=unconfined
-    tmpfs:
-      - /run
-      - /sys/fs/cgroup
-    healthcheck:
-      interval: 15s
-      retries: 3
-      test: /usr/src/app/docker-hc
-      timeout: 5s
-    volumes:
-      - registry-data:/data
-      - certs-data:/certs
-      - resin-data:/balena
-    environment:
-      <<: *default-environment
-      REGISTRY2_CACHE_ADDR: redis:6379
-      REGISTRY2_CACHE_DB: 1
-      REGISTRY2_CACHE_ENABLED: "true"
-      # (TBC) use S3/MinIO
-      REGISTRY2_STORAGEPATH: /data
-      HOSTS_CONFIG: REGISTRY_HOST:registry,REGISTRY2_HOST:registry,REGISTRY2_TOKEN_AUTH_ISSUER:api,REGISTRY_TOKEN_AUTH_CERT_ISSUER:api,REGISTRY2_TOKEN_AUTH_REALM:api
-      TOKENS_CONFIG: REGISTRY2_SECRETKEY:hex
-
   prometheus:
     build: apps/prometheus
     healthcheck:
@@ -271,8 +236,8 @@ services:
     restart: unless-stopped
     environment:
       <<: *default-environment
-      MDNS_SUBDOMAINS: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3,stats,ui
-      HOSTS_CONFIG: API_HOST:api,AWS_S3_ENDPOINT:s3,REGISTRY_HOST:registry,REGISTRY2_HOST:registry,UI_HOST:jel
+      MDNS_SUBDOMAINS: api,grafana,jel,livechat,postgres,prometheus,redis,s3,stats,ui
+      HOSTS_CONFIG: API_HOST:api,AWS_S3_ENDPOINT:s3,UI_HOST:jel
       TOKENS_CONFIG: ","
     healthcheck:
       test: /usr/src/app/docker-hc
@@ -367,7 +332,7 @@ services:
     environment:
       <<: *default-environment
       # resolved internally as {{service}}.{{tld-without-balena-device-uuid}}
-      ALIASES: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3
+      ALIASES: api,grafana,jel,livechat,postgres,prometheus,redis,s3
     labels:
       io.balena.features.balena-socket: "1"
       io.balena.features.supervisor-api: "1"
