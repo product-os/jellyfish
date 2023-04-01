@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove jellyfish-plugin-typeform
+      hash: e8d87c03130910871839354dab0820ef7592cb7e
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 70.0.0
+  title: ""
+  date: 2023-04-01T04:54:48.585Z
+- commits:
     - subject: Remove registry
       hash: 37f0fa5b029ad3f622c50de75584fb67f30f09ed
       body: ""

@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "69.0.0",
+  "version": "70.0.0",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "seamstress",
@@ -84,7 +84,7 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2023-04-01T04:18:07.890Z"
+    "publishedAt": "2023-04-01T04:54:51.120Z"
   },
   "balena": {
     "environment": [
