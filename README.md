@@ -19,7 +19,6 @@ Many parts of Jellyfish are still under development, and this document aims to c
 
 - **Contributing**
 	- [**Design manifesto**](https://github.com/product-os/jellyfish/blob/master/docs/design-manifesto.markdown)
-	- [**Architecture overview**](https://github.com/product-os/jellyfish/blob/master/ARCHITECTURE.md)
 	- [**AutumnDB**](https://github.com/product-os/autumndb/blob/master/README.md) the low-level internal SDK to interact with contracts and links in the database
 	- [**Plugin development**](https://github.com/product-os/jellyfish/blob/master/docs/developing/plugins.markdown)
 	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)

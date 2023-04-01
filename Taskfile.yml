@@ -8,8 +8,6 @@ env:
 tasks:
   catch-uncommitted:
     cmds:
-      - npm run docs:diagram
-      - npm run docs:summary
       - npm run lint:catch
 
   lint:
