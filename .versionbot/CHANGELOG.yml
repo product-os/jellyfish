@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove sentry
+      hash: 6fea975638bdf18f4873f58ecdbeaf8671a01daa
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 68.0.0
+  title: ""
+  date: 2023-04-01T02:27:48.669Z
+- commits:
     - subject: Remove architecture summary generation
       hash: 109faaec8ca4d1b052107f15d5852de74ed86c95
       body: ""
