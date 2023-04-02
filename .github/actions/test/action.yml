@@ -681,7 +681,7 @@ runs:
         with_backoff ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -t \
           --service ${{ inputs.JELLYFISH_TESTS_SERVICE }} \
           ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
-          'scripts/ci/run-tests.sh ${{ inputs.JELLYFISH_TESTS }}'
+          'scripts/run-tests.sh ${{ inputs.JELLYFISH_TESTS }}'
 
       env:
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock

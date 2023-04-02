@@ -16,7 +16,7 @@ tasks:
 
   wait-for-api:
     cmds:
-      - ./scripts/ci/wait-for-api.sh
+      - ./scripts/wait-for-api.sh
 
   e2e-sdk:
     cmds:
