@@ -1,4 +1,16 @@
 - commits:
+    - subject: Reduce docs
+      hash: 3784dcb690e72c8e8d11893966c3df2ca0842815
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 73.0.1
+  title: ""
+  date: 2023-04-02T08:45:43.695Z
+- commits:
     - subject: Remove wifi-connect
       hash: b08888afadea633c43e4599a4bb48c59bdfd359c
       body: ""
