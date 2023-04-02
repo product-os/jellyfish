@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove jellyfish-metrics
+      hash: 3117fd14b647ebc0deaf668e08fe03db91a602f9
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 72.0.0
+  title: ""
+  date: 2023-04-02T04:27:38.328Z
+- commits:
     - subject: Bump node-jose from 2.1.1 to 2.2.0
       hash: 3a82cab8205cf0dcd0aa2ed0e1b500266189ac4a
       body: >
