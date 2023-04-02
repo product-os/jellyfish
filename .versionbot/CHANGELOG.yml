@@ -1,4 +1,16 @@
 - commits:
+    - subject: Simplify scripts directory
+      hash: aaadd80c6f166003f5d51fd596d574fe0553104d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 73.0.2
+  title: ""
+  date: 2023-04-02T10:23:37.373Z
+- commits:
     - subject: Reduce docs
       hash: 3784dcb690e72c8e8d11893966c3df2ca0842815
       body: ""
