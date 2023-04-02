@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove wifi-connect
+      hash: b08888afadea633c43e4599a4bb48c59bdfd359c
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 73.0.0
+  title: ""
+  date: 2023-04-02T05:56:07.039Z
+- commits:
     - subject: Remove jellyfish-metrics
       hash: 3117fd14b647ebc0deaf668e08fe03db91a602f9
       body: ""
