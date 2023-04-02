@@ -337,19 +337,3 @@ services:
       ENABLED: "true"
     labels:
       io.balena.features.balena-api: "1"
-
-  # https://github.com/balena-os/wifi-connect
-  # (TBC) change to https://github.com/balenablocks/wifi-connect
-  wifi-connect:
-    restart: unless-stopped
-    build: apps/wifi-connect
-    depends_on:
-      - haproxy
-    labels:
-      io.balena.features.dbus: 1
-    environment:
-      DBUS_SYSTEM_BUS_ADDRESS: unix:path=/host/run/dbus/system_bus_socket
-      PORTAL_LISTENING_PORT: 1337
-    cap_add:
-      - NET_ADMIN
-    network_mode: host
