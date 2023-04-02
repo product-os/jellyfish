@@ -1,6 +1,5 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
-import * as metrics from '@balena/jellyfish-metrics';
 import type {
 	ActionRequestContract,
 	Sync,
@@ -444,24 +443,21 @@ export const attachRoutes = (
 		'/api/v2/type/:type',
 		validateSession,
 		async (request, response) => {
-			return metrics
-				.measureHttpType(() => {
-					const [base, version] = request.params.type.split('@');
-					return kernel
-						.query(request.context, request.session, {
-							type: 'object',
-							additionalProperties: true,
-							required: ['type'],
-							properties: {
-								type: {
-									type: 'string',
-									const: `${base}@${version || '1.0.0'}`,
-								},
-							},
-						})
-						.then((results) => {
-							return response.status(200).json(results);
-						});
+			const [base, version] = request.params.type.split('@');
+			kernel
+				.query(request.context, request.session, {
+					type: 'object',
+					additionalProperties: true,
+					required: ['type'],
+					properties: {
+						type: {
+							type: 'string',
+							const: `${base}@${version || '1.0.0'}`,
+						},
+					},
+				})
+				.then((results) => {
+					return response.status(200).json(results);
 				})
 				.catch((error) => {
 					return sendHTTPError(request, response, error);
@@ -473,21 +469,14 @@ export const attachRoutes = (
 		'/api/v2/id/:id',
 		validateSession,
 		async (request, response) => {
-			return metrics
-				.measureHttpId(() => {
-					return kernel
-						.getContractById(
-							request.context,
-							request.session,
-							request.params.id,
-						)
-						.then((contract) => {
-							if (contract) {
-								return response.status(200).json(contract);
-							}
+			kernel
+				.getContractById(request.context, request.session, request.params.id)
+				.then((contract) => {
+					if (contract) {
+						return response.status(200).json(contract);
+					}
 
-							return response.status(404).end();
-						});
+					return response.status(404).end();
 				})
 				.catch((error) => {
 					return sendHTTPError(request, response, error);
@@ -499,21 +488,18 @@ export const attachRoutes = (
 		'/api/v2/slug/:slug',
 		validateSession,
 		async (request, response) => {
-			return metrics
-				.measureHttpSlug(() => {
-					return kernel
-						.getContractBySlug(
-							request.context,
-							request.session,
-							`${request.params.slug}@latest`,
-						)
-						.then((contract) => {
-							if (contract) {
-								return response.status(200).json(contract);
-							}
+			kernel
+				.getContractBySlug(
+					request.context,
+					request.session,
+					`${request.params.slug}@latest`,
+				)
+				.then((contract) => {
+					if (contract) {
+						return response.status(200).json(contract);
+					}
 
-							return response.status(404).end();
-						});
+					return response.status(404).end();
 				})
 				.catch((error) => {
 					return sendHTTPError(request, response, error);
@@ -723,46 +709,43 @@ export const attachRoutes = (
 		validateSession,
 		upload.any(),
 		async (request, response) => {
-			return metrics
-				.measureHttpAction(async () => {
-					// If files are uploaded, the action payload is serialized as the form field
-					// "action" and will need to be parsed
-					const action = request.files
-						? JSON.parse(request.body.action)
-						: request.body;
+			// If files are uploaded, the action payload is serialized as the form field
+			// "action" and will need to be parsed
+			const action = request.files
+				? JSON.parse(request.body.action)
+				: request.body;
 
-					if (_.isEmpty(action)) {
-						return response.status(400).json({
-							error: true,
-							data: 'No action request',
-						});
-					}
+			if (_.isEmpty(action)) {
+				return response.status(400).json({
+					error: true,
+					data: 'No action request',
+				});
+			}
 
-					if (!action.type) {
-						return response.status(400).json({
-							error: true,
-							data: 'No action contract type',
-						});
-					}
+			if (!action.type) {
+				return response.status(400).json({
+					error: true,
+					data: 'No action contract type',
+				});
+			}
 
-					if (!action.card) {
-						return response.status(400).json({
-							error: true,
-							data: 'No input contract',
-						});
-					}
+			if (!action.card) {
+				return response.status(400).json({
+					error: true,
+					data: 'No input contract',
+				});
+			}
 
-					return actionFacade
-						.processAction(request.context, request.session, action, {
-							// TS-TODO: Type this correctly with multer
-							files: request.files as any,
-						})
-						.then((data) => {
-							response.status(200).json({
-								error: false,
-								data,
-							});
-						});
+			actionFacade
+				.processAction(request.context, request.session, action, {
+					// TS-TODO: Type this correctly with multer
+					files: request.files as any,
+				})
+				.then((data) => {
+					response.status(200).json({
+						error: false,
+						data,
+					});
 				})
 				.catch((error) => {
 					return sendHTTPError(request, response, error);
@@ -774,33 +757,30 @@ export const attachRoutes = (
 		'/api/v2/query',
 		validateSession,
 		async (request, response) => {
-			return metrics
-				.measureHttpQuery(async () => {
-					if (_.isEmpty(request.body)) {
-						return response.status(400).json({
-							error: true,
-							data: 'No query schema',
-						});
-					} else if (_.isPlainObject(request.body) && !request.body.query) {
-						return response.status(400).json({
-							error: true,
-							data: 'Invalid request body',
-						});
-					}
+			if (_.isEmpty(request.body)) {
+				return response.status(400).json({
+					error: true,
+					data: 'No query schema',
+				});
+			} else if (_.isPlainObject(request.body) && !request.body.query) {
+				return response.status(400).json({
+					error: true,
+					data: 'Invalid request body',
+				});
+			}
 
-					return queryFacade
-						.queryAPI(
-							request.context,
-							request.session,
-							request.body.query,
-							request.body.options,
-						)
-						.then((data) => {
-							return response.status(200).json({
-								error: false,
-								data,
-							});
-						});
+			queryFacade
+				.queryAPI(
+					request.context,
+					request.session,
+					request.body.query,
+					request.body.options,
+				)
+				.then((data) => {
+					return response.status(200).json({
+						error: false,
+						data,
+					});
 				})
 				.catch((error) => {
 					logger.warn(request.context, 'JSON Schema query error', request.body);
@@ -841,13 +821,9 @@ export const attachRoutes = (
 		'/api/v2/whoami',
 		validateSession,
 		async (request, response) => {
-			return metrics
-				.measureHttpWhoami(async () => {
-					const user = await authFacade.whoami(
-						request.context,
-						request.session,
-					);
-
+			authFacade
+				.whoami(request.context, request.session)
+				.then((user) => {
 					return response.status(200).json({
 						error: false,
 						data: user,

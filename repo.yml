@@ -14,8 +14,6 @@ upstream:
     url: "https://github.com/product-os/jellyfish-assert"
   - repo: "jellyfish-logger"
     url: "https://github.com/product-os/jellyfish-logger"
-  - repo: "jellyfish-metrics"
-    url: "https://github.com/product-os/jellyfish-metrics"
   - repo: "jellyfish-plugin-balena-api"
     url: "https://github.com/product-os/jellyfish-plugin-balena-api"
   - repo: "jellyfish-plugin-discourse"
