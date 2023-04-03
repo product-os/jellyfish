@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump internal ui deps
+      hash: 2cdf10f4c49cb508f411e0ff2cbcb2568a9f7779
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 73.0.4
+  title: ""
+  date: 2023-04-03T10:01:11.305Z
+- commits:
     - subject: Bump internal
       hash: d079b3e06e25cbc3f0bc487e18f63abdcc19be54
       body: ""
