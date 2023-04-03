@@ -15,7 +15,6 @@ import Icon from '../../Icon';
 import Wrapper from './Wrapper';
 import Header from './Header';
 import Body, { parseMessage } from './Body';
-import { DisplayReactions } from './DisplayReactions';
 
 const MESSAGE_COLLAPSED_HEIGHT = 400;
 
@@ -318,7 +317,7 @@ export default class Event extends React.Component<Props, State> {
 			<SmartVisibilitySensor onChange={this.handleVisibilityChange}>
 				<Wrapper
 					{...rest}
-					// @ts-ignore
+					// @ts-expect-error
 					squashTop={squashTop}
 					className={classnames(`event-card event-card--${typeBase}`, {
 						'event--focused': focusedEvent && focusedEvent === card.id,
@@ -397,7 +396,6 @@ export default class Event extends React.Component<Props, State> {
 							updating={updating}
 							user={user}
 						/>
-						<DisplayReactions message={card} />
 					</Box>
 				</Wrapper>
 			</SmartVisibilitySensor>

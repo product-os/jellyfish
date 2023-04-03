@@ -10,7 +10,6 @@ import Icon from '../../Icon';
 import { ActionLink } from '../../ActionLink';
 import { MirrorIcon } from '../../MirrorIcon';
 import ContextMenu from '../../ContextMenu';
-import { Reactions } from './Reactions';
 
 interface ContextWrapperProps extends FlexProps {
 	updating?: boolean;
@@ -77,12 +76,8 @@ export default function EventContext({
 	retry,
 }: React.PropsWithChildren<EventContextProps>) {
 	const [showMenu, setShowMenu] = React.useState(false);
-	const [showReactionMenu, setReactionMenu] = React.useState(false);
 	const toggleMenu = () => {
 		setShowMenu(!showMenu);
-	};
-	const toggleReactionMenu = () => {
-		setReactionMenu(!showReactionMenu);
 	};
 
 	const timestamp = _.get(card, ['data', 'timestamp']) || card.created_at;
@@ -224,14 +219,6 @@ export default function EventContext({
 			{menuOptions !== false && (
 				<React.Fragment>
 					<Button
-						plain
-						ml={2}
-						py={1}
-						onClick={toggleReactionMenu}
-						icon={<Icon name="smile" regular />}
-					/>
-
-					<Button
 						className="event-card--actions"
 						data-test="event-header__context-menu-trigger"
 						px={2}
@@ -241,12 +228,6 @@ export default function EventContext({
 						onClick={toggleMenu}
 						icon={<Icon name="ellipsis-v" />}
 					/>
-
-					{showReactionMenu && (
-						<ContextMenu position="bottom" onClose={toggleReactionMenu}>
-							<Reactions message={card} />
-						</ContextMenu>
-					)}
 
 					{showMenu && (
 						<ContextMenu position="bottom" onClose={toggleMenu}>

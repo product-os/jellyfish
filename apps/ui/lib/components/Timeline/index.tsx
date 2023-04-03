@@ -191,21 +191,6 @@ class Timeline extends React.Component<Props, State> {
 			anyOf: [
 				{
 					$$links: {
-						'has attached element': {
-							type: 'object',
-							properties: {
-								type: {
-									const: 'reaction@1.0.0',
-								},
-								active: {
-									const: true,
-								},
-							},
-						},
-					},
-				},
-				{
-					$$links: {
 						'has attached': {
 							type: 'object',
 							properties: {
