@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update plugin-balena-api to 6.8.4
+      hash: f166f1e2b1635fd09b4eedc747ab78395f138df5
+      body: |
+        Updates jsonwebtoken to v9 to address security issue
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 74.0.2
+  title: ""
+  date: 2023-04-04T08:51:16.531Z
+- commits:
     - subject: Update multer to 1.4.5-lts.1
       hash: 813a556dd65761d6f8719b24e7e2cb11d78fea9e
       body: ""
