@@ -42,7 +42,7 @@
     "is-uuid": "^1.0.2",
     "json-e": "^4.4.3",
     "lodash": "^4.17.21",
-    "multer": "^1.4.4",
+    "multer": "^1.4.5-lts.1",
     "skhema": "^6.0.6",
     "socket.io": "^4.5.2",
     "socket.io-redis": "^6.1.1",
