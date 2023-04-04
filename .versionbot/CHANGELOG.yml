@@ -1,4 +1,16 @@
 - commits:
+    - subject: "UI: Remove reactions"
+      hash: d0068f178e31357e9f4d9e5c76df2795937dfdb6
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 74.0.0
+  title: ""
+  date: 2023-04-04T00:26:33.370Z
+- commits:
     - subject: Bump internal ui deps
       hash: 2cdf10f4c49cb508f411e0ff2cbcb2568a9f7779
       body: ""
