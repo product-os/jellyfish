@@ -82,7 +82,7 @@
 		"redux": "^4.2.0",
 		"redux-persist": "^6.0.0",
 		"redux-thunk": "^2.4.1",
-		"rendition": "^25.16.2",
+		"rendition": "^34.8.5",
 		"skhema": "^6.0.6",
 		"style-loader": "^2.0.0",
 		"styled-components": "^5.3.5",
