@@ -28,7 +28,7 @@
     "@balena/jellyfish-plugin-balena-api": "^6.8.4",
     "@balena/jellyfish-plugin-discourse": "^6.3.1",
     "@balena/jellyfish-plugin-front": "^6.8.2",
-    "@balena/jellyfish-plugin-github": "^9.8.2",
+    "@balena/jellyfish-plugin-github": "^9.8.4",
     "@balena/jellyfish-worker": "^49.0.0",
     "autumndb": "^26.0.2",
     "aws-sdk": "^2.1227.0",
