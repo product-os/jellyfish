@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update plugin-github to 9.8.4
+      hash: 624f79a69fdcaa154be8ffb2ac2ff611d9d2b3c1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 74.0.3
+  title: ""
+  date: 2023-04-05T02:20:35.895Z
+- commits:
     - subject: Update plugin-balena-api to 6.8.4
       hash: f166f1e2b1635fd09b4eedc747ab78395f138df5
       body: |
