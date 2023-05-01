@@ -1,4 +1,49 @@
 - commits:
+    - subject: Bump xml2js and aws-sdk in /apps/server
+      hash: efb684a63f038cb2ca8919767d21898247e18c72
+      body: >
+        Bumps [xml2js](https://github.com/Leonidas-from-XIV/node-xml2js) to
+        0.5.0 and updates ancestor dependency
+        [aws-sdk](https://github.com/aws/aws-sdk-js). These dependencies need to
+        be updated together.
+
+
+        Updates `xml2js` from 0.4.19 to 0.5.0
+
+        - [Release notes](https://github.com/Leonidas-from-XIV/node-xml2js/releases)
+
+        - [Commits](https://github.com/Leonidas-from-XIV/node-xml2js/compare/0.4.19...0.5.0)
+
+
+        Updates `aws-sdk` from 2.1227.0 to 2.1354.0
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        - [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/aws/aws-sdk-js/compare/v2.1227.0...v2.1354.0)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: xml2js
+          dependency-type: indirect
+        - dependency-name: aws-sdk
+          dependency-type: direct:production
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 74.0.4
+  title: ""
+  date: 2023-05-01T09:37:55.170Z
+- commits:
     - subject: Update plugin-github to 9.8.4
       hash: 624f79a69fdcaa154be8ffb2ac2ff611d9d2b3c1
       body: ""
@@ -123,7 +168,8 @@
     - subject: Bump node-jose from 2.1.1 to 2.2.0
       hash: 3a82cab8205cf0dcd0aa2ed0e1b500266189ac4a
       body: >
-        Bumps [node-jose](https://github.com/cisco/node-jose) from 2.1.1 to 2.2.0.
+        Bumps [node-jose](https://github.com/cisco/node-jose) from 2.1.1 to
+        2.2.0.
 
         - [Release notes](https://github.com/cisco/node-jose/releases)
 
@@ -285,7 +331,8 @@
     - subject: Bump node-jose from 2.1.1 to 2.2.0 in /apps/server
       hash: 78296dfb0b9e64d85201a32da88fc31952ac8271
       body: >
-        Bumps [node-jose](https://github.com/cisco/node-jose) from 2.1.1 to 2.2.0.
+        Bumps [node-jose](https://github.com/cisco/node-jose) from 2.1.1 to
+        2.2.0.
 
         - [Release notes](https://github.com/cisco/node-jose/releases)
 
@@ -315,7 +362,8 @@
     - subject: Bump webpack from 5.73.0 to 5.76.0 in /apps/ui
       hash: b946fe178dd019e68b7139029457188af16d1d68
       body: >
-        Bumps [webpack](https://github.com/webpack/webpack) from 5.73.0 to 5.76.0.
+        Bumps [webpack](https://github.com/webpack/webpack) from 5.73.0 to
+        5.76.0.
 
         - [Release notes](https://github.com/webpack/webpack/releases)
 
@@ -343,8 +391,8 @@
     - subject: Bump dns-packet from 5.3.1 to 5.4.0 in /apps/ui
       hash: c800c32bb8f95dc396a1d31e907d759ac45b7375
       body: >
-        Bumps [dns-packet](https://github.com/mafintosh/dns-packet) from 5.3.1 to
-        5.4.0.
+        Bumps [dns-packet](https://github.com/mafintosh/dns-packet) from 5.3.1
+        to 5.4.0.
 
         - [Release notes](https://github.com/mafintosh/dns-packet/releases)
 
@@ -2608,7 +2656,8 @@
     - subject: "UI: Remove compacting of notifications in inbox"
       hash: 0bc4a86e3ed877550da38848306cd8f1c2dc649a
       body: >
-        Each message you are notified of will now be a seperate item in the inbox.
+        Each message you are notified of will now be a seperate item in the
+        inbox.
 
         This change has been made to avoid the situation where notifications are
 
@@ -2812,10 +2861,11 @@
     - subject: Don't exit on unhandled errors and rejections
       hash: cf5e7102eb625b6ce53faaca4daf7f305ae35853
       body: >
-        Currently JF exits on unhandled exceptions, in an attempt to highlight the
-        error. But what actually happens is that a worker exits and it's then
-        restarted, with the unwanted effect the worker exiting means a non-clean
-        shutdown that may interrupt some operations, which is not needed.
+        Currently JF exits on unhandled exceptions, in an attempt to highlight
+        the error. But what actually happens is that a worker exits and it's
+        then restarted, with the unwanted effect the worker exiting means a
+        non-clean shutdown that may interrupt some operations, which is not
+        needed.
 
         This is affecting at least:
 
@@ -9062,9 +9112,9 @@
     - subject: Perform oauth with info from contracts
       hash: e58d8b7a9f9bd23c0f529b48c6a738316c71768d
       body: >
-        When performing oauth flow against a provider (eg. login with balena), we
-        used to get information from integration code. This information should
-        be stored inside oauth-provider-contracts.
+        When performing oauth flow against a provider (eg. login with balena),
+        we used to get information from integration code. This information
+        should be stored inside oauth-provider-contracts.
       footer:
         Change-type: major
         change-type: major
@@ -11800,8 +11850,8 @@
     - subject: "UI: Split my user lens into seperate view and edit modes"
       hash: c0102bf98e78dc6cb01d8f799e3c3653d7077d72
       body: >
-        This changes your own user lens to function in a much more similar way to
-        the rest of the app and adds tabs for bookmarks and loops.
+        This changes your own user lens to function in a much more similar way
+        to the rest of the app and adds tabs for bookmarks and loops.
 
         To edit your account you click the pencil icon in the top right, just like you would with any other contract.
       footer:
@@ -13141,8 +13191,8 @@
     - subject: "UI: Preserve user defined filters between reloads"
       hash: 6a95876915316f4d1bf7e7b2a59ff69696b516d5
       body: >
-        This change means that any filters created by the user are preserved when
-        the user navigates or reloads the page.
+        This change means that any filters created by the user are preserved
+        when the user navigates or reloads the page.
 
         Filters are stored in localstorage as an array of JSON schemas.
       footer:
@@ -13865,8 +13915,8 @@
     - subject: Move jellyfish-ui-components code to ui
       hash: 371227e1a60224d54b8b5847b01e189d6181ee19
       body: >
-        Separate module for ui components is not needed any more, since we killed
-        livechat service. And the code there is jellyfish specific.
+        Separate module for ui components is not needed any more, since we
+        killed livechat service. And the code there is jellyfish specific.
       footer:
         Change-type: minor
         change-type: minor
@@ -13950,7 +14000,8 @@
     - subject: Remove service worker
       hash: 6e6ac4474993ad82b02de3e6b779bebf95db13ed
       body: >
-        Remove old service worker code with unknown (and maybe unwanted) behavior.
+        Remove old service worker code with unknown (and maybe unwanted)
+        behavior.
       footer:
         Change-type: minor
         change-type: minor
@@ -13975,8 +14026,8 @@
     - subject: Move chat widget from separate repo to UI
       hash: 44d825217baa4cd3874f486669f8937077ff6570
       body: >
-        We no longer have livechat service which used chat widget library, only JF
-        UI uses it, so we don't need it to be a separate module. But the main
+        We no longer have livechat service which used chat widget library, only
+        JF UI uses it, so we don't need it to be a separate module. But the main
         reason is that chat-widget contained jellyfish specific code.
       footer:
         Change-type: minor
@@ -14499,8 +14550,8 @@
     - subject: Remove SAMEORIGIN flag
       hash: 2891bfbeceb8de24a35e688991c7a398174b45df
       body: >
-        We are merging ui and livechat, so ui should be embedded inside iframe on
-        dashboard. So, temporarly removing this restriction, until we set it
+        We are merging ui and livechat, so ui should be embedded inside iframe
+        on dashboard. So, temporarly removing this restriction, until we set it
         properly to selected hosts.
       footer:
         Change-type: minor
@@ -14552,8 +14603,8 @@
     - subject: Ignore status menu item if no access to user type
       hash: 352eb4b5a7b8bd8f29f0e18fdb85a2360b2602b9
       body: >
-        Can't read user status options when opening top left menu if user does not
-        have access to `user` type and ui breaks.
+        Can't read user status options when opening top left menu if user does
+        not have access to `user` type and ui breaks.
       footer:
         Change-type: patch
         change-type: patch
@@ -14838,7 +14889,8 @@
     - subject: Re-enable deployments
       hash: b6821ee44995c65576ea12f40bb69db8cf77f07d
       body: >
-        These were temporarily disabled whilst we investigated a production issue.
+        These were temporarily disabled whilst we investigated a production
+        issue.
       footer:
         Change-type: patch
         change-type: patch
@@ -15428,7 +15480,8 @@
     - subject: "UI: Ensure cursor is reset when changing lenses"
       hash: ac9866de6aa38135b149a2c7e9418416b41b512b
       body: >
-        This change also ensures that lens query "masks" are correctly removed and
+        This change also ensures that lens query "masks" are correctly removed
+        and
 
         applied when switching lenses. Previously, the masks would stick, and
 
@@ -15599,8 +15652,8 @@
         component"
       hash: 43e9321a4e8a07d9488fd37d30cd01938bae4de0
       body: >
-        Typescript allows us to use fat arrows instead of bind for binding `this`
-        in class methods which is a much cleaner approach.
+        Typescript allows us to use fat arrows instead of bind for binding
+        `this` in class methods which is a much cleaner approach.
       footer:
         Change-type: patch
         change-type: patch
@@ -16713,7 +16766,8 @@
     - subject: Bump nth-check from 2.0.0 to 2.0.1 in /apps/ui
       hash: 5814d95fca8fb897fe23b2f462fff0ec17d79f09
       body: >
-        Bumps [nth-check](https://github.com/fb55/nth-check) from 2.0.0 to 2.0.1.
+        Bumps [nth-check](https://github.com/fb55/nth-check) from 2.0.0 to
+        2.0.1.
 
         - [Release notes](https://github.com/fb55/nth-check/releases)
 
@@ -16889,8 +16943,9 @@
     - subject: "UI: Only give the homechannel high z-index on small screen sizes"
       hash: 27f92933da46180681a94cec6b5b7fe7ded8f63e
       body: >
-        This fixes an issue where full screen overlays (like the markdown editor)
-        would be obscured by the home channel sidebar on large screen widths.
+        This fixes an issue where full screen overlays (like the markdown
+        editor) would be obscured by the home channel sidebar on large screen
+        widths.
       footer:
         Change-type: patch
         change-type: patch
@@ -21112,8 +21167,8 @@
     - subject: "build(deps): bump dns-packet from 1.3.1 to 1.3.4 in /apps/ui"
       hash: 8984fad007eb85bb4c514c5371fbc64da4f1b3bc
       body: >
-        Bumps [dns-packet](https://github.com/mafintosh/dns-packet) from 1.3.1 to
-        1.3.4.
+        Bumps [dns-packet](https://github.com/mafintosh/dns-packet) from 1.3.1
+        to 1.3.4.
 
         - [Release notes](https://github.com/mafintosh/dns-packet/releases)
 
@@ -22562,8 +22617,8 @@
     - subject: Bump normalize-url from 4.5.0 to 4.5.1
       hash: e95c7d603e8158e92290163a7cbd2f44e1dbb6be
       body: >
-        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url) from
-        4.5.0 to 4.5.1.
+        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url)
+        from 4.5.0 to 4.5.1.
 
         - [Release notes](https://github.com/sindresorhus/normalize-url/releases)
 
@@ -23065,7 +23120,8 @@
     - subject: Bump nth-check from 2.0.0 to 2.0.1 in /apps/livechat
       hash: 3336eb4b4d6ecbd539b2829103b82a0472040892
       body: >
-        Bumps [nth-check](https://github.com/fb55/nth-check) from 2.0.0 to 2.0.1.
+        Bumps [nth-check](https://github.com/fb55/nth-check) from 2.0.0 to
+        2.0.1.
 
         - [Release notes](https://github.com/fb55/nth-check/releases)
 
@@ -24428,9 +24484,9 @@
     - subject: Remove tick server
       hash: eb4cfe6cbdb34f889e7651d6c069525e4cf005c1
       body: >
-        Remove the tick server from our backend as we currently do not use it and
-        the intended functionality of tick will be handled by scheduled actions:
-        https://jel.ly.fish/88e737da-8692-49c8-bf5a-43d27c6b7a39.
+        Remove the tick server from our backend as we currently do not use it
+        and the intended functionality of tick will be handled by scheduled
+        actions: https://jel.ly.fish/88e737da-8692-49c8-bf5a-43d27c6b7a39.
       footer:
         Change-type: major
         change-type: major
@@ -25023,8 +25079,8 @@
     - subject: Sort linked contracts when fetching via SDK
       hash: a9beff2ea33edfcd01c5f3ec8f97d066bee3931f
       body: >
-        This will ensure a reasonable and consistent ordering of contracts in the
-        `Segment` component (e.g. when viewing a list of linked contracts).
+        This will ensure a reasonable and consistent ordering of contracts in
+        the `Segment` component (e.g. when viewing a list of linked contracts).
       footer:
         Change-type: patch
         change-type: patch
@@ -25164,8 +25220,8 @@
     - subject: "ui: sort sidebar items by namespace first"
       hash: 9fea62bb94650b394aa4d38ba1cf39d970672ea1
       body: >
-        This ensures that namespaced items appear before non-namespaced items and
-        the namespaces are ordered alphabetically.
+        This ensures that namespaced items appear before non-namespaced items
+        and the namespaces are ordered alphabetically.
       footer:
         Change-type: patch
         change-type: patch
@@ -25814,9 +25870,9 @@
     - subject: Surface the loop field in create/edit forms
       hash: 10968febd8cf412e9ddf4b6209bce89363b6e332
       body: >
-        The loop field is not required so this shouldn't directly affect any tests
-        etc. The loop field uses a special LoopSelector widget that lets you
-        pick a loop from a list of available loops.
+        The loop field is not required so this shouldn't directly affect any
+        tests etc. The loop field uses a special LoopSelector widget that lets
+        you pick a loop from a list of available loops.
       footer:
         Change-type: minor
         change-type: minor
@@ -25852,8 +25908,8 @@
     - subject: "ui: allow filtering by common fields on a linked contract"
       hash: 1f3697374b270bb44af415130eb3627668329545
       body: >
-        This adds the ability to filter by the following 'common' fields on linked
-        contracts:
+        This adds the ability to filter by the following 'common' fields on
+        linked contracts:
 
         * slug
 
@@ -26696,8 +26752,8 @@
     - subject: Inherit loop when creating new contracts
       hash: 93271e4b612eefe2f0867074cb3689d5a545ee2c
       body: >
-        Inherit from view card's loop, if set; otherwise from the active loop (if
-        set).
+        Inherit from view card's loop, if set; otherwise from the active loop
+        (if set).
       footer:
         Change-type: minor
         change-type: minor
@@ -26708,8 +26764,8 @@
     - subject: Inherit loop when linking a card
       hash: b0b9dde04c510e59a352a0d11632e511937fbc3b
       body: >
-        Inherit from view card's loop, if set; otherwise from the active loop (if
-        set).
+        Inherit from view card's loop, if set; otherwise from the active loop
+        (if set).
       footer:
         Change-type: minor
         change-type: minor
@@ -26998,8 +27054,8 @@
     - subject: Add custom 'LoopSelect' form widget
       hash: 04f93fdca0a16043f6a64d3b88f446f3fa0070a8
       body: >
-        This widget will be used for setting the `loop` field of contracts, which
-        require a slug@version format.
+        This widget will be used for setting the `loop` field of contracts,
+        which require a slug@version format.
 
 
         Loop options are fetched from the cache in the Redux store.
@@ -27863,8 +27919,8 @@
     - subject: Bump dns-packet from 1.3.1 to 1.3.4 in /apps/livechat
       hash: 1d95e3374006dd8b3e81ca640b50271c94a0cb35
       body: >
-        Bumps [dns-packet](https://github.com/mafintosh/dns-packet) from 1.3.1 to
-        1.3.4.
+        Bumps [dns-packet](https://github.com/mafintosh/dns-packet) from 1.3.1
+        to 1.3.4.
 
         - [Release notes](https://github.com/mafintosh/dns-packet/releases)
 
@@ -27915,8 +27971,8 @@
     - subject: Bump normalize-url from 4.5.0 to 4.5.1 in /apps/oauth-provider-example
       hash: f7cb6adf33bb7fb44bb94eaabd04dc096092226c
       body: >
-        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url) from
-        4.5.0 to 4.5.1.
+        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url)
+        from 4.5.0 to 4.5.1.
 
         - [Release notes](https://github.com/sindresorhus/normalize-url/releases)
 
@@ -28106,8 +28162,8 @@
     - subject: Bump normalize-url from 4.5.0 to 4.5.1 in /apps/action-server
       hash: 6d3ea0b0371553f3f02da8c3c2e49e29ec440443
       body: >
-        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url) from
-        4.5.0 to 4.5.1.
+        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url)
+        from 4.5.0 to 4.5.1.
 
         - [Release notes](https://github.com/sindresorhus/normalize-url/releases)
 
@@ -28243,8 +28299,8 @@
     - subject: Bump hosted-git-info from 2.8.8 to 2.8.9 in /apps/server
       hash: 416eefae621115e7a463195e5093915d0ed994e6
       body: >
-        Bumps [hosted-git-info](https://github.com/npm/hosted-git-info) from 2.8.8
-        to 2.8.9.
+        Bumps [hosted-git-info](https://github.com/npm/hosted-git-info) from
+        2.8.8 to 2.8.9.
 
         - [Release notes](https://github.com/npm/hosted-git-info/releases)
 
@@ -28325,8 +28381,8 @@
     - subject: Bump normalize-url from 4.5.0 to 4.5.1 in /apps/server
       hash: 8153020acc12cfa39ae5d12b7bf9db98606aeaa1
       body: >
-        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url) from
-        4.5.0 to 4.5.1.
+        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url)
+        from 4.5.0 to 4.5.1.
 
         - [Release notes](https://github.com/sindresorhus/normalize-url/releases)
 
@@ -28827,7 +28883,8 @@
     - subject: Add Grafana dashboards as configmaps
       hash: aced158c3ff48b57b67480fb75beecf53e312499
       body: >
-        * allows for auto-discovery of dashboards by balena-monitor running in k8s
+        * allows for auto-discovery of dashboards by balena-monitor running in
+        k8s
 
         * adjust ingress stanzas to use k8s 1.19 schema
       footer:
@@ -28866,8 +28923,8 @@
     - subject: Fix counting in RelationshipsTab
       hash: 247df455800ca40fece09049f8a9d51e865a7252
       body: >
-        Also ensure that the active relationship state variable is updated after a
-        re-count.
+        Also ensure that the active relationship state variable is updated after
+        a re-count.
       footer:
         Change-type: patch
         change-type: patch
@@ -29750,9 +29807,9 @@
     - subject: Do not generate docs as part of test
       hash: a5d82ae92ccd3aa54a66044a7b6f5cc3a83aaffd
       body: >
-        This is a temporary measure as Typedoc generation  will be broken when we
-        upgrade to TypeScript v4.3 until Typedoc supports this version (should
-        be very soon:
+        This is a temporary measure as Typedoc generation  will be broken when
+        we upgrade to TypeScript v4.3 until Typedoc supports this version
+        (should be very soon:
         https://github.com/TypeStrong/typedoc/issues/1589#issuecomment-850734031).
         At that point, we can re-instate this.
       footer:
@@ -29807,8 +29864,8 @@
     - subject: Add doc generation to npm test script
       hash: 778cc6a51b682909395286de0ef5d854fec11071
       body: >
-        This ensures that the document generation must pass in order for the tests
-        to pass.
+        This ensures that the document generation must pass in order for the
+        tests to pass.
       footer:
         Change-type: patch
         change-type: patch
@@ -29932,8 +29989,8 @@
     - subject: Add tooltip of label to AutoCompleteCardSelect options
       hash: 2abf84e395641324d330e6612caf9fd013b55f1b
       body: >
-        This is useful in situations where the label is long and is cut-off by the
-        edge of the drop-down/select component.
+        This is useful in situations where the label is long and is cut-off by
+        the edge of the drop-down/select component.
       footer:
         Change-type: minor
         change-type: minor
@@ -31554,7 +31611,8 @@
     - subject: Allow UI containers to be configurable at runtime
       hash: 0dcb73cba8b993925983b4b1bf239391ab841a63
       body: >
-        Injecting environment variables using a shell script allows the UI docker
+        Injecting environment variables using a shell script allows the UI
+        docker
 
         container to be parameterised at runtime, which means we can create a single
 
@@ -34297,8 +34355,8 @@
     - subject: Add JellyfishUser widget for Renderer
       hash: d3f8cbb959fcae7cfd6a4bdecec66168d5392d5c
       body: >
-        This widget takes an id or a slug and renders the username as a link (with
-        a tooltip).
+        This widget takes an id or a slug and renders the username as a link
+        (with a tooltip).
       footer:
         Change-type: minor
         change-type: minor
@@ -34309,8 +34367,9 @@
     - subject: Add support for getting card by slug
       hash: 59cd2d93651a7778989ee2fdf82f75bd7ab23d6a
       body: >
-        The SD card.get method already supports the argument being either an ID or
-        a slug. So we just abstract this a bit further to the store interface.
+        The SD card.get method already supports the argument being either an ID
+        or a slug. So we just abstract this a bit further to the store
+        interface.
       footer:
         Change-type: patch
         change-type: patch
@@ -34685,8 +34744,8 @@
     - subject: Ensure each lens' query options are respected
       hash: 3a9518897ea64c65893b4ca31188d58a5c5a7d3e
       body: >
-        When selecting a lens, always make sure the query options are recalculated
-        and the view is reloaded if required.
+        When selecting a lens, always make sure the query options are
+        recalculated and the view is reloaded if required.
       footer:
         Change-type: patch
         change-type: patch
@@ -34697,8 +34756,8 @@
     - subject: Fix lens-support-threads-to-audit query mask
       hash: 5ad0ad0b941d60b20a9126bcac3495c81035ce02
       body: >
-        This mask was inadvertently removing the requirement that data.status was
-        'closed'.
+        This mask was inadvertently removing the requirement that data.status
+        was 'closed'.
       footer:
         Change-type: patch
         change-type: patch
@@ -34784,8 +34843,8 @@
     - subject: Update e2e tests for MyUser lens improvements
       hash: 326a91bee951db0989449e6d76665c74dc0951a3
       body: >
-        Note - I've removed the test for setting the send command to ctrl+enter as
-        it doesn't add much value over the other test for setting the send
+        Note - I've removed the test for setting the send command to ctrl+enter
+        as it doesn't add much value over the other test for setting the send
         command to enter (particularly as you can't test the result - see
         commented out code).
 
@@ -34801,8 +34860,8 @@
     - subject: Add disableNotificationSound to user settings form
       hash: 6432fce20575af8cce827ab3a1f16365b00ad9e7
       body: >
-        Tidied up the MyUser lens significantly and added unit tests for each tab.
-        The interface tab now includes a checkbox to facilitate
+        Tidied up the MyUser lens significantly and added unit tests for each
+        tab. The interface tab now includes a checkbox to facilitate
         enabling/disabling notification sounds.
       footer:
         Change-type: minor
@@ -34950,9 +35009,9 @@
     - subject: Always open cards by appending them to current channel path
       hash: 0decd1ceee752405c8cf5b1dd6b0eb10633716f9
       body: >
-        Clicking on cards listed in the Kanban and Table lenses should always open
-        the card immediately to the right of the current channel, replacing any
-        other channels to the right of the current channel.
+        Clicking on cards listed in the Kanban and Table lenses should always
+        open the card immediately to the right of the current channel, replacing
+        any other channels to the right of the current channel.
 
 
         Fixes https://github.com/product-os/jellyfish/issues/5871
@@ -35212,8 +35271,8 @@
     - subject: Hide prefix on AutoCompleteCardSelect if single type
       hash: a7802432261f122e614f601f27c8876a4753b7e5
       body: >
-        If only one type is provided, it is redundant to show the type of the card
-        in the value.
+        If only one type is provided, it is redundant to show the type of the
+        card in the value.
       footer:
         Change-type: minor
         change-type: minor
@@ -35227,7 +35286,8 @@
     - subject: Add SaveCardButton component
       hash: 3e25809ad1b1c47971f2704685de1973bb1a6ff3
       body: >
-        Generic component that will update a card with a given patch when clicked.
+        Generic component that will update a card with a given patch when
+        clicked.
       footer:
         Change-type: patch
         change-type: patch
@@ -35346,9 +35406,9 @@
     - subject: getLinks should require target type
       hash: f47df2ca603b12d0829141876e00fd19e50bccf5
       body: >
-        The getLinks action creator should require the target type as well as the
-        verb - otherwise we can fetch cards of the wrong type that also has a
-        link with the same verb.
+        The getLinks action creator should require the target type as well as
+        the verb - otherwise we can fetch cards of the wrong type that also has
+        a link with the same verb.
 
 
         Note - getLinks is currently just called from Segment and nowhere else so this is quite a constrained bug.
@@ -35379,8 +35439,8 @@
     - subject: Search for users with regexp in CreateView lens
       hash: bda2dcfe3f64743b6c135e8b7ad6da1886598f8a
       body: >
-        When searching for users, include a regexp search for the user slug - this
-        way a person doesn't have to know the full user slug before some
+        When searching for users, include a regexp search for the user slug -
+        this way a person doesn't have to know the full user slug before some
         potentially useful results are returned.
 
 
@@ -35823,11 +35883,11 @@
     - subject: Add omni-search view
       hash: ac8a6fefaf981dc45259c2dbb340db7aa9c58486
       body: >
-        Omni-search is a view that lets you search for cards across all searchable
-        card types. It can be accessed via a new searchbox in the sidebar (or
-        from the URL `/search`). A new omni-search lens wraps the normal view
-        lens, constructing and passing in a filter based on the available
-        searchable card types.
+        Omni-search is a view that lets you search for cards across all
+        searchable card types. It can be accessed via a new searchbox in the
+        sidebar (or from the URL `/search`). A new omni-search lens wraps the
+        normal view lens, constructing and passing in a filter based on the
+        available searchable card types.
       footer:
         Change-type: minor
         change-type: minor
@@ -36003,8 +36063,8 @@
     - subject: Fix check for re-opened support thread
       hash: fac1da3ad817ca455b57a639a9735d9c2c860079
       body: >
-        The wording of the update event's name created by the triggered action has
-        changed. This fix also accounts for threads re-opened because a pull
+        The wording of the update event's name created by the triggered action
+        has changed. This fix also accounts for threads re-opened because a pull
         request was closed.
       footer:
         Change-type: patch
@@ -36197,8 +36257,8 @@
     - subject: Restrict filtering to fullTextSearch indexed fields
       hash: f1dc379e02e0ede57da261367aa13fe8f5526a05
       body: >
-        This should speed up searches quite a lot as we will only be filtering on
-        fullTextSearch indexed fields.
+        This should speed up searches quite a lot as we will only be filtering
+        on fullTextSearch indexed fields.
       footer:
         Change-type: minor
         change-type: minor
@@ -37176,9 +37236,9 @@
     - subject: Save previously selected slice to user's profile.
       hash: 64153adba2269d1763ce54a480102baef0a8e79f
       body: >
-        The most recently selected slice will be saved to a user's profile in the
-        same way that the most recently selected lens currently is. This way if
-        you always view a particular view with a slice other than the default
+        The most recently selected slice will be saved to a user's profile in
+        the same way that the most recently selected lens currently is. This way
+        if you always view a particular view with a slice other than the default
         first one, this will be preserved and you won't always have to re-select
         your preferred slice!
       footer:
@@ -37191,8 +37251,8 @@
     - subject: Always display slice filter
       hash: 988bceb06be045f659671ee81a7fa9afa1453931
       body: >
-        Even if the selected slice option is 'All', we still want to display it in
-        the filter summary so that we can create a custom view with the 'All'
+        Even if the selected slice option is 'All', we still want to display it
+        in the filter summary so that we can create a custom view with the 'All'
         slice option selected.
       footer:
         Change-type: minor
@@ -37538,10 +37598,10 @@
     - subject: Pass dummy props from Segment to List component
       hash: 2e1b96e8645e2423a34b3250b89e5897939cb3b9
       body: >
-        This needs a major improvement but is relevant to general pagination/query
-        improvements. For now, the Segment component will always fetch _all_
-        linked items (up to 1000) so pagination is irrelevant and should be
-        ignored.
+        This needs a major improvement but is relevant to general
+        pagination/query improvements. For now, the Segment component will
+        always fetch _all_ linked items (up to 1000) so pagination is irrelevant
+        and should be ignored.
       footer:
         Change-type: patch
         change-type: patch
@@ -38385,8 +38445,8 @@
     - subject: Refactor LinkModal
       hash: c17a1ad7b0d4b667ff131cf7bf41ca15e81022a2
       body: >
-        - Extract common helper methods into a new file (that will be imported by
-        the UnlinkModal as well).
+        - Extract common helper methods into a new file (that will be imported
+        by the UnlinkModal as well).
 
         - Convert to a named export
 
@@ -38893,8 +38953,8 @@
     - subject: Remove accidentally re-added default-cards
       hash: fcc80a675fe2d7fe57e1495299badd8cd3b3afb9
       body: >
-        These cards were likely added when resolving merge conflicts. People need
-        to be more careful about how the resolve conflicts!
+        These cards were likely added when resolving merge conflicts. People
+        need to be more careful about how the resolve conflicts!
       footer:
         Change-type: patch
         change-type: patch
@@ -40339,8 +40399,8 @@
     - subject: Hide inactive group users
       hash: 3f8004f05e7d28bfc8447fb454d9c55b57751b5b
       body: >
-        Inactive group users were still being fetched when retrieving groups with
-        members.
+        Inactive group users were still being fetched when retrieving groups
+        with members.
       footer:
         Change-type: patch
         change-type: patch
@@ -40400,7 +40460,8 @@
     - subject: Add transformer and task type cards
       hash: bb1c017b9137afb71bb02c412647766fa6da0229
       body: >
-        This adds the contract representation for transformers, that can match an
+        This adds the contract representation for transformers, that can match
+        an
 
         input contract and create and output contract, and tasks, which describe
 
@@ -40930,8 +40991,8 @@
     - subject: Use schedule field instead of async field
       hash: e642b11126bcdf24dc8336de42619d91d09161bf
       body: >
-        Triggered actions now have a 'schedule' field which can currently take one
-        of three string values - 'sync', 'async' or 'enqueue'.
+        Triggered actions now have a 'schedule' field which can currently take
+        one of three string values - 'sync', 'async' or 'enqueue'.
       footer:
         Change-type: patch
         change-type: patch
@@ -42041,8 +42102,8 @@
     - subject: Remove the prepended "|" to fix sed from failing
       hash: a04f3fa73a60dd9155f13a022ef6f55f860580c3
       body: >
-        RUnning the check-filesnames.sh script on my macbook fails because of the
-        following error:
+        RUnning the check-filesnames.sh script on my macbook fails because of
+        the following error:
 
         ```
 
@@ -42653,8 +42714,8 @@
     - subject: Remove overridden text colors in theme
       hash: 7cd0f787ed15d841079126719abc686cda60204b
       body: >
-        Note - in practice this only affects the text.light color as the other two
-        were exactly the same as the default theme colors. This change just
+        Note - in practice this only affects the text.light color as the other
+        two were exactly the same as the default theme colors. This change just
         ensures we use the standard light text color.
       footer:
         Change-type: minor
@@ -43237,8 +43298,8 @@
     - subject: Reopen support threads when a linked pull request is closed
       hash: ae590e1ac90d55383e67ebea0f13018a5000a1bd
       body: >
-        This is a very similar triggered action to the one that relates to GitHub
-        issues
+        This is a very similar triggered action to the one that relates to
+        GitHub issues
       footer:
         Change-type: minor
         change-type: minor
@@ -43291,9 +43352,9 @@
     - subject: Display gray favicon when logged out
       hash: a090ac22f237f0a9ecd8173e0957de4a60f6030a
       body: >
-        This is particularly useful for people who keep Jellyfish on a pinned tab.
-        At a glance you can now see if you've been logged out (and are therefore
-        not receiving any notifications).
+        This is particularly useful for people who keep Jellyfish on a pinned
+        tab. At a glance you can now see if you've been logged out (and are
+        therefore not receiving any notifications).
       footer:
         Change-type: minor
         change-type: minor
@@ -43781,8 +43842,8 @@
     - subject: Add common fixtures for card types
       hash: 3589f991a9c3941c66fdcc7f97387ed23d10aced
       body: >
-        This directory will act as a common place to store type card test fixtures
-        for UI unit tests.
+        This directory will act as a common place to store type card test
+        fixtures for UI unit tests.
       footer:
         Change-type: patch
         change-type: patch
@@ -44547,8 +44608,8 @@
     - subject: "test: Pause after closing notification"
       hash: 584b9838aec365b3ea5008776a904727d6d387af
       body: >
-        This allows the notification to completely be removed from the UI (it has
-        an animated exit).
+        This allows the notification to completely be removed from the UI (it
+        has an animated exit).
       footer:
         Change-type: patch
         change-type: patch
@@ -44933,8 +44994,8 @@
         unavailable pods."
       hash: 5aacc0cb16b5ceb84b0113dec4a21794b29d452d
       body: >
-        This should allow a smoother rollout as it avoids having unavailable pods
-        in the fleet
+        This should allow a smoother rollout as it avoids having unavailable
+        pods in the fleet
 
         during rollout of updates.
       footer:
@@ -46090,8 +46151,8 @@
     - subject: "ui: Allow for null field values"
       hash: 641a6f4f050c54daa95259cb5516a2e99ebf9e93
       body: >
-        Prevents an unhandled exception when trying to call `toString()` on a null
-        value!
+        Prevents an unhandled exception when trying to call `toString()` on a
+        null value!
       footer:
         Change-type: patch
         change-type: patch
@@ -46187,8 +46248,8 @@
     - subject: Add link to home from 404 view
       hash: 5a5b7abf9655787cec87c8418b9dd7c02ed43949
       body: >
-        Link to home is only displayed if the channel is the only one (apart from
-        the home channel). 
+        Link to home is only displayed if the channel is the only one (apart
+        from the home channel). 
 
 
         Refactored 404 view into it's own component.
@@ -46221,8 +46282,8 @@
     - subject: Add support for uiSchema 'modes'
       hash: 8f31343a3d87ad0fed6cba7d6a7bbb01451878be
       body: >
-        Refactor type cards that already use uiSchema so different UI schemas can
-        be defined for specific modes of use.
+        Refactor type cards that already use uiSchema so different UI schemas
+        can be defined for specific modes of use.
       footer:
         Change-type: minor
         change-type: minor
@@ -46497,8 +46558,8 @@
     - subject: "perf: Reduce re-renders within HomeChannel"
       hash: 0990e7445f53837ad32acd1511cfbf30db3acd78
       body: >
-        Various improvements to reduce the number of re-renders within HomeChannel
-        and its child components.
+        Various improvements to reduce the number of re-renders within
+        HomeChannel and its child components.
       footer:
         Change-type: patch
         change-type: patch
@@ -46520,8 +46581,8 @@
     - subject: "perf: Don't pass whole uiState to HomeChannel"
       hash: f9185309be8bb2a5287225c78731e34d98cfa52a
       body: >
-        uiState is updated whenever a timeline message is cached. We don't want to
-        re-render the whole HomeChannel whenever a timeline message is being
+        uiState is updated whenever a timeline message is cached. We don't want
+        to re-render the whole HomeChannel whenever a timeline message is being
         edited.
       footer:
         Change-type: patch
@@ -47468,8 +47529,8 @@
     - subject: "patch: bump localforage from 1.7.4 to 1.8.0"
       hash: 07d0e41c736f614801e442b0978a49da6b2eb998
       body: >
-        Bumps [localforage](https://github.com/localForage/localForage) from 1.7.4
-        to 1.8.0.
+        Bumps [localforage](https://github.com/localForage/localForage) from
+        1.7.4 to 1.8.0.
 
         - [Release notes](https://github.com/localForage/localForage/releases)
 
@@ -47487,8 +47548,9 @@
     - subject: "patch: bump eslint-plugin-jsdoc from 29.2.0 to 30.0.1"
       hash: 279811517caaf0ea01c23fee2937e4ec521e2329
       body: >
-        Bumps [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)
-        from 29.2.0 to 30.0.1.
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        29.2.0 to 30.0.1.
 
         - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
 
@@ -47674,7 +47736,8 @@
     - subject: "patch: bump googleapis from 54.0.0 to 54.1.0"
       hash: 5356f976e9d35586760d59ccb1c705ce03c7dc60
       body: >
-        Bumps [googleapis](https://github.com/googleapis/google-api-nodejs-client)
+        Bumps
+        [googleapis](https://github.com/googleapis/google-api-nodejs-client)
         from 54.0.0 to 54.1.0.
 
         - [Release notes](https://github.com/googleapis/google-api-nodejs-client/releases)
@@ -47915,8 +47978,8 @@
     - subject: "test: Fix headers retrieval in Front integration tests"
       hash: e4b4b1adfc45f1c0d2b30a08b87eb00737b4d14d
       body: >
-        For some reason on every other request the request.headers prop is not set
-        - but request.options.headers is always set.
+        For some reason on every other request the request.headers prop is not
+        set - but request.options.headers is always set.
       footer:
         Change-type: patch
         change-type: patch
@@ -47967,7 +48030,8 @@
     - subject: "patch: bump googleapis from 52.1.0 to 54.0.0"
       hash: 2db7e111b507899a9343ae6e8d2bc9c6fddfdc6f
       body: >
-        Bumps [googleapis](https://github.com/googleapis/google-api-nodejs-client)
+        Bumps
+        [googleapis](https://github.com/googleapis/google-api-nodejs-client)
         from 52.1.0 to 54.0.0.
 
         - [Release notes](https://github.com/googleapis/google-api-nodejs-client/releases)
@@ -48198,8 +48262,8 @@
     - subject: "patch: bump lru-cache from 5.1.1 to 6.0.0"
       hash: c4a63d4546347fb0b09893e5ac29918deb364325
       body: >
-        Bumps [lru-cache](https://github.com/isaacs/node-lru-cache) from 5.1.1 to
-        6.0.0.
+        Bumps [lru-cache](https://github.com/isaacs/node-lru-cache) from 5.1.1
+        to 6.0.0.
 
         - [Release notes](https://github.com/isaacs/node-lru-cache/releases)
 
@@ -48234,8 +48298,9 @@
     - subject: "patch: bump eslint-plugin-jsdoc from 28.6.1 to 29.2.0"
       hash: 3765d80361d635967f7d667d36d037cd61ae30b9
       body: >
-        Bumps [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)
-        from 28.6.1 to 29.2.0.
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        28.6.1 to 29.2.0.
 
         - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
 
@@ -48342,9 +48407,9 @@
     - subject: Add new triggered action to update edited_at field
       hash: bc5ae8c238d53cf0e5727a4b3b4e147aabcca6bb
       body: >
-        When any field in the message payload is modified, an 'action-update-card'
-        action is triggered to set the /data/edited_at field to the value of the
-        card's updated_at field.
+        When any field in the message payload is modified, an
+        'action-update-card' action is triggered to set the /data/edited_at
+        field to the value of the card's updated_at field.
       footer:
         Change-type: minor
         change-type: minor
@@ -48424,9 +48489,10 @@
     - subject: "ui: Persist redux state using redux-persist"
       hash: 0cf207f79d4d8e300fa6736b8b4500932243ef81
       body: >
-        We still use localForage as the storage engine. Persist and 're-hydration'
-        logic is now greatly simplified and handled automatically by the
-        redux-persist config and the `persistStore` callback ( `onHydrated`).
+        We still use localForage as the storage engine. Persist and
+        're-hydration' logic is now greatly simplified and handled automatically
+        by the redux-persist config and the `persistStore` callback (
+        `onHydrated`).
 
 
         The `setCoreState` action creator is no longer used/needed so it has been removed.
@@ -48512,8 +48578,8 @@
     - subject: "ui: Fix layout of Inbox"
       hash: e683820e3c9f562ad96cd15c466dfed2d2fae000
       body: >
-        Gets rid of the 'double scrollbar' when viewing an Inbox tab with a lot of
-        messages in it.
+        Gets rid of the 'double scrollbar' when viewing an Inbox tab with a lot
+        of messages in it.
       footer:
         Change-type: patch
         change-type: patch
@@ -48527,7 +48593,8 @@
     - subject: "patch: bump lodash from 4.17.17 to 4.17.19"
       hash: dbeb3097bb1d14bd862fa86d6b39e019a062d91f
       body: >
-        Bumps [lodash](https://github.com/lodash/lodash) from 4.17.17 to 4.17.19.
+        Bumps [lodash](https://github.com/lodash/lodash) from 4.17.17 to
+        4.17.19.
 
         - [Release notes](https://github.com/lodash/lodash/releases)
 
@@ -48579,8 +48646,8 @@
     - subject: "patch: bump pg-promise from 10.5.7 to 10.5.8"
       hash: edde524549a1b9790a4132f14993ae9eb9cbf7c8
       body: >
-        Bumps [pg-promise](https://github.com/vitaly-t/pg-promise) from 10.5.7 to
-        10.5.8.
+        Bumps [pg-promise](https://github.com/vitaly-t/pg-promise) from 10.5.7
+        to 10.5.8.
 
         - [Release notes](https://github.com/vitaly-t/pg-promise/releases)
 
@@ -48634,7 +48701,8 @@
     - subject: "patch: bump lodash from 4.17.15 to 4.17.17"
       hash: f9b6def696e584cdd012116373f6d5fe6b708dc8
       body: >
-        Bumps [lodash](https://github.com/lodash/lodash) from 4.17.15 to 4.17.17.
+        Bumps [lodash](https://github.com/lodash/lodash) from 4.17.15 to
+        4.17.17.
 
         - [Release notes](https://github.com/lodash/lodash/releases)
 
@@ -48722,8 +48790,8 @@
     - subject: "ui: Add support for linking to a message within a thread"
       hash: 1828b35baea8e95fe0877576e593b6bc65db64c6
       body: >
-        New `Copy link to this message` context menu item. The event's ID is added
-        to the URL as a query param.
+        New `Copy link to this message` context menu item. The event's ID is
+        added to the URL as a query param.
 
 
         When the timeline is loaded, if there is an `event` query param in the URL, we scroll to that event. The focused event pulses the CSS outline property 3 times when it is displayed.
@@ -48749,8 +48817,8 @@
     - subject: "ui: Enable file uploads as messages"
       hash: 0bafea7b592b9875d8b05dc0190fe7a1814dc9e8
       body: >
-        Previously file uploads would always be saved as whispers if whispers were
-        allowed on a thread.
+        Previously file uploads would always be saved as whispers if whispers
+        were allowed on a thread.
       footer:
         Change-type: minor
         change-type: minor
@@ -49024,8 +49092,9 @@
     - subject: "patch: bump eslint-plugin-lodash from 2.7.0 to 7.1.0"
       hash: 0d7c86aa80543e1de9f2003004bce7f6050f5aa3
       body: >
-        Bumps [eslint-plugin-lodash](https://github.com/wix/eslint-plugin-lodash)
-        from 2.7.0 to 7.1.0.
+        Bumps
+        [eslint-plugin-lodash](https://github.com/wix/eslint-plugin-lodash) from
+        2.7.0 to 7.1.0.
 
         - [Release notes](https://github.com/wix/eslint-plugin-lodash/releases)
 
@@ -49069,7 +49138,8 @@
     - subject: "patch: bump json-e from 2.7.1 to 4.1.0"
       hash: ff333218bf5680ea64d8b39d76616787de0ba5ac
       body: >
-        Bumps [json-e](https://github.com/taskcluster/json-e) from 2.7.1 to 4.1.0.
+        Bumps [json-e](https://github.com/taskcluster/json-e) from 2.7.1 to
+        4.1.0.
 
         - [Release notes](https://github.com/taskcluster/json-e/releases)
 
@@ -49165,8 +49235,9 @@
     - subject: "patch: bump eslint-plugin-jsdoc from 28.5.1 to 28.6.1"
       hash: 9c3d380899d4065df45b22e27f0673df62ad0b72
       body: >
-        Bumps [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)
-        from 28.5.1 to 28.6.1.
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        28.5.1 to 28.6.1.
 
         - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
 
@@ -49449,8 +49520,8 @@
         includes:"
       hash: efb94f61839b482af753d1aecf3c597065ed4dfe
       body: >
-        - Moving header-related code into its own component (Header) - this could
-        be broken-down further but I've left this for future work
+        - Moving header-related code into its own component (Header) - this
+        could be broken-down further but I've left this for future work
 
         - Moving pending-message-related code into its own component (PendingMessages)
 
@@ -49556,8 +49627,8 @@
     - subject: "patch: bump @sentry/node from 5.18.1 to 5.19.0"
       hash: e26b7ff13d7a20af32c6b0de6d71a06cf7bb182a
       body: >
-        Bumps [@sentry/node](https://github.com/getsentry/sentry-javascript) from
-        5.18.1 to 5.19.0.
+        Bumps [@sentry/node](https://github.com/getsentry/sentry-javascript)
+        from 5.18.1 to 5.19.0.
 
         - [Release notes](https://github.com/getsentry/sentry-javascript/releases)
 
@@ -49740,7 +49811,8 @@
     - subject: Move ChatWidgetSidebar into apps/ui
       hash: b60e11d8ac227f54e77bab0477ac516c944cf861
       body: >
-        Removes a dependency violation (from lib/ui-components to lib/chat-widget)
+        Removes a dependency violation (from lib/ui-components to
+        lib/chat-widget)
       footer:
         Change-type: patch
         change-type: patch
@@ -49843,8 +49915,8 @@
     - subject: Allow the webpack dev server to listen on all local interfaces.
       hash: a2ef8adfc29efb9cf721280d2d8d708043f8352d
       body: >
-        This means that it can be run in a container that binds ports to the host
-        machine for development.
+        This means that it can be run in a container that binds ports to the
+        host machine for development.
       footer:
         Change-type: patch
         change-type: patch
@@ -50002,8 +50074,8 @@
     - subject: "test: Ensure toast notification is dismissed as part of test step"
       hash: c92a6394548a7411467f6630510a2e6487484990
       body: >
-        This mitigates the situation where the notification blocks the item we are
-        trying to click on next.
+        This mitigates the situation where the notification blocks the item we
+        are trying to click on next.
       footer:
         Change-type: patch
         change-type: patch
@@ -50013,8 +50085,8 @@
     - subject: "test: improve home channel navigation logic"
       hash: ad9b469705143b3d50f123833f202de720635738
       body: >
-        Use a helper method to ensure that expandable menu items are only clicked
-        on if they are not expanded.
+        Use a helper method to ensure that expandable menu items are only
+        clicked on if they are not expanded.
       footer:
         Change-type: patch
         change-type: patch
@@ -50100,8 +50172,8 @@
     - subject: "patch: bump @sentry/node from 5.17.0 to 5.18.1"
       hash: 01c1394f3a9b86f9bce2f26c74172816960e582c
       body: >
-        Bumps [@sentry/node](https://github.com/getsentry/sentry-javascript) from
-        5.17.0 to 5.18.1.
+        Bumps [@sentry/node](https://github.com/getsentry/sentry-javascript)
+        from 5.17.0 to 5.18.1.
 
         - [Release notes](https://github.com/getsentry/sentry-javascript/releases)
 
@@ -50182,8 +50254,8 @@
     - subject: "patch: bump pg-promise from 10.4.0 to 10.5.7"
       hash: 23c7201e0c9f6afe528314ea520891e1aaff2622
       body: >
-        Bumps [pg-promise](https://github.com/vitaly-t/pg-promise) from 10.4.0 to
-        10.5.7.
+        Bumps [pg-promise](https://github.com/vitaly-t/pg-promise) from 10.4.0
+        to 10.5.7.
 
         - [Release notes](https://github.com/vitaly-t/pg-promise/releases)
 
@@ -50198,8 +50270,9 @@
     - subject: "patch: bump eslint-plugin-jsdoc from 27.1.2 to 28.5.1"
       hash: 9dfe7e0b996cdc3fd0c86a171ff95824d5421589
       body: >
-        Bumps [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)
-        from 27.1.2 to 28.5.1.
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        27.1.2 to 28.5.1.
 
         - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
 
@@ -50386,7 +50459,8 @@
     - subject: "patch: bump winston from 3.2.1 to 3.3.3"
       hash: 7a401567ff1ab0512df039f0cd4b30a1a69b5cba
       body: >
-        Bumps [winston](https://github.com/winstonjs/winston) from 3.2.1 to 3.3.3.
+        Bumps [winston](https://github.com/winstonjs/winston) from 3.2.1 to
+        3.3.3.
 
         - [Release notes](https://github.com/winstonjs/winston/releases)
 
@@ -50716,8 +50790,8 @@
     - subject: "ui: Notify user on streamed message based on mentionsGroup"
       hash: c0901db55fc43b5535f22f7af516c0e6b53987bd
       body: >
-        We now check the mentionsGroup field as well as the mentionsUser field to
-        see if the message should create a notification for the user.
+        We now check the mentionsGroup field as well as the mentionsUser field
+        to see if the message should create a notification for the user.
       footer:
         Change-type: minor
         change-type: minor
@@ -50746,8 +50820,8 @@
     - subject: "patch: bump react-redux from 7.1.3 to 7.2.0"
       hash: 43693f18b8916d75b0e39c12026eb68241694cd6
       body: >
-        Bumps [react-redux](https://github.com/reduxjs/react-redux) from 7.1.3 to
-        7.2.0.
+        Bumps [react-redux](https://github.com/reduxjs/react-redux) from 7.1.3
+        to 7.2.0.
 
         - [Release notes](https://github.com/reduxjs/react-redux/releases)
 
@@ -50934,8 +51008,8 @@
     - subject: "patch: bump graphile-worker from 0.5.0 to 0.6.0"
       hash: 9f47fd41bc49d4610e071787b03df1279f53c534
       body: >
-        Bumps [graphile-worker](https://github.com/graphile/worker) from 0.5.0 to
-        0.6.0.
+        Bumps [graphile-worker](https://github.com/graphile/worker) from 0.5.0
+        to 0.6.0.
 
         - [Release notes](https://github.com/graphile/worker/releases)
 
@@ -50952,8 +51026,8 @@
     - subject: "patch: bump react-icons from 3.9.0 to 3.10.0"
       hash: 9ba7293ce770977c35ca71b8df714770dfd92ce2
       body: >
-        Bumps [react-icons](https://github.com/react-icons/react-icons) from 3.9.0
-        to 3.10.0.
+        Bumps [react-icons](https://github.com/react-icons/react-icons) from
+        3.9.0 to 3.10.0.
 
         - [Release notes](https://github.com/react-icons/react-icons/releases)
 
@@ -51050,7 +51124,8 @@
     - subject: "patch: bump node-jose from 1.1.3 to 1.1.4"
       hash: 8481899361de832470ac2b6eff9afdb5e859ce16
       body: >
-        Bumps [node-jose](https://github.com/cisco/node-jose) from 1.1.3 to 1.1.4.
+        Bumps [node-jose](https://github.com/cisco/node-jose) from 1.1.3 to
+        1.1.4.
 
         - [Release notes](https://github.com/cisco/node-jose/releases)
 
@@ -51124,8 +51199,8 @@
     - subject: "patch: bump @sentry/node from 5.16.1 to 5.17.0"
       hash: 5cc0cd1462f6110b87a2522af4207d6bb07917b1
       body: >
-        Bumps [@sentry/node](https://github.com/getsentry/sentry-javascript) from
-        5.16.1 to 5.17.0.
+        Bumps [@sentry/node](https://github.com/getsentry/sentry-javascript)
+        from 5.16.1 to 5.17.0.
 
         - [Release notes](https://github.com/getsentry/sentry-javascript/releases)
 
@@ -51173,7 +51248,8 @@
     - subject: "patch: bump request from 2.88.0 to 2.88.2"
       hash: 2816d14fea487c795e212b8e71bf13c6050873cd
       body: >
-        Bumps [request](https://github.com/request/request) from 2.88.0 to 2.88.2.
+        Bumps [request](https://github.com/request/request) from 2.88.0 to
+        2.88.2.
 
         - [Release notes](https://github.com/request/request/releases)
 
@@ -51209,8 +51285,9 @@
     - subject: "patch: bump webpack-dev-server from 3.10.3 to 3.11.0"
       hash: d0585f200ee0348039b1569e326358663eee5c82
       body: >
-        Bumps [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
-        from 3.10.3 to 3.11.0.
+        Bumps
+        [webpack-dev-server](https://github.com/webpack/webpack-dev-server) from
+        3.10.3 to 3.11.0.
 
         - [Release notes](https://github.com/webpack/webpack-dev-server/releases)
 
@@ -51246,7 +51323,8 @@
     - subject: "patch: bump chart.js from 2.9.2 to 2.9.3"
       hash: 96e6b76060e89a144403acd0d3c9ab39f8fc2854
       body: >
-        Bumps [chart.js](https://github.com/chartjs/Chart.js) from 2.9.2 to 2.9.3.
+        Bumps [chart.js](https://github.com/chartjs/Chart.js) from 2.9.2 to
+        2.9.3.
 
         - [Release notes](https://github.com/chartjs/Chart.js/releases)
 
@@ -51335,8 +51413,8 @@
     - subject: "patch: bump webpack-cli from 3.3.11 to 3.3.12"
       hash: 6e98eb67cacec5b08334b93ef7dd55c67c959902
       body: >
-        Bumps [webpack-cli](https://github.com/webpack/webpack-cli) from 3.3.11 to
-        3.3.12.
+        Bumps [webpack-cli](https://github.com/webpack/webpack-cli) from 3.3.11
+        to 3.3.12.
 
         - [Release notes](https://github.com/webpack/webpack-cli/releases)
 
@@ -51369,8 +51447,9 @@
     - subject: "patch: bump react from 16.11.0 to 16.13.1"
       hash: 5d7e2ad0553e13225f217e3a04507a8f07af4100
       body: >
-        Bumps [react](https://github.com/facebook/react/tree/HEAD/packages/react)
-        from 16.11.0 to 16.13.1.
+        Bumps
+        [react](https://github.com/facebook/react/tree/HEAD/packages/react) from
+        16.11.0 to 16.13.1.
 
         - [Release notes](https://github.com/facebook/react/releases)
 
@@ -51561,8 +51640,9 @@
     - subject: "patch: bump @octokit/plugin-retry from 3.0.2 to 3.0.3"
       hash: 0666265fb9fb040491ed4136f4ee032978c2101c
       body: >
-        Bumps [@octokit/plugin-retry](https://github.com/octokit/plugin-retry.js)
-        from 3.0.2 to 3.0.3.
+        Bumps
+        [@octokit/plugin-retry](https://github.com/octokit/plugin-retry.js) from
+        3.0.2 to 3.0.3.
 
         - [Release notes](https://github.com/octokit/plugin-retry.js/releases)
 
@@ -51577,8 +51657,9 @@
     - subject: "patch: bump eslint-plugin-jsdoc from 27.0.0 to 27.1.2"
       hash: 9949e0bf01e6a62c080ba3b64eb4ce0162b2a8e0
       body: >
-        Bumps [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)
-        from 27.0.0 to 27.1.2.
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        27.0.0 to 27.1.2.
 
         - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
 
@@ -51675,8 +51756,8 @@
     - subject: "patch: bump static-eval from 2.0.5 to 2.1.0"
       hash: e3727c530d718f7e6c82ebc74e51d92fe4c642f9
       body: >
-        Bumps [static-eval](https://github.com/browserify/static-eval) from 2.0.5
-        to 2.1.0.
+        Bumps [static-eval](https://github.com/browserify/static-eval) from
+        2.0.5 to 2.1.0.
 
         - [Release notes](https://github.com/browserify/static-eval/releases)
 
@@ -51693,8 +51774,8 @@
     - subject: "patch: bump localforage from 1.7.3 to 1.7.4"
       hash: c01e371a10e4c2d0cc27e701b5900c68470dfdd8
       body: >
-        Bumps [localforage](https://github.com/localForage/localForage) from 1.7.3
-        to 1.7.4.
+        Bumps [localforage](https://github.com/localForage/localForage) from
+        1.7.3 to 1.7.4.
 
         - [Release notes](https://github.com/localForage/localForage/releases)
 
@@ -51891,8 +51972,8 @@
     - subject: "patch: bump babel-loader from 8.0.6 to 8.1.0"
       hash: 8589b5a8d60c356a53a69e9f15c74657ba634d3d
       body: >
-        Bumps [babel-loader](https://github.com/babel/babel-loader) from 8.0.6 to
-        8.1.0.
+        Bumps [babel-loader](https://github.com/babel/babel-loader) from 8.0.6
+        to 8.1.0.
 
         - [Release notes](https://github.com/babel/babel-loader/releases)
 
@@ -51961,7 +52042,8 @@
     - subject: "patch: bump googleapis from 51.0.0 to 52.1.0"
       hash: d2750dd2f9cae1441f86914c27d3443677024ca2
       body: >
-        Bumps [googleapis](https://github.com/googleapis/google-api-nodejs-client)
+        Bumps
+        [googleapis](https://github.com/googleapis/google-api-nodejs-client)
         from 51.0.0 to 52.1.0.
 
         - [Release notes](https://github.com/googleapis/google-api-nodejs-client/releases)
@@ -52122,9 +52204,9 @@
     - subject: "ui: Cache groups as part of bootstrap actions"
       hash: 49bdfb7ae2e8dec92685cb62ae4cd5e5792d2965
       body: >
-        The groups are saved in the redux state, with the list of group users and
-        a boolean flag indicating whether the authenticated user is part of that
-        group (for efficient querying of groups that the user is part of).
+        The groups are saved in the redux state, with the list of group users
+        and a boolean flag indicating whether the authenticated user is part of
+        that group (for efficient querying of groups that the user is part of).
       footer:
         Change-type: minor
         change-type: minor
@@ -52196,8 +52278,8 @@
     - subject: "patch: bump socket.io-redis from 5.2.0 to 5.3.0"
       hash: b9eec0331bb3417783e3f03686fff66d721b3979
       body: >
-        Bumps [socket.io-redis](https://github.com/socketio/socket.io-redis) from
-        5.2.0 to 5.3.0.
+        Bumps [socket.io-redis](https://github.com/socketio/socket.io-redis)
+        from 5.2.0 to 5.3.0.
 
         - [Release notes](https://github.com/socketio/socket.io-redis/releases)
 
@@ -52297,8 +52379,8 @@
     - subject: Add index for endpoint field of a web-push-subscription
       hash: c3a19508a98d517a6ff00a1517dca480e3e97749
       body: >
-        We will want to query web-push-subscriptions by endpoint when checking for
-        existing subscriptions.
+        We will want to query web-push-subscriptions by endpoint when checking
+        for existing subscriptions.
       footer:
         Change-type: patch
         change-type: patch
@@ -52392,8 +52474,8 @@
     - subject: "[graphql] Fix UTC-offset bug in GraphQL DateTime spec."
       hash: 664c9284e003b86d37ca818866043f9ade1c3d1b
       body: >
-        I didn't notice this because I run my tests in a container which has it's
-        TZ set to `UTC`.
+        I didn't notice this because I run my tests in a container which has
+        it's TZ set to `UTC`.
       footer:
         Change-type: patch
         change-type: patch
@@ -52734,8 +52816,8 @@
     - subject: "patch: bump @sentry/node from 5.15.5 to 5.16.1"
       hash: 9aa6bc249475a8e338531cba54e7501eb40db38a
       body: >
-        Bumps [@sentry/node](https://github.com/getsentry/sentry-javascript) from
-        5.15.5 to 5.16.1.
+        Bumps [@sentry/node](https://github.com/getsentry/sentry-javascript)
+        from 5.15.5 to 5.16.1.
 
         - [Release notes](https://github.com/getsentry/sentry-javascript/releases)
 
@@ -52752,8 +52834,8 @@
     - subject: "patch: bump static-eval from 2.0.2 to 2.0.5"
       hash: c59932d9bc384915d631e1d0a8ca2895a1c5395b
       body: >
-        Bumps [static-eval](https://github.com/browserify/static-eval) from 2.0.2
-        to 2.0.5.
+        Bumps [static-eval](https://github.com/browserify/static-eval) from
+        2.0.2 to 2.0.5.
 
         - [Release notes](https://github.com/browserify/static-eval/releases)
 
@@ -52959,8 +53041,9 @@
     - subject: "patch: bump @octokit/plugin-retry from 2.2.0 to 3.0.2"
       hash: a48519701faeea4bc71095db63d07e5250c0f856
       body: >
-        Bumps [@octokit/plugin-retry](https://github.com/octokit/plugin-retry.js)
-        from 2.2.0 to 3.0.2.
+        Bumps
+        [@octokit/plugin-retry](https://github.com/octokit/plugin-retry.js) from
+        2.2.0 to 3.0.2.
 
         - [Release notes](https://github.com/octokit/plugin-retry.js/releases)
 
@@ -53043,7 +53126,8 @@
     - subject: "patch: bump js-yaml from 3.13.1 to 3.14.0"
       hash: 653ed67b811cd793a6f6e1da750d727b9b56e6ce
       body: >
-        Bumps [js-yaml](https://github.com/nodeca/js-yaml) from 3.13.1 to 3.14.0.
+        Bumps [js-yaml](https://github.com/nodeca/js-yaml) from 3.13.1 to
+        3.14.0.
 
         - [Release notes](https://github.com/nodeca/js-yaml/releases)
 
@@ -53150,8 +53234,9 @@
     - subject: "patch: bump eslint-plugin-jsdoc from 25.4.3 to 27.0.0"
       hash: 0d0dd29c5e0cf191768c1a33c74000ed12c3fbdd
       body: >
-        Bumps [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)
-        from 25.4.3 to 27.0.0.
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        25.4.3 to 27.0.0.
 
         - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
 
@@ -53183,7 +53268,8 @@
     - subject: "patch: bump morgan from 1.9.1 to 1.10.0"
       hash: 9e1a0c72c9d11a41c9a32f1f43cb088523d2c22e
       body: >
-        Bumps [morgan](https://github.com/expressjs/morgan) from 1.9.1 to 1.10.0.
+        Bumps [morgan](https://github.com/expressjs/morgan) from 1.9.1 to
+        1.10.0.
 
         - [Release notes](https://github.com/expressjs/morgan/releases)
 
@@ -53200,8 +53286,8 @@
     - subject: "patch: bump geoip-lite from 1.3.8 to 1.4.2"
       hash: 515ef29b42dc85b3e4abb2523676f63f7673ab80
       body: >
-        Bumps [geoip-lite](https://github.com/geoip-lite/node-geoip) from 1.3.8 to
-        1.4.2.
+        Bumps [geoip-lite](https://github.com/geoip-lite/node-geoip) from 1.3.8
+        to 1.4.2.
 
         - [Release notes](https://github.com/geoip-lite/node-geoip/releases)
 
@@ -53251,7 +53337,8 @@
     - subject: "patch: bump howler from 2.1.3 to 2.2.0"
       hash: 9c883237556cf020f93165d51f09180a9bc9b258
       body: >
-        Bumps [howler](https://github.com/goldfire/howler.js) from 2.1.3 to 2.2.0.
+        Bumps [howler](https://github.com/goldfire/howler.js) from 2.1.3 to
+        2.2.0.
 
         - [Release notes](https://github.com/goldfire/howler.js/releases)
 
@@ -53268,8 +53355,8 @@
     - subject: Improve performance when keeping trigger data up to date in workers
       hash: 7280bf217f252235479b22a1f62158782d028183
       body: >
-        Previously, when a triggered-action was upserted into the DB, every worker
-        would
+        Previously, when a triggered-action was upserted into the DB, every
+        worker would
 
         load every triggered-action again. With this change, individual triggered-action
 
@@ -53688,8 +53775,9 @@
     - subject: "patch: bump eslint-plugin-jsdoc from 25.4.2 to 25.4.3"
       hash: ff0afba03312731d7143b7217a17bc6b8d0b081d
       body: >
-        Bumps [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)
-        from 25.4.2 to 25.4.3.
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        25.4.2 to 25.4.3.
 
         - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
 
@@ -53704,7 +53792,8 @@
     - subject: "patch: bump webpack from 4.42.1 to 4.43.0"
       hash: c2512428785c07d1d4b4bc49c86fb5e86ec271e6
       body: >
-        Bumps [webpack](https://github.com/webpack/webpack) from 4.42.1 to 4.43.0.
+        Bumps [webpack](https://github.com/webpack/webpack) from 4.42.1 to
+        4.43.0.
 
         - [Release notes](https://github.com/webpack/webpack/releases)
 
@@ -53758,8 +53847,8 @@
     - subject: "patch: bump blueimp-md5 from 2.12.0 to 2.16.0"
       hash: f670072546ab15e33093a43d66e08831bb140e50
       body: >
-        Bumps [blueimp-md5](https://github.com/blueimp/JavaScript-MD5) from 2.12.0
-        to 2.16.0.
+        Bumps [blueimp-md5](https://github.com/blueimp/JavaScript-MD5) from
+        2.12.0 to 2.16.0.
 
         - [Release notes](https://github.com/blueimp/JavaScript-MD5/releases)
 
@@ -53947,8 +54036,8 @@
     - subject: "patch: bump style-loader from 1.0.0 to 1.2.1"
       hash: 4d006db52399cbbc2bdfddfc17b838b6ef716d9e
       body: >
-        Bumps [style-loader](https://github.com/webpack-contrib/style-loader) from
-        1.0.0 to 1.2.1.
+        Bumps [style-loader](https://github.com/webpack-contrib/style-loader)
+        from 1.0.0 to 1.2.1.
 
         - [Release notes](https://github.com/webpack-contrib/style-loader/releases)
 
@@ -53988,8 +54077,9 @@
     - subject: "patch: bump eslint-plugin-jsdoc from 3.15.1 to 25.4.2"
       hash: 71c3d268d1769ee6518926859a1817faaf9feeff
       body: >
-        Bumps [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)
-        from 3.15.1 to 25.4.2.
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        3.15.1 to 25.4.2.
 
         - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
 
@@ -54163,8 +54253,8 @@
     - subject: "patch: bump redis-mock from 0.39.0 to 0.49.0"
       hash: 25cfea679c9dfcb59fcbf30a25e65bb82cc57102
       body: >
-        Bumps [redis-mock](https://github.com/yeahoffline/redis-mock) from 0.39.0
-        to 0.49.0.
+        Bumps [redis-mock](https://github.com/yeahoffline/redis-mock) from
+        0.39.0 to 0.49.0.
 
         - [Release notes](https://github.com/yeahoffline/redis-mock/releases)
 
@@ -54195,8 +54285,8 @@
     - subject: "ui-components: Fix textarea autosizing bug"
       hash: 00db671221a0925efa82b1908402e1e21ab76d1b
       body: >
-        Replaced the package react-autosize-textarea with the more popular package
-        react-textarea-autosize - which is compatible with
+        Replaced the package react-autosize-textarea with the more popular
+        package react-textarea-autosize - which is compatible with
         @webscopeio/react-textarea-autocomplete.
       footer:
         Change-type: patch
@@ -54518,11 +54608,11 @@
     - subject: "ui-components: Add new Collapsible component"
       hash: cddb1cab92db323ea67e76195528dcf3b483fde5
       body: >
-        Note - the 'useDebounce' React hook has been extended to allow the caller
-        to disable the lag/debounce for rising edges and/or falling edges - this
-        applies more to boolean values but can still be used with, for example,
-        string values where you want different behaviour when the string is
-        empty.
+        Note - the 'useDebounce' React hook has been extended to allow the
+        caller to disable the lag/debounce for rising edges and/or falling edges
+        - this applies more to boolean values but can still be used with, for
+        example, string values where you want different behaviour when the
+        string is empty.
       footer:
         Change-type: patch
         change-type: patch
@@ -54664,8 +54754,8 @@
     - subject: "patch: bump webpack-cli from 3.3.10 to 3.3.11"
       hash: 530f66511934a8a5f9e2b1de0ac7f3f5f36369c1
       body: >
-        Bumps [webpack-cli](https://github.com/webpack/webpack-cli) from 3.3.10 to
-        3.3.11.
+        Bumps [webpack-cli](https://github.com/webpack/webpack-cli) from 3.3.10
+        to 3.3.11.
 
         - [Release notes](https://github.com/webpack/webpack-cli/releases)
 
@@ -54907,8 +54997,8 @@
     - subject: "ui: Make links step optional in support thread teardown flow"
       hash: 5dae601ebd80b5125ac35275a01c0edba1741c60
       body: >
-        Mark step 3 as complete by default - meaning it can be skipped if the user
-        doesn't want to create any links.
+        Mark step 3 as complete by default - meaning it can be skipped if the
+        user doesn't want to create any links.
       footer:
         Change-type: minor
         change-type: minor
@@ -55141,11 +55231,11 @@
     - subject: "ui: Ensure search works on all inbox tabs"
       hash: 15eeda503515bcc0985539ba64a305861277f16b
       body: >
-        Needed to be careful to avoid duplications when merging `required` fields
-        - hence the use of `_.mergeWith` with a customizer function. Abstracting
-        out the search filter to a single method will also prove useful when we
-        start searching for `searchable` fields and the search filter has to be
-        modified.
+        Needed to be careful to avoid duplications when merging `required`
+        fields - hence the use of `_.mergeWith` with a customizer function.
+        Abstracting out the search filter to a single method will also prove
+        useful when we start searching for `searchable` fields and the search
+        filter has to be modified.
       footer:
         Change-type: patch
         change-type: patch
@@ -55443,8 +55533,8 @@
     - subject: "dev: Only check for JF_DEBUG_SW===1"
       hash: 9b5d44f043fd142d2bd494bda5d8ff879d37c188
       body: >
-        Rather than also checking for `true` or `TRUE`. This simplifies the code a
-        bit and keeps it consistent with our usage of other env vars.
+        Rather than also checking for `true` or `TRUE`. This simplifies the code
+        a bit and keeps it consistent with our usage of other env vars.
       footer:
         Change-type: patch
         change-type: patch
@@ -55568,9 +55658,10 @@
     - subject: "core: Add 'Owned conversations' tab to user card"
       hash: e471f778b332d99f92fbf47d6403571887041d11
       body: >
-        The meta relationships of a user card now defines a 'Owned conversations'
-        relationship, exposed as a tab on the user card's (default) lens.
-        Currently this only displays owned support-threads and sales-threads.
+        The meta relationships of a user card now defines a 'Owned
+        conversations' relationship, exposed as a tab on the user card's
+        (default) lens. Currently this only displays owned support-threads and
+        sales-threads.
       footer:
         Change-type: minor
         change-type: minor
@@ -55744,8 +55835,8 @@
     - subject: "ui: Convert Jellyfish into a Progressive Web App"
       hash: e3e7987c7a96997f189d8eb58450b12118fd575e
       body: >
-        Added a manifest and a service worker. Jellyfish can now be 'installed' as
-        a Progressive Web App. All static resources are pre-cached by the
+        Added a manifest and a service worker. Jellyfish can now be 'installed'
+        as a Progressive Web App. All static resources are pre-cached by the
         service worker using a 'CacheFirst' strategy. When the app is updated in
         any way, the user is notified via a confirm dialog and the app is
         updated and the page is refreshed once they accept.
@@ -56314,8 +56405,8 @@
     - subject: "ui: new 'Guided Handover Flow' for card ownership changes"
       hash: 8272440acbb49fd1e5a440fcc3081fd43bac559c
       body: >
-        Includes a new CardOwner component in the generic Card Actions section of
-        a lens.
+        Includes a new CardOwner component in the generic Card Actions section
+        of a lens.
       footer:
         Change-type: minor
         change-type: minor
@@ -57060,7 +57151,8 @@
     - subject: "patch: bump webpack from 4.41.2 to 4.42.1"
       hash: 2e9aa6ce3662a87924e0f8626cf1903c397b9e2e
       body: >
-        Bumps [webpack](https://github.com/webpack/webpack) from 4.41.2 to 4.42.1.
+        Bumps [webpack](https://github.com/webpack/webpack) from 4.41.2 to
+        4.42.1.
 
         - [Release notes](https://github.com/webpack/webpack/releases)
 
@@ -57204,8 +57296,8 @@
     - subject: Use private SDK package from npm instead of local module
       hash: 3227121d7fd47d431fe694206e5a2ab7152739fd
       body: >
-        Additionally requires the circleCI build job to pass before running other
-        jobs
+        Additionally requires the circleCI build job to pass before running
+        other jobs
 
         This should help reduce resource usage on circle if a build were to fail early.
 
@@ -58281,8 +58373,8 @@
     - subject: "ui-components: new re-usable LinksProvider component"
       hash: 1122f0ca0b2e11f5463dfacb3802a33c15dd85fa
       body: >
-        Can be used with matching withLinks and withLink higher order components,
-        or useLink and useLinks hooks.
+        Can be used with matching withLinks and withLink higher order
+        components, or useLink and useLinks hooks.
       footer:
         Change-type: minor
         change-type: minor
@@ -58380,8 +58472,8 @@
     - subject: "patch: bump circular-std from 1.0.0 to 1.0.3"
       hash: c3fbc02d9edd53d4e18fbc33d609dee8b2b9577c
       body: >
-        Bumps [circular-std](https://github.com/ahmedtarek2134/circular-std) from
-        1.0.0 to 1.0.3.
+        Bumps [circular-std](https://github.com/ahmedtarek2134/circular-std)
+        from 1.0.0 to 1.0.3.
 
         - [Release notes](https://github.com/ahmedtarek2134/circular-std/releases)
 
@@ -58503,8 +58595,8 @@
     - subject: "ui: New View: 'Support -> My Participation'"
       hash: 0196edd0d180267138b0e52ba9c1decb5d1ea9ba
       body: >
-        This new view displays all support issues in which the authenticated user
-        has participated.
+        This new view displays all support issues in which the authenticated
+        user has participated.
       footer:
         Change-type: minor
         change-type: minor
@@ -58529,8 +58621,8 @@
     - subject: "UI: Account for periods when highlighting usernames"
       hash: 32631bb4b11e8087bc6aa55b6d5756c48caa105a
       body: >
-        The `memoize` wrapper has been removed, as it would return the same RegExp
-        object when called
+        The `memoize` wrapper has been removed, as it would return the same
+        RegExp object when called
 
         multiple times, resulting in unexpected behaviour when useing `RegExp.exec()`.
 
@@ -58548,9 +58640,9 @@
     - subject: Allow schema.title on CardField component to be undefined when reading it
       hash: 8a61a0d1b0184f6bc3729ba7791136c3460c0f26
       body: >
-        PR #3389 introduced a bug o nthe CardField component. Visible when viewing
-        the knowledge base low severity items on production. This fix allows the
-        schema object title to be undefined instead of failing.
+        PR #3389 introduced a bug o nthe CardField component. Visible when
+        viewing the knowledge base low severity items on production. This fix
+        allows the schema object title to be undefined instead of failing.
       footer:
         Change-type: patch
         change-type: patch
@@ -58650,8 +58742,8 @@
     - subject: "patch: bump react-select from 2.4.4 to 3.1.0"
       hash: 7a7cd911088b4361baa6c6bd1242794021de3d8c
       body: >
-        Bumps [react-select](https://github.com/JedWatson/react-select) from 2.4.4
-        to 3.1.0.
+        Bumps [react-select](https://github.com/JedWatson/react-select) from
+        2.4.4 to 3.1.0.
 
         - [Release notes](https://github.com/JedWatson/react-select/releases)
 
@@ -58728,8 +58820,8 @@
     - subject: Remove CODEOWNERS file
       hash: 66e7339a91811f9f2ff74558b8bcd3c3a2a4fbfd
       body: >
-        The use of CODEOWNERS is not well defined and generates a lot of noise. At
-        this point the functionality is causing more harm than good, we're
+        The use of CODEOWNERS is not well defined and generates a lot of noise.
+        At this point the functionality is causing more harm than good, we're
         better off selectively choosing reviewers.
       footer:
         Change-type: patch
@@ -59031,8 +59123,8 @@
     - subject: "ui-components: Small CSS fix that corrects the color of the mirror icon"
       hash: 423489ad28aff1bab52a7110ef1ce231d72de829
       body: >
-        Missing semi-colon. Also lightened the overall color a bit to make it less
-        prominent.
+        Missing semi-colon. Also lightened the overall color a bit to make it
+        less prominent.
       footer:
         Change-type: patch
         change-type: patch
@@ -59292,7 +59384,8 @@
     - subject: "build(deps): bump howler from 2.1.2 to 2.1.3"
       hash: f5217a4cc2aac973e32e53f74a0764605244d648
       body: >
-        Bumps [howler](https://github.com/goldfire/howler.js) from 2.1.2 to 2.1.3.
+        Bumps [howler](https://github.com/goldfire/howler.js) from 2.1.2 to
+        2.1.3.
 
         - [Release notes](https://github.com/goldfire/howler.js/releases)
 
@@ -59797,8 +59890,9 @@
     - subject: "build(deps-dev): bump webpack-dev-server from 3.9.0 to 3.10.3"
       hash: 8624c3661cdcceb935aff68042428108d92a966f
       body: >
-        Bumps [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
-        from 3.9.0 to 3.10.3.
+        Bumps
+        [webpack-dev-server](https://github.com/webpack/webpack-dev-server) from
+        3.9.0 to 3.10.3.
 
         - [Release notes](https://github.com/webpack/webpack-dev-server/releases)
 
@@ -59835,7 +59929,8 @@
     - subject: "build(deps-dev): bump enzyme from 3.10.0 to 3.11.0"
       hash: 181dbb5a706db7062dfb3f3ec8a5ca03ae78e0b4
       body: >
-        Bumps [enzyme](https://github.com/airbnb/enzyme/tree/HEAD/packages/enzyme)
+        Bumps
+        [enzyme](https://github.com/airbnb/enzyme/tree/HEAD/packages/enzyme)
         from 3.10.0 to 3.11.0.
 
         - [Release notes](https://github.com/airbnb/enzyme/releases)
@@ -59868,8 +59963,8 @@
     - subject: "build(deps-dev): bump @babel/preset-react from 7.7.0 to 7.8.3"
       hash: 496a6043735badc51beaa0c2dc5b0ee34871bb72
       body: >
-        Bumps [@babel/preset-react](https://github.com/babel/babel) from 7.7.0 to
-        7.8.3.
+        Bumps [@babel/preset-react](https://github.com/babel/babel) from 7.7.0
+        to 7.8.3.
 
         - [Release notes](https://github.com/babel/babel/releases)
 
@@ -60432,9 +60527,9 @@
     - subject: "dev: Check node version after npm install"
       hash: a93c69671148c8ed320fb894984aa47f786adb85
       body: >
-        Added a simple script that will error if the node version is less than the
-        one specified in `engines` in `package.json`. This script is called by
-        the postinstall routine. Also added nvm settings file so you can just
+        Added a simple script that will error if the node version is less than
+        the one specified in `engines` in `package.json`. This script is called
+        by the postinstall routine. Also added nvm settings file so you can just
         call `nvm use` to set it to the right version.
       footer:
         Change-type: minor
@@ -60448,8 +60543,8 @@
     - subject: "dev: Capture browser console logging"
       hash: 42fa5f89f96ef3cf5ff64ed92549691d2d9f65b1
       body: >
-        Added puppeteer callbacks to log browser console log output if VISUAL=1 is
-        set.
+        Added puppeteer callbacks to log browser console log output if VISUAL=1
+        is set.
       footer:
         Change-type: patch
         change-type: patch
@@ -60462,10 +60557,10 @@
     - subject: "server: Increase ping timeout on web socket"
       hash: 638d4efe668c0960d19c2e4f5af8f19751a28fdf
       body: >
-        If the web socket is being flooded with 'update' messages, it doesn't ping
-        quickly enough. The socket times out and closes down. It may re-open but
-        some streamed updates may not make it to the client (UI). This can cause
-        e2e stress tests to fail.
+        If the web socket is being flooded with 'update' messages, it doesn't
+        ping quickly enough. The socket times out and closes down. It may
+        re-open but some streamed updates may not make it to the client (UI).
+        This can cause e2e stress tests to fail.
       footer:
         Change-type: patch
         change-type: patch
@@ -60857,7 +60952,8 @@
     - subject: "ui: Fixed 'Add x' button on Kanban view"
       hash: d154b8f9ce00b8f8e71f2a2ef79c7a20bef93031
       body: >
-        Clicking this button now correctly opens the form for creating a new card.
+        Clicking this button now correctly opens the form for creating a new
+        card.
       footer:
         Change-type: patch
         change-type: patch
@@ -64984,7 +65080,8 @@
             - subject: Add a base image without systemd
               hash: d7e44872d9594b9ef0557f78b8f38c6e449bbe54
               body: >
-                Also configures circleCI to publish no-systemd variant in parallel.
+                Also configures circleCI to publish no-systemd variant in
+                parallel.
               footer:
                 Change-type: minor
                 change-type: minor
@@ -73182,8 +73279,8 @@
 - commits:
     - author: Lucian
       body: >-
-        On large messages/threads of messages, tag highlighting can cause 100% CPU
-        usage
+        On large messages/threads of messages, tag highlighting can cause 100%
+        CPU usage
 
         and freeze the UI
       footers:
@@ -86523,7 +86620,8 @@
       subject: Add mention functionality and a new view for seeing mentions
     - author: Lucian Buzzo
       body: >-
-        Fixed a bug where login process can cause app to render if a user logs out
+        Fixed a bug where login process can cause app to render if a user logs
+        out
 
         immediately after receiving an auth token
       hash: 34e1c8168f550dbe9140d26fb78198f46cb91621
