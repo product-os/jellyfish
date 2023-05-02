@@ -1,4 +1,49 @@
 - commits:
+    - subject: Bump xml2js and aws-sdk
+      hash: 4b10203e70f77d6e4cffd7460b9fda8f74cbe4a5
+      body: >
+        Bumps [xml2js](https://github.com/Leonidas-from-XIV/node-xml2js) to
+        0.5.0 and updates ancestor dependency
+        [aws-sdk](https://github.com/aws/aws-sdk-js). These dependencies need to
+        be updated together.
+
+
+        Updates `xml2js` from 0.4.19 to 0.5.0
+
+        - [Release notes](https://github.com/Leonidas-from-XIV/node-xml2js/releases)
+
+        - [Commits](https://github.com/Leonidas-from-XIV/node-xml2js/compare/0.4.19...0.5.0)
+
+
+        Updates `aws-sdk` from 2.1227.0 to 2.1354.0
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        - [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/aws/aws-sdk-js/compare/v2.1227.0...v2.1354.0)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: xml2js
+          dependency-type: indirect
+        - dependency-name: aws-sdk
+          dependency-type: direct:development
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 74.0.5
+  title: ""
+  date: 2023-05-02T01:50:04.235Z
+- commits:
     - subject: Bump xml2js and aws-sdk in /apps/server
       hash: efb684a63f038cb2ca8919767d21898247e18c72
       body: >
