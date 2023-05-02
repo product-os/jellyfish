@@ -65,7 +65,7 @@
     "@balena/lint": "^6.2.2",
     "@playwright/test": "^1.22.2",
     "ava": "^4.3.1",
-    "aws-sdk": "^2.1227.0",
+    "aws-sdk": "^2.1368.0",
     "catch-uncommitted": "^2.0.0",
     "cli-spinner": "^0.2.10",
     "jsonwebtoken": "^9.0.0",
