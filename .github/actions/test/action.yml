@@ -237,6 +237,7 @@ runs:
         device_id="$(balena device "${balena_device_uuid}" | grep ^ID: | cut -c20-)"
 
         # the actual version deployed depends on the AWS EC2/AMI, defined in AWS_EC2_LAUNCH_TEMPLATE
+        echo "=== here-1"
         os_version="$(balena os versions ${{ inputs.DEVICE_TYPE }} \
           | grep '${{ inputs.VARIANT }}' | head -n 1 | sed 's/.${{ inputs.VARIANT }}//g')"
 
@@ -520,12 +521,14 @@ runs:
 
         balena login --token '${{ fromJSON(inputs.secrets).BALENA_API_KEY_PUSH }}'
 
+        echo "=== here-2"
         if ! [[ -e "${HOME}/.ssh/id_rsa" ]]; then
             ssh-keygen -N '' \
               -C "$(balena whoami | grep EMAIL | cut -c11-)" \
               -f "${HOME}/.ssh/id_rsa"
         fi
 
+        echo "=== here-3"
         match=''
         for key in $(balena keys | grep -v ID | awk '{print $1}'); do
             fp=$(balena key ${key} | tail -n 1 | ssh-keygen -E md5 -lf /dev/stdin | awk '{print $2}')
@@ -534,6 +537,7 @@ runs:
                 break
             fi
         done
+        echo "=== here-4"
 
         if [[ -z $match ]]; then
             balena key add "${GITHUB_SHA}" "${HOME}/.ssh/id_rsa.pub"
