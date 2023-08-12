@@ -23,7 +23,7 @@
 	"author": "Balena.io. <hello@balena.io>",
 	"license": "AGPL-3.0",
 	"dependencies": {
-		"@balena/jellyfish-client-sdk": "13.11.3-build-joshbwlng-bump-autumndb-525f11b49b7569d8f074407d2e16feea52f72ed6-1",
+		"@balena/jellyfish-client-sdk": "13.11.3-build-joshbwlng-downgrade-axios-ec20936c8236f8bf780806bc2961c66068169168-1",
 		"@balena/jellyfish-environment": "^21.0.0",
 		"@use-it/event-listener": "^0.1.7",
 		"@webscopeio/react-textarea-autocomplete": "^4.9.1",
