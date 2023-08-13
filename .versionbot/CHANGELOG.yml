@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal dependencies
+      hash: 5a82a0e4d7a9008e8aedf9d32000f9ec52c287de
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 75.0.0
+  title: ""
+  date: 2023-08-13T02:22:59.948Z
+- commits:
     - subject: Bump xml2js and aws-sdk
       hash: 4b10203e70f77d6e4cffd7460b9fda8f74cbe4a5
       body: >
