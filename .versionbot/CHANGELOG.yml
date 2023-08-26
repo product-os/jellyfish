@@ -1,4 +1,33 @@
 - commits:
+    - subject: Bump word-wrap from 1.2.3 to 1.2.4 in /apps/ui
+      hash: 00bf3030df0e909ed7a7559b6dd06af2cc3ea426
+      body: >
+        Bumps [word-wrap](https://github.com/jonschlinkert/word-wrap) from 1.2.3
+        to 1.2.4.
+
+        - [Release notes](https://github.com/jonschlinkert/word-wrap/releases)
+
+        - [Commits](https://github.com/jonschlinkert/word-wrap/compare/1.2.3...1.2.4)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: word-wrap
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 75.0.2
+  title: ""
+  date: 2023-08-26T08:38:31.666Z
+- commits:
     - subject: Bump semver from 5.7.1 to 5.7.2 in /apps/ui
       hash: 8237a5c2cae2a939b86865fdb607bb2cfafcc096
       body: >
