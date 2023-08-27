@@ -13,13 +13,6 @@
     "skipLibCheck": true,
     "types": ["jest"]
   },
-  "typedocOptions": {
-    "excludePrivate": true,
-    "excludeProtected": true,
-    "excludeExternals": true,
-    "gitRevision": "master",
-    "out": "../../docs/typedoc/server"
-  },
   "include": ["lib/**/*.ts", "@types/**/*.ts", "test/**/*.ts"],
   "ts-node": {
     "files": true

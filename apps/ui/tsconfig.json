@@ -13,13 +13,6 @@
 		"skipLibCheck": true,
 		"jsx": "react"
 	},
-	"typedocOptions": {
-		"excludePrivate": true,
-		"excludeProtected": true,
-		"excludeExternals": true,
-		"gitRevision": "master",
-		"out": "../../docs/typedoc/ui"
-	},
 	"include": [
 		"lib/**/*.ts",
 		"lib/**/*.tsx",
