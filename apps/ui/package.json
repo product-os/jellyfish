@@ -10,12 +10,11 @@
 	"scripts": {
 		"clean": "rimraf dist",
 		"build": "npm run clean && NODE_OPTIONS=--max-old-space-size=6144 webpack --mode=production --config=./webpack.config.js",
-		"lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,assert,canvas,history,rimraf,typedoc",
+		"lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,assert,canvas,history,rimraf",
 		"lint:fix": "balena-lint --fix lib test",
 		"test": "npm run lint && npm run test:tsc && npm run test:unit",
 		"test:tsc": "tsc --noEmit",
 		"test:unit": "jest",
-		"doc": "typedoc lib/",
 		"prepack": "npm run build",
 		"env": "mkdir -p ./dist/ui && NODE_ENV=development PUBLIC_DIR='./' ./conf/env.sh && cp ./env-config.js ./dist/ui/",
 		"dev": "npm run env && webpack serve --mode=development --config=./webpack.config.js --color"
@@ -128,7 +127,6 @@
 		"rimraf": "^5.0.1",
 		"sinon": "^14.0.0",
 		"ts-jest": "^27.1.5",
-		"typedoc": "^0.23.14",
 		"typescript": "^4.7.4",
 		"webpack": "^5.76.0",
 		"webpack-bundle-analyzer": "^4.5.0",

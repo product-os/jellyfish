@@ -19,7 +19,7 @@
 ## Screenshots
 
 ## References
-<!-- e.g. Flowdock, Front, Jellyfish permalink etc -->
+<!-- e.g. Zulip, Front, Jellyfish permalink etc -->
 
 ---
 

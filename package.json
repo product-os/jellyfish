@@ -23,7 +23,6 @@
     "test:e2e:ui": "playwright test test/e2e/ui",
     "test:e2e:server": "ava ./test/e2e/server/**/*.spec.js",
     "test:integration:server": "(cd apps/server && npm run test:integration)",
-    "docs": "(cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
     "postinstall": "cd apps/server && npm ci",
     "install:all": "npm ci && (cd apps/ui && npm ci)",
     "compose:local": "docker-compose -f docker-compose.local.yml up",

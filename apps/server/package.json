@@ -16,7 +16,6 @@
     "lint:fix": "balena-lint --fix lib test",
     "test:integration": "CI=1 SERVER_HOST=http://localhost jest --runInBand --testTimeout=120000 --forceExit ./test/integration/.*.spec.ts$",
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:integration",
-    "doc": "typedoc lib/",
     "prepack": "npm run build",
     "start": "node --abort-on-uncaught-exception --stack-trace-limit=100 build/index.js",
     "dev": "NODE_ENV=development nodemon --inspect=0.0.0.0 ./lib/index.ts"
@@ -65,7 +64,6 @@
     "rimraf": "^5.0.1",
     "ts-jest": "^27.1.5",
     "ts-node": "^10.8.1",
-    "typedoc": "^0.23.15",
     "typescript": "^4.8.4"
   }
 }
