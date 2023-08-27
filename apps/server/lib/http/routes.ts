@@ -222,7 +222,7 @@ export const attachRoutes = (
 			provider: request.params.providerSlug,
 		});
 
-		if (!slug) {
+		if (!slug || typeof slug !== 'string') {
 			return response.sendStatus(401);
 		}
 
