@@ -10,7 +10,7 @@
 	"scripts": {
 		"clean": "rimraf dist",
 		"build": "npm run clean && NODE_OPTIONS=--max-old-space-size=6144 webpack --mode=production --config=./webpack.config.js",
-		"lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,assert,canvas,history,typedoc",
+		"lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,assert,canvas,history,rimraf,typedoc",
 		"lint:fix": "balena-lint --fix lib test",
 		"test": "npm run lint && npm run test:tsc && npm run test:unit",
 		"test:tsc": "tsc --noEmit",
@@ -125,7 +125,7 @@
 		"json-schema": "^0.4.0",
 		"node-polyfill-webpack-plugin": "^1.1.4",
 		"redux-mock-store": "^1.5.4",
-		"rimraf": "^3.0.2",
+		"rimraf": "^5.0.1",
 		"sinon": "^14.0.0",
 		"ts-jest": "^27.1.5",
 		"typedoc": "^0.23.14",

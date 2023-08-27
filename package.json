@@ -24,7 +24,6 @@
     "test:e2e:server": "ava ./test/e2e/server/**/*.spec.js",
     "test:integration:server": "(cd apps/server && npm run test:integration)",
     "docs": "(cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
-    "clean": "rimraf apps/*/packages/*",
     "postinstall": "cd apps/server && npm ci",
     "install:all": "npm ci && (cd apps/ui && npm ci)",
     "compose:local": "docker-compose -f docker-compose.local.yml up",
@@ -75,7 +74,6 @@
     "playwright": "^1.22.2",
     "prettier": "^2.7.1",
     "request": "^2.88.2",
-    "rimraf": "^3.0.2",
     "shellcheck": "^1.1.0",
     "simple-git-hooks": "^2.8.0",
     "uuid": "^9.0.0"
