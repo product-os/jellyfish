@@ -1,4 +1,51 @@
 - commits:
+    - subject: Bump engine.io and socket.io in /apps/server
+      hash: ebbe038daf5da5625d44b4e68a800b33cbacd6ba
+      body: >
+        Bumps [engine.io](https://github.com/socketio/engine.io) to 6.4.2 and
+        updates ancestor dependency
+        [socket.io](https://github.com/socketio/socket.io). These dependencies
+        need to be updated together.
+
+
+        Updates `engine.io` from 6.2.1 to 6.4.2
+
+        - [Release notes](https://github.com/socketio/engine.io/releases)
+
+        - [Changelog](https://github.com/socketio/engine.io/blob/main/CHANGELOG.md)
+
+        - [Commits](https://github.com/socketio/engine.io/compare/6.2.1...6.4.2)
+
+
+        Updates `socket.io` from 4.5.2 to 4.6.1
+
+        - [Release notes](https://github.com/socketio/socket.io/releases)
+
+        - [Changelog](https://github.com/socketio/socket.io/blob/main/CHANGELOG.md)
+
+        - [Commits](https://github.com/socketio/socket.io/compare/4.5.2...4.6.1)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: engine.io
+          dependency-type: indirect
+        - dependency-name: socket.io
+          dependency-type: direct:production
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 75.0.6
+  title: ""
+  date: 2023-08-27T05:06:08.275Z
+- commits:
     - subject: Bump socket.io-parser from 4.2.2 to 4.2.4
       hash: 9b3eb298eea19027b42c04d61ea5ded6bd464033
       body: >
