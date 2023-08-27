@@ -1,4 +1,16 @@
 - commits:
+    - subject: Enforce slug string on oauth associate
+      hash: 032f8522988651c39129bab6a2d05ad432224a00
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 75.0.10
+  title: ""
+  date: 2023-08-27T23:58:28.018Z
+- commits:
     - subject: Remove typedoc
       hash: efbeff53a1419ca3050e4a00317c462d4087b60a
       body: ""
