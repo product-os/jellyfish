@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update rimraf to 5.0.1
+      hash: b5f2ea8fad4ad9e617350ac57c3d479e5277a427
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 75.0.8
+  title: ""
+  date: 2023-08-27T10:57:06.620Z
+- commits:
     - subject: Bump socket.io-parser from 4.2.2 to 4.2.4 in /apps/ui
       hash: 0bf8a77155a1863e55bc36c547e86e871af8304c
       body: >
