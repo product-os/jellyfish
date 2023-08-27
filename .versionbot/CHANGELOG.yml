@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove typedoc
+      hash: efbeff53a1419ca3050e4a00317c462d4087b60a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 75.0.9
+  title: ""
+  date: 2023-08-27T19:26:09.626Z
+- commits:
     - subject: Update rimraf to 5.0.1
       hash: b5f2ea8fad4ad9e617350ac57c3d479e5277a427
       body: ""
