@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import skhema from 'skhema';
-import { Box, Flex, Table, DropDownButton, TextWithCopy } from 'rendition';
+import { Box, Flex, Table, DropDownButton, Txt } from 'rendition';
 import * as helpers from '../../../services/helpers';
 import { ActionLink, Column, Link } from '../../../components';
 import { format, parseISO } from 'date-fns';
@@ -162,9 +162,9 @@ export default class CardTable extends React.Component<any, any> {
 			},
 			id: (id) => {
 				return (
-					<TextWithCopy monospace showCopyButton="always" copy={id}>
+					<Txt monospace showCopyMode="always" copy={id}>
 						{id.slice(0, 7)}
-					</TextWithCopy>
+					</Txt>
 				);
 			},
 			slug: (slug, item) => {
