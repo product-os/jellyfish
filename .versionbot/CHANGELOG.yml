@@ -1,4 +1,16 @@
 - commits:
+    - subject: Make image regex more performant
+      hash: ee280d94924475fe866bee14638c724a2715d166
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 75.0.12
+  title: ""
+  date: 2023-08-29T02:45:32.461Z
+- commits:
     - subject: Update rendition to 26.0.0
       hash: 8e4d584bfdc7f630c7b08751badaa7e8b530fbc4
       body: ""
