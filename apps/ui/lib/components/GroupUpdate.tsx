@@ -1,15 +1,8 @@
 import Bluebird from 'bluebird';
 import _ from 'lodash';
 import React from 'react';
-import {
-	Fixed,
-	Modal,
-	ProgressBar,
-	SchemaSieve,
-	Select,
-	Form,
-} from 'rendition';
-import { patchPath } from '../services/helpers';
+import { Fixed, Modal, ProgressBar, Select, Form } from 'rendition';
+import { flattenSchema, patchPath } from '../services/helpers';
 import { withSetup } from './SetupProvider';
 
 const DELIMITER = '___';
@@ -23,7 +16,7 @@ class GroupUpdate extends React.Component<any, any> {
 	constructor(props: any) {
 		super(props);
 		this.setSchema = (schema: any) => {
-			const flatSchema = SchemaSieve.flattenSchema(schema, DELIMITER);
+			const flatSchema = flattenSchema(schema, DELIMITER);
 
 			// Remove known metadata properties
 			if (flatSchema.properties) {

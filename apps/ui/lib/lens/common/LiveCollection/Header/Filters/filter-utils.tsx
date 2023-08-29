@@ -1,8 +1,11 @@
 import type { JsonSchema } from 'autumndb';
 import skhema from 'skhema';
 import _ from 'lodash';
-import type { FilterFieldOption } from 'rendition/dist/components/Filters/FilterModal';
 
+interface FilterFieldOption {
+	field: string;
+	title: string;
+}
 export const LINKED_CONTRACT_PREFIX = '🔗';
 const DELIMITER = '___';
 const DELIMITER_PREFIX_REGEXP = new RegExp(`^${DELIMITER}`);

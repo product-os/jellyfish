@@ -10,8 +10,8 @@ import isToday from 'date-fns/isToday';
 import format from 'date-fns/format';
 import isPast from 'date-fns/isPast';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import type { JSONSchema7 as JSONSchema } from 'json-schema';
 import path from 'path';
-import { SchemaSieve } from 'rendition';
 import skhema from 'skhema';
 import { DetectUA } from 'detect-ua';
 import { MESSAGE, WHISPER, SUMMARY, RATING } from '../components/constants';
@@ -25,6 +25,173 @@ import type {
 	UserContract,
 	ViewContract,
 } from 'autumndb';
+
+const DEFAULT_DELIMITER = '___';
+
+// The inner recursive function used by `flattenSchema`. Mutates the
+// `accumulator` argument.
+const flattenAccumulator = (
+	schema: JSONSchema,
+	delimiter: string,
+	parentKey: string = '',
+	accumulator?: JSONSchema,
+): JSONSchema => {
+	if (!accumulator) {
+		accumulator = _.cloneDeep(schema);
+
+		if (schema.properties) {
+			accumulator.properties = {};
+		}
+	}
+
+	if (schema.anyOf && Array.isArray(schema.anyOf)) {
+		accumulator.anyOf = schema.anyOf.map((subSchema) =>
+			flattenAccumulator(subSchema as JSONSchema, delimiter, parentKey),
+		);
+	}
+
+	return _.reduce(
+		schema.properties,
+		(result, value, key) => {
+			if (typeof value === 'boolean') {
+				return accumulator;
+			}
+
+			const newKey = parentKey + delimiter + key;
+
+			// Move any required fields into flattened items in the top-level required array
+			value.required?.forEach((requiredKey) => {
+				if (!result.required) {
+					result.required = [];
+				} else {
+					// Remove any unnecessary required items pointing at parent fields
+					result.required = _.without(
+						result.required,
+						key,
+						parentKey + delimiter + key,
+					);
+				}
+				result.required.push(newKey + delimiter + requiredKey);
+			});
+
+			// If the value is not an object type or
+			// If the value is a key value pair style object, it can be added to the
+			// accumulator
+			if (
+				value.type !== 'object' ||
+				(_.findKey(value.properties, { description: 'key' }) &&
+					_.findKey(value.properties, { description: 'value' }))
+			) {
+				// If there is a parentKey then this function has been called recursively
+				// and we should use the newKey
+				if (parentKey) {
+					result!.properties![newKey] = _.defaults(value, { title: key });
+					return result;
+				}
+
+				// If there is no parentKey then we are at the top level and this field
+				// does not need to be flattened/modified
+				result!.properties![key] = value;
+				return result;
+			}
+
+			return flattenAccumulator(value, delimiter, newKey, result);
+		},
+		accumulator as any,
+	) as JSONSchema;
+};
+
+// Reduces a multi level schema to a single level
+export const flattenSchema = (
+	schema: JSONSchema,
+	delimiter: string = DEFAULT_DELIMITER,
+): JSONSchema => {
+	return flattenAccumulator(schema, delimiter);
+};
+
+// Restores a schema that has been flattened with `flattenSchema()`
+export const unflattenSchema = (
+	schema: JSONSchema,
+	delimiter: string = DEFAULT_DELIMITER,
+) => {
+	const base = _.cloneDeep(schema);
+	// Reset the properties object to clean up the flattened fields
+	if (schema.properties) {
+		base.properties = {};
+	}
+
+	const unflattenedSchema = _.reduce(
+		schema.properties,
+		(result, value, field) => {
+			// Skip fields that don't start with the delimiter, as the property hasn't
+			// been flattened
+			if (!_.startsWith(field, delimiter)) {
+				result.properties![field] = value;
+				return result;
+			}
+
+			const keys = _.trimStart(field, delimiter).split(delimiter);
+			const lastKey = keys.pop()!;
+
+			let head = result;
+
+			// Convert keys array into nested object schemas
+			for (const key of keys) {
+				// Don't overwrite an existing entry
+				if (!head.properties![key]) {
+					head.properties![key] = {
+						type: 'object',
+						properties: {},
+					};
+				}
+
+				// Move the head pointer to the subschema that was just created
+				head = head.properties![key] as JSONSchema;
+			}
+
+			// Finally, use the last key to set the actual value of the field
+			head.properties![lastKey] = value;
+
+			return result;
+		},
+		base,
+	);
+
+	// If the schema uses `anyOf` then use recursion to populate the array
+	if (unflattenedSchema.anyOf) {
+		unflattenedSchema.anyOf = unflattenedSchema.anyOf.map((subSchema) =>
+			unflattenSchema(subSchema as JSONSchema, delimiter),
+		);
+	}
+
+	// Unflatten any required fields
+	if (unflattenedSchema.required) {
+		const requiredFields = unflattenedSchema.required;
+
+		// Reset the `required` array so it can be repopulated
+		unflattenedSchema.required = [];
+
+		requiredFields.forEach((requiredField) => {
+			const fields = _.trimStart(requiredField, delimiter).split(delimiter);
+
+			let head = unflattenedSchema;
+
+			for (const field of fields) {
+				if (!head.required) {
+					head.required = [];
+				}
+
+				if (!_.includes(head.required, field)) {
+					head.required.push(field);
+				}
+
+				head = head.properties![field] as JSONSchema;
+			}
+		});
+	}
+
+	return unflattenedSchema;
+};
 
 export const createPermaLink = (card: Contract) => {
 	const versionSuffix = card.version !== '1.0.0' ? `@${card.version}` : '';
@@ -636,7 +803,7 @@ export const createFullTextSearchFilter = (
 	} = {},
 ): JsonSchema | null => {
 	let hasFullTextSearchField = false;
-	const flatSchema = SchemaSieve.flattenSchema(schema as any);
+	const flatSchema = flattenSchema(schema as any);
 	let stringKeys = flatSchema
 		? _.reduce(
 				flatSchema.properties,
@@ -721,7 +888,7 @@ export const createFullTextSearchFilter = (
 		}
 	}
 
-	return SchemaSieve.unflattenSchema(filter as any);
+	return unflattenSchema(filter as any);
 };
 
 export const removeUndefinedArrayItems = (input: any): any => {

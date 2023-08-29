@@ -3,14 +3,7 @@ import _ from 'lodash';
 import skhema from 'skhema';
 import clone from 'deep-copy';
 import type { JSONSchema7 } from 'json-schema';
-import {
-	Box,
-	Filters,
-	FiltersProps,
-	Flex,
-	SchemaSieve,
-	Theme,
-} from 'rendition';
+import { Box, Filters, FiltersProps, Flex, Theme } from 'rendition';
 import styled from 'styled-components';
 import SortByButton from './SortByButton';
 import { SortDirButton } from './SortDirButton';
@@ -92,7 +85,7 @@ const getSchemaForFilters = (
 
 	// The filters component doesn't care if our schema is flat or not, but
 	// by flattening it, it's easier to set the title field for each item.
-	const schemaForFilters = SchemaSieve.flattenSchema(
+	const schemaForFilters = helpers.flattenSchema(
 		unflattenedSchemaForFilters as JSONSchema7,
 	);
 
@@ -143,7 +136,7 @@ const getSchemaForFilters = (
 			// This link constraint points to a contract type that can't be found - so ignore it
 			continue;
 		}
-		const flattenedLinkContractSchema = SchemaSieve.flattenSchema(
+		const flattenedLinkContractSchema = helpers.flattenSchema(
 			toType.data.schema as JSONSchema7,
 		) as JsonSchemaObject;
 

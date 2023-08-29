@@ -5,7 +5,7 @@ import update from 'immutability-helper';
 import _ from 'lodash';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { FiltersView, Flex, SchemaSieve } from 'rendition';
+import { FiltersView, Flex } from 'rendition';
 import { v4 as uuid } from 'uuid';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
@@ -597,7 +597,7 @@ export default withSetup(
 								unifyQuery(
 									query,
 									_.compact(view.filters).map((filter) => {
-										return _.assign(SchemaSieve.unflattenSchema(filter), {
+										return _.assign(helpers.unflattenSchema(filter), {
 											type: 'object',
 										});
 									}),
