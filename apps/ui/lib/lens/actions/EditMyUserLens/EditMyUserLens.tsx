@@ -1,16 +1,7 @@
 import * as jsonpatch from 'fast-json-patch';
 import _ from 'lodash';
 import React from 'react';
-import {
-	Box,
-	Button,
-	Heading,
-	Txt,
-	Tab,
-	Tabs,
-	Form,
-	TextWithCopy,
-} from 'rendition';
+import { Box, Button, Heading, Txt, Tab, Tabs, Form } from 'rendition';
 import * as skhema from 'skhema';
 import { Setup, withSetup } from '../../../components';
 import * as timezones from '../../../services/timezones';
@@ -319,12 +310,12 @@ export default withSetup(
 									:
 								</label>
 								<br />
-								<TextWithCopy
+								<Txt
 									copy={this.props.sdk.getAuthToken()!}
-									showCopyButton="always"
+									showCopyMode="always"
 								>
 									<code>{this.props.sdk.getAuthToken()}</code>
-								</TextWithCopy>
+								</Txt>
 							</Box>
 						</Tab>
 
