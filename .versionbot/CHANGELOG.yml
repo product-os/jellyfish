@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update rendition to 28.0.0
+      hash: 0953404747430f20e38791f8534a9322a2843fc8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 75.0.14
+  title: ""
+  date: 2023-08-29T06:12:24.711Z
+- commits:
     - subject: Update rendition to 27.0.0
       hash: 15f877389e31d753d92adc0b0e1664f78c9d1c3d
       body: ""
