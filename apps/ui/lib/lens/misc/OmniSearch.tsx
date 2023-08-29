@@ -3,8 +3,8 @@ import React from 'react';
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import memoize from 'memoize-one';
-import { SchemaSieve } from 'rendition';
 import { getLens } from '..';
+import { flattenSchema } from '../../services/helpers';
 
 const typesToExclude = ['rating', 'summary', 'message', 'whisper'];
 
@@ -13,7 +13,7 @@ const getFullTextSearchTypes = memoize((types) => {
 		if (typesToExclude.includes(type.slug)) {
 			return fullTextSearchTypes;
 		}
-		const flatSchema = SchemaSieve.flattenSchema(type.data.schema);
+		const flatSchema = flattenSchema(type.data.schema);
 		const fullTextSearchFieldFound = findPathDeep(
 			flatSchema.properties,
 			(value, key) => {
