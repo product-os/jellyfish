@@ -49,7 +49,7 @@ const FRONT_MARKDOWN_IMG_RE =
 	/\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]/g;
 const FRONT_HTML_IMG_RE =
 	/\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/g;
-const IMAGE_URL_RE = /^https?:\/\/.*\.(?:png|jpg|gif)(?:\?\S*)*$/;
+const IMAGE_URL_RE = /^https?:\/\/.*\.(?:png|jpg|gif)(\?.*)?$/;
 
 const OverflowButton = styled(Button)<{ expanded?: boolean }>`
 	color: inherit;
