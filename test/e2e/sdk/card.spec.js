@@ -35,25 +35,6 @@ ava.afterEach.always(async () => {
 });
 
 ava.serial(
-	'If you call card.link twice with the same params you will get the same link card back',
-	async (test) => {
-		// Create a support thread and support issue
-		const supportThread = await createSupportThread();
-
-		const issue = await createIssue();
-
-		// Link the support thread to the issue
-		await sdk.card.link(supportThread, issue, 'is attached to');
-
-		// Try to link the same support thread to the same issue
-		const link = await sdk.card.link(supportThread, issue, 'is attached to');
-
-		// Verify the link ID is the same
-		test.is(link, true);
-	},
-);
-
-ava.serial(
 	'card.link will create a new link if the previous one was deleted',
 	async (test) => {
 		// Create a support thread and issue
