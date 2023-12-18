@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove syncing
+      hash: ac5e392eb7ec068c2ba5a4fc90b0dbe451ce89d1
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Josh Bowling
+      nested: []
+  version: 76.0.0
+  title: ""
+  date: 2023-12-18T03:56:37.659Z
+- commits:
     - subject: Update rendition to 31.0.0
       hash: 2c653ebf6f1f9b334fe2b06adb6f21d402f2e8b3
       body: ""
